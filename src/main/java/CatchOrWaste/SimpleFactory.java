@@ -10,13 +10,24 @@ import javafx.geometry.Point2D;
 
 public class SimpleFactory implements EntityFactory {
 
+    public double scale=0.035;
+
     @Spawns("WP")
     public Entity newEnemy(SpawnData data) {
         return FXGL.entityBuilder(data)
                 .view("Wegwerfpolizist_R.png")
-                .scale(0.035,0.035)
-                .with(new ProjectileComponent(new Point2D(1, 0), 150))
+                .scale(scale,scale)
+                .type(EntityType.PLAYER)
                 .build();
     }
+
+    @Spawns("Background")
+    public Entity Background(SpawnData data) {
+        return FXGL.entityBuilder(data)
+                .view("cool.png")
+                .scale(5,5)
+                .build();
+    }
+
 
 }
