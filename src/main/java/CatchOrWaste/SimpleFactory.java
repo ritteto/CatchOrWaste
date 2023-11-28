@@ -23,6 +23,15 @@ public class SimpleFactory implements EntityFactory {
                 .build();
     }
 
+    @Spawns("OBJECT")
+    public Entity newObject(SpawnData data) {
+        return FXGL.entityBuilder(data)
+                .view("apple.png")
+                .type(EntityType.OBJECT)
+                .with(new ProjectileComponent(new Point2D(0,1),50))
+                .build();
+    }
+
 
 
 }
