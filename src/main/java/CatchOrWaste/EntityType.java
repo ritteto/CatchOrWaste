@@ -1,5 +1,5 @@
 package CatchOrWaste;
 
 public enum EntityType {
-    PLAYER, OBJECT
+    PLAYER, OBJECT,CART
 }

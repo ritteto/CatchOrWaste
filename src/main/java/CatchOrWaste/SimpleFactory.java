@@ -17,7 +17,7 @@ public class SimpleFactory implements EntityFactory {
     @Spawns("PLAYER")
     public Entity newPlayer(SpawnData data) {
         return FXGL.entityBuilder(data)
-                .view("Wegwerfpolizist_L.png")
+                .view("wegwerfpolizist_l.png")
                 .scale(scale,scale)
                 .type(EntityType.PLAYER)
                 .build();
@@ -31,6 +31,17 @@ public class SimpleFactory implements EntityFactory {
                 .with(new ProjectileComponent(new Point2D(0,1),50))
                 .build();
     }
+
+    @Spawns("CART")
+    public Entity newCart(SpawnData data) {
+        return FXGL.entityBuilder(data)
+                .view("cart_horizontal.png")
+                .scale(0.03,0.03)
+                .type(EntityType.CART)
+                .build();
+    }
+
+
 
 
 
