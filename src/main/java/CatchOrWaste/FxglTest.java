@@ -4,21 +4,14 @@ import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.GameWorld;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.components.ViewComponent;
 import com.almasb.fxgl.texture.Texture;
-import javafx.application.Platform;
+
 import javafx.geometry.Point2D;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.stage.Screen;
+
 
 import java.io.NotActiveException;
 
@@ -68,7 +61,6 @@ public class FxglTest extends GameApplication {
         onKey(KeyCode.DIGIT2,"2", ()->{
             weiche = false;
         });
-
 
     }
 
@@ -176,4 +168,5 @@ public class FxglTest extends GameApplication {
         viewComponent.clearChildren();
         viewComponent.addChild(texture);
     }
+
 }
