@@ -14,6 +14,7 @@ public class SimpleFactory implements EntityFactory {
 
     public static double scale=0.035; //scale=0.035
 
+
     @Spawns("PLAYER")
     public Entity newPlayer(SpawnData data) {
         return FXGL.entityBuilder(data)

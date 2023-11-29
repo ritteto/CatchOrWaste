@@ -20,13 +20,16 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.stage.Screen;
 
+import java.io.NotActiveException;
+
 import static com.almasb.fxgl.dsl.FXGL.*;
 
 public class FxglTest extends GameApplication {
 
     private static final int SPEED=5;
     private static final double PLAYERSIZE=3000*0.035;
-    private Entity player, object, cart;
+    private boolean weiche;
+    private Entity player, object, cart, background_1;
 
     @Override
     protected void initSettings(GameSettings settings) {
@@ -53,7 +56,17 @@ public class FxglTest extends GameApplication {
         });
 
         onKey(KeyCode.F,"F", ()->{
-            cart.addComponent(new ProjectileComponent(new Point2D(1,0),30));
+            cart = spawn("CART",getAppWidth()*0.77,getAppHeight()*0.78);
+            getGameWorld().addEntity(cart);
+
+        });
+
+        onKey(KeyCode.DIGIT1,"1", ()->{
+            weiche = true;
+        });
+
+        onKey(KeyCode.DIGIT2,"2", ()->{
+            weiche = false;
         });
 
 
@@ -62,24 +75,32 @@ public class FxglTest extends GameApplication {
     @Override
     protected void initGame() {
 
+
         //Background
         //create Entity which displays the background image as a Texture
-        Texture texture = new Texture(getAssetLoader().loadImage("Streets.png"));
+        Texture texture = new Texture(getAssetLoader().loadImage("background_bad.png"));
+        Texture texture2 = new Texture(getAssetLoader().loadImage("Streets.png"));
         texture.setFitWidth(getAppWidth());
+        texture2.setFitWidth(getAppWidth());
         texture.setFitHeight(getAppHeight());
+        texture2.setFitHeight(getAppHeight());
         Entity entity = new Entity();
+        Entity entity2 = new Entity();
         entity.getViewComponent().addChild(texture);
+        entity2.getViewComponent().addChild(texture2);
         entity.setPosition(0,0);
-
+        entity2.setPosition(0,0);
 
         //add Entities to GameWorld
         getGameWorld().addEntity(entity);
+        getGameWorld().addEntity(entity2);
         getGameWorld().addEntityFactory(new SimpleFactory());
 
         //spawn the player from the factory
         player = spawn("PLAYER",100,getAppHeight()*0.75);//0.78
         object = spawn("OBJECT",200,0);
-        cart = spawn("CART",getAppWidth()*0.77,getAppHeight()*0.78);
+
+        //cart = spawn("CART",getAppWidth()*0.77,getAppHeight()*0.78);
 
 
 
@@ -87,29 +108,47 @@ public class FxglTest extends GameApplication {
 
     @Override
     protected void onUpdate(double tpf) {
-        /*System.out.println("Cart: "+cart.getX()+"/"+cart.getY());
-        System.out.println("Width: "+cart);
-        while(cart.getX()<=getAppWidth()*0.835){
-            cart.translateX(30);
-        }
+        if(cart != null) {
+            System.out.println("Cart: "+cart.getX()+"/"+cart.getY());
+            System.out.println(getAppHeight()*0.15);
+            if (cart.getY() >= getAppHeight() * 0.78) {
+                if (cart.getX() < getAppWidth() * 0.835) {
+                    cart.setX(cart.getX() + 0.4);
+                }else{
+                    cart.setX(cart.getX()+1);
+                }
+                if(cart.getX() >= getAppWidth() * 0.835){
+                    cart.getViewComponent().clearChildren();
+                    cart.getViewComponent().addChild(new Texture(getAssetLoader().loadImage("cart_vertical.png")));
+                    cart.setY(cart.getY()-1);
+                }
 
-        /*if(cart.getY()>=getAppHeight()*0.78){
-            if(cart.getX()<=getAppWidth()*0.835){
-                cart.addComponent(new ProjectileComponent(new Point2D(1,0),20));
-            }else{
-                cart.translateX(30);
+            } else if(cart.getY()<=getAppHeight()*0.78 && cart.getY()>getAppHeight()*0.6){
+                cart.setY(cart.getY()-1);
 
+            }else if(cart.getY()==getAppHeight()*0.6){
+                cart.getViewComponent().clearChildren();
+                cart.getViewComponent().addChild(new Texture(getAssetLoader().loadImage("cart_horizontal.png")));
+                if(cart.getX()>getAppWidth()*0.78 && weiche){
+                    cart.setX(cart.getX()-1);
+                }else if(cart.getX()<getAppWidth()*0.89 && !weiche){
+                    cart.setX(cart.getX()+1);
+                }
+                if(cart.getX()>getAppWidth()*0.89 || cart.getX()<getAppWidth()*0.78){
+                    System.out.println("Here");
+                    cart.setY(cart.getY()-1);
+                }
+
+            }else if(cart.getY()<getAppHeight()*0.6 && cart.getY()>getAppHeight()*0.16){
+                cart.getViewComponent().clearChildren();
+                cart.getViewComponent().addChild(new Texture(getAssetLoader().loadImage("cart_vertical.png")));
+                cart.setY(cart.getY()-1);
+            }else if(cart.getY()==getAppHeight()*0.16 && cart.getX() > getAppWidth()*0.1){
+                cart.getViewComponent().clearChildren();
+                cart.getViewComponent().addChild(new Texture(getAssetLoader().loadImage("cart_horizontal.png")));
+                cart.setX(cart.getX()-1);
             }
         }
-        /*else if(cart.getY()<getAppHeight()*0.78 && cart.getY()>getAppHeight()*0.65){
-            cart.rotateBy(90);
-            cart.getViewComponent().clearChildren();
-            cart.getViewComponent().addChild(new Texture(getAssetLoader().loadImage("cart_vertical.png")));
-            cart.removeComponent(ProjectileComponent.class);
-            cart.addComponent(new ProjectileComponent(new Point2D(0,-1),20));
-        }
-
-         */
 
 
         if(getPlayer().getX()>getAppWidth()*0.85-PLAYERSIZE){
