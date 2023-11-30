@@ -1,19 +1,11 @@
-package CatchOrWaste;
+package com.pi4j.example.CatchOrWaste;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
-import com.almasb.fxgl.dsl.components.ProjectileComponent;
 import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.entity.GameWorld;
-import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.components.ViewComponent;
 import com.almasb.fxgl.texture.Texture;
-
-import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
-
-
-import java.io.NotActiveException;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 
@@ -26,8 +18,8 @@ public class FxglTest extends GameApplication {
 
     @Override
     protected void initSettings(GameSettings settings) {
-        //settings.setFullScreenAllowed(true);
-        //settings.setFullScreenFromStart(true);
+        settings.setFullScreenAllowed(true);
+        settings.setFullScreenFromStart(true);
     }
 
     @Override
@@ -49,7 +41,8 @@ public class FxglTest extends GameApplication {
         });
 
         onKey(KeyCode.F,"F", ()->{
-            spawn("CART",getAppWidth()*0.77,getAppHeight()*0.78);
+            cart = spawn("CART",getAppWidth()*0.77,getAppHeight()*0.78);
+            getGameWorld().addEntity(cart);
 
         });
 
@@ -99,19 +92,6 @@ public class FxglTest extends GameApplication {
 
     @Override
     protected void onUpdate(double tpf) {
-
-        System.out.println(getGameWorld().getEntities());
-
-        if(object!=null){
-            System.out.println(object.getY()+"/"+getAppHeight());
-            if(object.getY()>=getAppHeight()){
-                System.out.println(object.getY()+"INHERE");
-                getGameWorld().removeEntity(object);
-                System.out.println(object.getY());
-            }
-        }
-
-        //System.out.println("Helllo: "+getGameWorld().getSingleton(EntityType.OBJECT));
         if(cart != null) {
             System.out.println("Cart: "+cart.getX()+"/"+cart.getY());
             System.out.println(getAppHeight()*0.15);
