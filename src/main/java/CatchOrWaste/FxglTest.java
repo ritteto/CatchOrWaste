@@ -11,6 +11,7 @@ import com.almasb.fxgl.texture.Texture;
 
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
+import javafx.scene.text.Text;
 
 
 import java.io.NotActiveException;
@@ -21,7 +22,7 @@ public class FxglTest extends GameApplication {
 
     private static final int SPEED=5;
     private static final double PLAYERSIZE=3000*0.035;
-    private boolean weiche;
+    private boolean weiche, distance;
     private Entity player, object, cart1, background_1;
 
     @Override
@@ -48,10 +49,10 @@ public class FxglTest extends GameApplication {
             }
         });
 
-        onKey(KeyCode.F,"F", ()->{
+        onKeyDown(KeyCode.G,"G",()->{
             spawn("CART",getAppWidth()*0.77,getAppHeight()*0.78);
-
         });
+
 
         onKey(KeyCode.DIGIT1,"1", ()->{
             weiche = true;
@@ -102,7 +103,6 @@ public class FxglTest extends GameApplication {
     @Override
     protected void onUpdate(double tpf) {
         if(!getGameWorld().getEntitiesByType(EntityType.OBJECT).isEmpty()){
-            System.out.println("Not Empty");
             for (Entity entity : getGameWorld().getEntitiesByType(EntityType.OBJECT)) {
                 if(entity.getY()>=getAppHeight()){
                     entity.removeFromWorld();
@@ -110,24 +110,24 @@ public class FxglTest extends GameApplication {
             }
         }
 
-        if(!getGameWorld().getEntitiesByType(EntityType.OBJECT).isEmpty()){
+        if(!getGameWorld().getEntitiesByType(EntityType.CART).isEmpty()){
             for (Entity cart:getGameWorld().getEntitiesByType(EntityType.CART)){
-                if (cart.getY() >= getAppHeight() * 0.78) {
-                    if (cart.getX() < getAppWidth() * 0.835) {
+                if (cart.getY() >= getAppHeight() * 0.785) {
+                    if (cart.getX() < getAppWidth() * 0.836) {
                         cart.setX(cart.getX() + 0.4);
                     }else{
                         cart.setX(cart.getX()+1);
                     }
-                    if(cart.getX() >= getAppWidth() * 0.835){
+                    if(cart.getX() >= getAppWidth() * 0.836){
                         cart.getViewComponent().clearChildren();
                         cart.getViewComponent().addChild(new Texture(getAssetLoader().loadImage("cart_vertical.png")));
                         cart.setY(cart.getY()-1);
                     }
 
-                } else if(cart.getY()<=getAppHeight()*0.78 && cart.getY()>getAppHeight()*0.6){
+                } else if(cart.getY()<=getAppHeight()*0.785 && cart.getY()>getAppHeight()*0.59){
                     cart.setY(cart.getY()-1);
 
-                }else if(cart.getY()==getAppHeight()*0.6){
+                }else if(cart.getY()==getAppHeight()*0.59){
                     cart.getViewComponent().clearChildren();
                     cart.getViewComponent().addChild(new Texture(getAssetLoader().loadImage("cart_horizontal.png")));
                     if(cart.getX()>getAppWidth()*0.78 && weiche){
@@ -135,19 +135,21 @@ public class FxglTest extends GameApplication {
                     }else if(cart.getX()<getAppWidth()*0.89 && !weiche){
                         cart.setX(cart.getX()+1);
                     }
-                    if(cart.getX()>getAppWidth()*0.89 || cart.getX()<getAppWidth()*0.78){
-                        System.out.println("Here");
+                    if(cart.getX()>getAppWidth()*0.885 || cart.getX()<getAppWidth()*0.78){
                         cart.setY(cart.getY()-1);
                     }
 
-                }else if(cart.getY()<getAppHeight()*0.6 && cart.getY()>getAppHeight()*0.16){
+                }else if(cart.getY()<getAppHeight()*0.59 && cart.getY()>getAppHeight()*0.16){
                     cart.getViewComponent().clearChildren();
                     cart.getViewComponent().addChild(new Texture(getAssetLoader().loadImage("cart_vertical.png")));
                     cart.setY(cart.getY()-1);
+
                 }else if(cart.getY()==getAppHeight()*0.16 && cart.getX() > getAppWidth()*0.1){
                     cart.getViewComponent().clearChildren();
                     cart.getViewComponent().addChild(new Texture(getAssetLoader().loadImage("cart_horizontal.png")));
                     cart.setX(cart.getX()-1);
+                }else if(cart.getY()==getAppHeight()*0.16 && cart.getX() <= getAppWidth()*0.1){
+                    cart.removeFromWorld();
                 }
             }
         }
@@ -159,6 +161,20 @@ public class FxglTest extends GameApplication {
         }
         else if (getPlayer().getX()==getAppWidth()*0.85-PLAYERSIZE) {
             changeDirection("wegwerfpolizist_d.png");
+            if(getGameWorld().getEntitiesByType(EntityType.CART).isEmpty()){
+                spawn("CART",getAppWidth()*0.78,getAppHeight()*0.785);
+            }else{
+                for (Entity cart : getGameWorld().getEntitiesByType(EntityType.CART)) {
+                    if(cart.getY()>=getAppHeight()*0.785 && cart.getX()<getAppWidth()*0.77+30){
+                        distance=false;
+                    }else{
+                        distance=true;
+                    }
+                }
+            }
+            if(distance){
+                spawn("CART",getAppWidth()*0.78,getAppHeight()*0.785);
+            }
         }
         else if(getPlayer().getX()<0){
             getPlayer().setX(0);
