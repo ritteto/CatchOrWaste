@@ -22,7 +22,7 @@ public class FxglTest extends GameApplication {
     private static final int SPEED=5;
     private static final double PLAYERSIZE=3000*0.035;
     private boolean weiche;
-    private Entity player, object, cart, background_1;
+    private Entity player, object, cart1, background_1;
 
     @Override
     protected void initSettings(GameSettings settings) {
@@ -77,6 +77,8 @@ public class FxglTest extends GameApplication {
         texture2.setFitHeight(getAppHeight());
         Entity entity = new Entity();
         Entity entity2 = new Entity();
+        entity.setType(EntityType.BACKGROUND);
+        entity2.setType(EntityType.BACKGROUND);
         entity.getViewComponent().addChild(texture);
         entity2.getViewComponent().addChild(texture2);
         entity.setPosition(0,0);
@@ -99,60 +101,57 @@ public class FxglTest extends GameApplication {
 
     @Override
     protected void onUpdate(double tpf) {
-
-        System.out.println(getGameWorld().getEntities());
-
-        if(object!=null){
-            System.out.println(object.getY()+"/"+getAppHeight());
-            if(object.getY()>=getAppHeight()){
-                System.out.println(object.getY()+"INHERE");
-                getGameWorld().removeEntity(object);
-                System.out.println(object.getY());
+        if(!getGameWorld().getEntitiesByType(EntityType.OBJECT).isEmpty()){
+            System.out.println("Not Empty");
+            for (Entity entity : getGameWorld().getEntitiesByType(EntityType.OBJECT)) {
+                if(entity.getY()>=getAppHeight()){
+                    entity.removeFromWorld();
+                }
             }
         }
 
-        //System.out.println("Helllo: "+getGameWorld().getSingleton(EntityType.OBJECT));
-        if(cart != null) {
-            System.out.println("Cart: "+cart.getX()+"/"+cart.getY());
-            System.out.println(getAppHeight()*0.15);
-            if (cart.getY() >= getAppHeight() * 0.78) {
-                if (cart.getX() < getAppWidth() * 0.835) {
-                    cart.setX(cart.getX() + 0.4);
-                }else{
-                    cart.setX(cart.getX()+1);
-                }
-                if(cart.getX() >= getAppWidth() * 0.835){
+        if(!getGameWorld().getEntitiesByType(EntityType.OBJECT).isEmpty()){
+            for (Entity cart:getGameWorld().getEntitiesByType(EntityType.CART)){
+                if (cart.getY() >= getAppHeight() * 0.78) {
+                    if (cart.getX() < getAppWidth() * 0.835) {
+                        cart.setX(cart.getX() + 0.4);
+                    }else{
+                        cart.setX(cart.getX()+1);
+                    }
+                    if(cart.getX() >= getAppWidth() * 0.835){
+                        cart.getViewComponent().clearChildren();
+                        cart.getViewComponent().addChild(new Texture(getAssetLoader().loadImage("cart_vertical.png")));
+                        cart.setY(cart.getY()-1);
+                    }
+
+                } else if(cart.getY()<=getAppHeight()*0.78 && cart.getY()>getAppHeight()*0.6){
+                    cart.setY(cart.getY()-1);
+
+                }else if(cart.getY()==getAppHeight()*0.6){
+                    cart.getViewComponent().clearChildren();
+                    cart.getViewComponent().addChild(new Texture(getAssetLoader().loadImage("cart_horizontal.png")));
+                    if(cart.getX()>getAppWidth()*0.78 && weiche){
+                        cart.setX(cart.getX()-1);
+                    }else if(cart.getX()<getAppWidth()*0.89 && !weiche){
+                        cart.setX(cart.getX()+1);
+                    }
+                    if(cart.getX()>getAppWidth()*0.89 || cart.getX()<getAppWidth()*0.78){
+                        System.out.println("Here");
+                        cart.setY(cart.getY()-1);
+                    }
+
+                }else if(cart.getY()<getAppHeight()*0.6 && cart.getY()>getAppHeight()*0.16){
                     cart.getViewComponent().clearChildren();
                     cart.getViewComponent().addChild(new Texture(getAssetLoader().loadImage("cart_vertical.png")));
                     cart.setY(cart.getY()-1);
-                }
-
-            } else if(cart.getY()<=getAppHeight()*0.78 && cart.getY()>getAppHeight()*0.6){
-                cart.setY(cart.getY()-1);
-
-            }else if(cart.getY()==getAppHeight()*0.6){
-                cart.getViewComponent().clearChildren();
-                cart.getViewComponent().addChild(new Texture(getAssetLoader().loadImage("cart_horizontal.png")));
-                if(cart.getX()>getAppWidth()*0.78 && weiche){
+                }else if(cart.getY()==getAppHeight()*0.16 && cart.getX() > getAppWidth()*0.1){
+                    cart.getViewComponent().clearChildren();
+                    cart.getViewComponent().addChild(new Texture(getAssetLoader().loadImage("cart_horizontal.png")));
                     cart.setX(cart.getX()-1);
-                }else if(cart.getX()<getAppWidth()*0.89 && !weiche){
-                    cart.setX(cart.getX()+1);
                 }
-                if(cart.getX()>getAppWidth()*0.89 || cart.getX()<getAppWidth()*0.78){
-                    System.out.println("Here");
-                    cart.setY(cart.getY()-1);
-                }
-
-            }else if(cart.getY()<getAppHeight()*0.6 && cart.getY()>getAppHeight()*0.16){
-                cart.getViewComponent().clearChildren();
-                cart.getViewComponent().addChild(new Texture(getAssetLoader().loadImage("cart_vertical.png")));
-                cart.setY(cart.getY()-1);
-            }else if(cart.getY()==getAppHeight()*0.16 && cart.getX() > getAppWidth()*0.1){
-                cart.getViewComponent().clearChildren();
-                cart.getViewComponent().addChild(new Texture(getAssetLoader().loadImage("cart_horizontal.png")));
-                cart.setX(cart.getX()-1);
             }
         }
+
 
 
         if(getPlayer().getX()>getAppWidth()*0.85-PLAYERSIZE){
