@@ -41,6 +41,15 @@ public class SimpleFactory implements EntityFactory {
                 .build();
     }
 
+    @Spawns("HOUSE")
+    public Entity newHouse(SpawnData data) {
+        return FXGL.entityBuilder(data)
+                .view("House1.png")
+                .scale(0.045,0.045)
+                .type(EntityType.HOUSE)
+                .build();
+    }
+
 
 
 
