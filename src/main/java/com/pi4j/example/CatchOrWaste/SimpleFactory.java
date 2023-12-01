@@ -7,6 +7,7 @@ import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.Spawns;
 import javafx.geometry.Point2D;
+import java.util.Random;
 
 public class SimpleFactory implements EntityFactory {
 
@@ -31,6 +32,34 @@ public class SimpleFactory implements EntityFactory {
                 .with(new ProjectileComponent(new Point2D(0,1),50))
                 .build();
     }
+
+    @Spawns("Apfel")
+    public Entity newApfel(SpawnData data) {
+        return FXGL.entityBuilder(data)
+                .view("kleider.png")
+                .type(EntityType.APFEL)
+                .scale(0.05,0.05)
+                .with(new ProjectileComponent(new Point2D(0,20),200))
+                .build();
+    }
+
+
+
+
+    @Spawns("ZUFALL")
+    public Entity newRandom(SpawnData data) {
+        Random random = new Random();
+        String [] zufall = {"kleider.png", "iphonr.png", "kaputte lampe.png", "kaputtes iphone.png"};
+        int zufallszahl = random.nextInt(zufall.length);
+        return FXGL.entityBuilder(data)
+                .view(zufall [zufallszahl])
+                .type(EntityType.APFEL)
+                .scale(0.05,0.05)
+                .with(new ProjectileComponent(new Point2D(0,20),200))
+                .build();
+    }
+
+
 
     @Spawns("CART")
     public Entity newCart(SpawnData data) {
