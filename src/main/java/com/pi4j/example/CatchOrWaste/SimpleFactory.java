@@ -79,6 +79,20 @@ public class SimpleFactory implements EntityFactory {
                 .build();
     }
 
+    @Spawns("CUSTOM")
+    public Entity newCustom(SpawnData data) {
+        return FXGL.entityBuilder(data)
+                .view("cool.png")
+                .build();
+    }
+
+    @Spawns("BACKGROUND")
+    public Entity newBackground(SpawnData data) {
+        return FXGL.entityBuilder(data)
+                .view("background_bad.png")
+                .type(EntityType.BACKGROUND)
+                .build();
+    }
 
 
 

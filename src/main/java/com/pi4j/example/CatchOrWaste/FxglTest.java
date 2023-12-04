@@ -14,8 +14,14 @@ public class FxglTest extends GameApplication {
     private static final int SPEED=5;
     private static final double PLAYERSIZE=3000*0.035;
     private boolean weiche, distance;
-    private Entity player, object, cart1, background_1, house, house2, house3, house4;
+    private Entity playerEntity, cart1, background_1, house, house2, house3, house4;
     private Entity[] houses;
+
+    public static double AppWidth;
+    public static double AppHeight;
+
+    Player player;
+    Cart cart;
 
     @Override
     protected void initSettings(GameSettings settings) {
@@ -29,15 +35,13 @@ public class FxglTest extends GameApplication {
         //check for Key Inputs
         onKey(KeyCode.RIGHT,"Move Right", ()-> {
             if(getPlayer().getX()<getAppWidth()*0.85-PLAYERSIZE){
-                getPlayer().translateX(SPEED);
-                setImage(getPlayer(),"wegwerfpolizist_r.png");
+                player.move("Right");
             }
         });
 
         onKey(KeyCode.LEFT,"Move Left", ()->{
             if(getPlayer().getX()>0){
-                getPlayer().translateX(SPEED*(-1));
-                setImage(getPlayer(),"wegwerfpolizist_l.png");
+                player.move("Left");
             }
         });
 
@@ -54,35 +58,30 @@ public class FxglTest extends GameApplication {
             weiche = false;
         });
 
+        onKeyDown(KeyCode.F,"F", ()->{
+            cart.spawn(getGameWorld());
+        });
+
     }
 
     @Override
     protected void initGame() {
 
-        //Background
-        //create Entity which displays the background image as a Texture
-        Texture background = new Texture(getAssetLoader().loadImage("background_bad.png"));
-        Texture background2 = new Texture(getAssetLoader().loadImage("Streets.png"));
-        background.setFitWidth(getAppWidth());
-        background2.setFitWidth(getAppWidth());
-        background.setFitHeight(getAppHeight());
-        background2.setFitHeight(getAppHeight());
-        Entity entity = new Entity();
-        Entity entity2 = new Entity();
-        entity.setType(EntityType.BACKGROUND);
-        entity2.setType(EntityType.BACKGROUND);
-        entity.getViewComponent().addChild(background);
-        entity2.getViewComponent().addChild(background2);
-        entity.setPosition(0,0);
-        entity2.setPosition(0,0);
+        AppWidth = getAppWidth();
+        AppHeight = getAppHeight();
 
-        //add Entities to GameWorld
-        getGameWorld().addEntity(entity);
-        getGameWorld().addEntity(entity2);
         getGameWorld().addEntityFactory(new SimpleFactory());
 
+        Entity background1 = spawn("BACKGROUND",0,0);
+        Entity background2 = spawn("BACKGROUND",0,0);
+        setBackground(background1, "background_bad.png");
+        setBackground(background2, "streets.png");
+
         //spawn the player from the factory
-        player = spawn("PLAYER",100,getAppHeight()*0.76);
+        Entity playerEntity = spawn("PLAYER",100,getAppHeight()*0.76);
+        player = new Player(playerEntity);
+        cart = new Cart();
+
         //object = spawn("OBJECT",200,0);
 
         house = spawn("HOUSE",0,getAppHeight()*0.35);
@@ -103,6 +102,14 @@ public class FxglTest extends GameApplication {
 
     @Override
     protected void onUpdate(double tpf) {
+
+        if(player != null){
+            if(player.playerOnUpdate()){
+                cart.spawn(getGameWorld());
+            }
+        }
+
+
         if(!getGameWorld().getEntitiesByType(EntityType.OBJECT).isEmpty()){
             for (Entity entity : getGameWorld().getEntitiesByType(EntityType.OBJECT)) {
                 if(entity.getY()>=getAppHeight()){
@@ -156,11 +163,9 @@ public class FxglTest extends GameApplication {
         }
 
 
-        if(getPlayer().getX()>getAppWidth()*0.85-PLAYERSIZE){
-            getPlayer().setX(getAppWidth()*0.85-PLAYERSIZE);
-        }
-        else if (getPlayer().getX()==getAppWidth()*0.85-PLAYERSIZE) {
-            setImage(getPlayer(),"wegwerfpolizist_d.png");
+        /*
+         if (getPlayer().getX()==getAppWidth()*0.85-PLAYERSIZE) {
+
             if(getGameWorld().getEntitiesByType(EntityType.CART).isEmpty()){
                 spawn("CART",getAppWidth()*0.78,getAppHeight()*0.785);
             }else{
@@ -176,9 +181,8 @@ public class FxglTest extends GameApplication {
                 spawn("CART",getAppWidth()*0.78,getAppHeight()*0.785);
             }
         }
-        else if(getPlayer().getX()<0){
-            getPlayer().setX(0);
-        }
+
+         */
     }
 
     public static void main(String[] args) {
@@ -190,8 +194,15 @@ public class FxglTest extends GameApplication {
     }
 
     public void setImage(Entity entity,String view){
-        //ViewComponent viewComponent = entity.getViewComponent();
         entity.getViewComponent().clearChildren();
         entity.getViewComponent().addChild(new Texture(getAssetLoader().loadImage(view)));
+    }
+
+    public void setBackground(Entity entity, String view){
+        Texture textureFromView = new Texture(getAssetLoader().loadImage(view));
+        textureFromView.setFitWidth(AppWidth);
+        textureFromView.setFitHeight(AppHeight);
+        entity.getViewComponent().clearChildren();
+        entity.getViewComponent().addChild(textureFromView);
     }
 }
