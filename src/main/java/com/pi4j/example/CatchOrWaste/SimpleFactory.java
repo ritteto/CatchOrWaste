@@ -6,8 +6,12 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.Spawns;
+import com.almasb.fxgl.entity.components.ViewComponent;
+import com.almasb.fxgl.texture.Texture;
 import javafx.geometry.Point2D;
 import java.util.Random;
+
+import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 
 public class SimpleFactory implements EntityFactory {
 
@@ -70,25 +74,22 @@ public class SimpleFactory implements EntityFactory {
                 .build();
     }
 
+
     @Spawns("HOUSE")
     public Entity newHouse(SpawnData data) {
+        Random random = new Random();
+        String [] zufall = {"House1.png", "House2.png", "House3.png"};
+        int zufallszahl = random.nextInt(zufall.length);
         return FXGL.entityBuilder(data)
-                .view("House1.png")
-                .scale(0.045,0.045)
+                .view(zufall [zufallszahl])
                 .type(EntityType.HOUSE)
-                .build();
-    }
-
-    @Spawns("CUSTOM")
-    public Entity newCustom(SpawnData data) {
-        return FXGL.entityBuilder(data)
-                .view("cool.png")
+                .scale(0.04,0.04)
                 .build();
     }
 
     @Spawns("BACKGROUND")
     public Entity newBackground(SpawnData data) {
-        return FXGL.entityBuilder(data)
+         return FXGL.entityBuilder(data)
                 .view("background_bad.png")
                 .type(EntityType.BACKGROUND)
                 .build();

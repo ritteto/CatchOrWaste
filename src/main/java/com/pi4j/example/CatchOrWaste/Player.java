@@ -15,9 +15,11 @@ public class Player {
         this.entity = entity;
     }
 
-    public boolean playerOnUpdate(){
+    public void playerOnUpdate(Cart cart, GameWorld gameWorld){
         boundaries();
-        return isAtRightEnd();
+        if (isAtRightEnd()){
+            cart.spawn(gameWorld);
+        }
     }
 
     public void move(String move){
@@ -58,10 +60,10 @@ public class Player {
     private void movePlayer(String direction){
         switch (direction){
             case "Left":
-                this.entity.translateX(SPEED*(-1));
+                this.entity.translateX(-PLAYER_SPEED);
                 break;
             case "Right":
-                this.entity.translateX(SPEED);
+                this.entity.translateX(PLAYER_SPEED);
                 break;
         }
     }
