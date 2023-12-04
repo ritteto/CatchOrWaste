@@ -6,12 +6,8 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.Spawns;
-import com.almasb.fxgl.entity.components.ViewComponent;
-import com.almasb.fxgl.texture.Texture;
 import javafx.geometry.Point2D;
 import java.util.Random;
-
-import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 
 public class SimpleFactory implements EntityFactory {
 

@@ -5,7 +5,6 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 import com.almasb.fxgl.texture.Texture;
 
-import static com.pi4j.example.CatchOrWaste.FxglTest.*;
 import static com.pi4j.example.CatchOrWaste.Variables.*;
 
 public class Player {
@@ -50,6 +49,7 @@ public class Player {
 
     private boolean isAtLeftEnd(){
         if(this.entity.getX() < PLAYER_LEFT){
+            setImage("Down");
             return true;
         }else{
             return false;

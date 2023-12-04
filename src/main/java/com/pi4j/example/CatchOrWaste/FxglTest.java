@@ -2,7 +2,6 @@ package com.pi4j.example.CatchOrWaste;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.entity.components.ViewComponent;
 import com.almasb.fxgl.texture.Texture;
 import javafx.scene.input.KeyCode;
 
@@ -27,30 +26,17 @@ public class FxglTest extends GameApplication {
     protected void initInput() {
 
         //check for Key Inputs
-        onKey(KeyCode.RIGHT,"Move Right", ()-> {
-            player.move("Right");
-        });
+        onKey(KeyCode.RIGHT,"Move Right", ()-> player.move("Right"));
 
-        onKey(KeyCode.LEFT,"Move Left", ()->{
-            player.move("Left");
-        });
+        onKey(KeyCode.LEFT,"Move Left", ()-> player.move("Left"));
 
-        onKeyDown(KeyCode.G,"G",()->{
-            spawn("CART",getAppWidth()*0.77,getAppHeight()*0.78);
-        });
+        onKeyDown(KeyCode.G,"G",()-> spawn("CART",getAppWidth()*0.77,getAppHeight()*0.78));
 
 
-        onKey(KeyCode.DIGIT1,"1", ()->{
-            gate = true;
-        });
+        onKey(KeyCode.DIGIT1,"1", ()-> gate = true);
 
-        onKey(KeyCode.DIGIT2,"2", ()->{
-            gate = false;
-        });
+        onKey(KeyCode.DIGIT2,"2", ()-> gate = false);
 
-        onKeyDown(KeyCode.F,"F", ()->{
-            cart.spawn(getGameWorld());
-        });
 
     }
 
