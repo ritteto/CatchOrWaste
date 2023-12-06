@@ -6,6 +6,8 @@ import com.almasb.fxgl.entity.GameWorld;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.texture.Texture;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 import static com.pi4j.example.CatchOrWaste.Variables.*;
 
@@ -24,6 +26,7 @@ public class Player {
             cart.spawn(gameWorld);
         }
         isAtLeftEnd();
+        visualizeHitbox();
     }
 
     public void move(String move){
@@ -73,6 +76,15 @@ public class Player {
         }
     }
 
+    private void visualizeHitbox(){
+        Rectangle bboxView = new Rectangle(this.entity.getWidth(), this.entity.getHeight());
+        bboxView.setFill(Color.TRANSPARENT);
+        bboxView.setStroke(Color.RED);
+
+        bboxView.translateXProperty().bind(this.entity.xProperty());
+        bboxView.translateYProperty().bind(this.entity.yProperty());
+        bboxView.setTranslateZ(100);
+    }
     //move Player to the given direction
     private void movePlayer(String direction){
         switch (direction){
