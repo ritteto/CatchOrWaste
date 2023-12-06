@@ -11,10 +11,10 @@ import javafx.scene.shape.Rectangle;
 
 import static com.pi4j.example.CatchOrWaste.Variables.*;
 
-public class Player {
+public class Wegwerfpolizist {
 
     private final Entity entity;
-    public Player(Entity entity) {
+    public Wegwerfpolizist(Entity entity) {
         this.entity = entity;
         entity.getBoundingBoxComponent().addHitBox(new HitBox(BoundingShape.box(3000*0.035,3000*0.035)));
     }

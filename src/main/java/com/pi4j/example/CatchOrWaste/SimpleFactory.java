@@ -1,5 +1,6 @@
 package com.pi4j.example.CatchOrWaste;
 
+import com.almasb.fxgl.app.scene.GameView;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.FXGLForKtKt;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
@@ -12,11 +13,15 @@ import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PolygonShapeData;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Point2D;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+
 import java.util.Random;
 
-import static com.almasb.fxgl.dsl.FXGLForKtKt.getAssetLoader;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 import static com.pi4j.example.CatchOrWaste.Variables.PLAYERSIZE;
 import static com.pi4j.example.CatchOrWaste.Variables.STREET_RIGHT;
+import static java.lang.Math.E;
 import static java.lang.Math.random;
 
 public class SimpleFactory implements EntityFactory {
@@ -26,12 +31,24 @@ public class SimpleFactory implements EntityFactory {
 
     @Spawns("PLAYER")
     public Entity newPlayer(SpawnData data) {
-        return FXGL.entityBuilder(data)
+        Entity entity = FXGL.entityBuilder(data)
                 .view("wegwerfpolizist_l.png")
                 .scale(scale,scale)
                 .type(EntityType.PLAYER)
                 //.bbox(BoundingShape.box(PLAYERSIZE,PLAYERSIZE))
                 .build();
+
+        Rectangle bboxView = new Rectangle(PLAYERSIZE*0.91, PLAYERSIZE*0.91);
+        bboxView.setFill(Color.TRANSPARENT);
+        bboxView.setStroke(Color.RED);
+
+        bboxView.translateXProperty().bind(entity.xProperty());
+        bboxView.translateYProperty().bind(entity.yProperty());
+        bboxView.setTranslateZ(100);
+
+        getGameScene().addUINode(bboxView);
+
+        return entity;
     }
 
     @Spawns("OBJECT")

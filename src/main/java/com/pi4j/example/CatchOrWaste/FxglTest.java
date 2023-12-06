@@ -9,14 +9,13 @@ import java.util.Random;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
-import static com.pi4j.example.CatchOrWaste.Variables.PLAYERSIZE;
 
 public class FxglTest extends GameApplication {
 
 
     public static boolean gate;
 
-    Player player;
+    Wegwerfpolizist player;
     Cart cart;
     FallingObject fallingObject;
 
@@ -63,7 +62,7 @@ public class FxglTest extends GameApplication {
 
         //spawn the player from the factory
         Entity playerEntity = spawn("PLAYER",100,getAppHeight()*0.76);
-        player = new Player(playerEntity);
+        player = new Wegwerfpolizist(playerEntity);
         cart = new Cart();
 
         //spawn objects
