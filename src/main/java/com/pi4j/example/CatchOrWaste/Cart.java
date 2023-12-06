@@ -69,11 +69,11 @@ public class Cart {
                         entity.setX(entity.getX()-CART_SPEED);
                     }else{
                         entity.setX(entity.getX()+1);
-                    }if(entity.getX()>getAppWidth()*0.78 && entity.getX()<CART_CURVE_BR){
+                    }if(entity.getX()>SWITCH_LEFT && entity.getX()<CART_CURVE_BR){
                         entity.setX(entity.getX()-CART_SPEED);
-                    }else if(entity.getX()<getAppWidth()*0.8875 && entity.getX()>CART_CURVE_BR){
+                    }else if(entity.getX()<SWITCH_RIGHT && entity.getX()>CART_CURVE_BR){
                         entity.setX(entity.getX()+CART_SPEED);
-                    }if(entity.getX()>getAppWidth()*0.885 || entity.getX()<getAppWidth()*0.7825){
+                    }if(entity.getX()>SWITCH_RIGHT || entity.getX()<SWITCH_LEFT){
                         entity.getViewComponent().clearChildren();
                         entity.getViewComponent().addChild(new Texture(getAssetLoader().loadImage("cart_vertical.png")));
                         entity.setY(SWITCH_HEIGHT-1);
