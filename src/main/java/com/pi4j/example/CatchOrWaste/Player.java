@@ -23,11 +23,16 @@ public class Player {
         if (isAtRightEnd()){
             cart.spawn(gameWorld);
         }
+        isAtLeftEnd();
     }
 
     public void move(String move){
         setImage(move);
         movePlayer(move);
+    }
+
+    public double getX(){
+        return entity.getX();
     }
 
     private void boundaries(){
@@ -37,8 +42,8 @@ public class Player {
             this.entity.setX(PLAYER_RIGHT);
 
         //Boundary left
-        }else if(this.entity.getX()<0){
-            this.entity.setX(0);
+        }else if(this.entity.getX()<PLAYER_LEFT){
+            this.entity.setX(PLAYER_LEFT);
         }
     }
 
@@ -52,7 +57,7 @@ public class Player {
 
     private boolean isAtRightEnd(){
         if(this.entity.getX() == PLAYER_RIGHT){
-            setImage("Down");
+            setImage("Down_R");
             return true;
         }else{
             return false;
@@ -60,8 +65,8 @@ public class Player {
     }
 
     private boolean isAtLeftEnd(){
-        if(this.entity.getX() < PLAYER_LEFT){
-            setImage("Down");
+        if(this.entity.getX() <= PLAYER_LEFT){
+            setImage("Down_L");
             return true;
         }else{
             return false;
@@ -91,9 +96,13 @@ public class Player {
                 this.entity.getViewComponent().clearChildren();
                 this.entity.getViewComponent().addChild(new Texture(FXGL.getAssetLoader().loadImage("wegwerfpolizist_r.png")));
                 break;
-            case "Down":
+            case "Down_R":
                 this.entity.getViewComponent().clearChildren();
                 this.entity.getViewComponent().addChild(new Texture(FXGL.getAssetLoader().loadImage("wegwerfpolizist_d.png")));
+                break;
+            case "Down_L":
+                this.entity.getViewComponent().clearChildren();
+                this.entity.getViewComponent().addChild(new Texture(FXGL.getAssetLoader().loadImage("wegwerfpolizist_d_l.png")));
                 break;
         }
     }
