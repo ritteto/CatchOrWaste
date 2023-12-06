@@ -30,7 +30,7 @@ public class SimpleFactory implements EntityFactory {
                 .view("wegwerfpolizist_l.png")
                 .scale(scale,scale)
                 .type(EntityType.PLAYER)
-                .bbox(BoundingShape.box(PLAYERSIZE,PLAYERSIZE))
+                //.bbox(BoundingShape.box(PLAYERSIZE,PLAYERSIZE))
                 .build();
     }
 
