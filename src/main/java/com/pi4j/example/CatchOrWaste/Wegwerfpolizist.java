@@ -26,7 +26,6 @@ public class Wegwerfpolizist {
             cart.spawn(gameWorld);
         }
         isAtLeftEnd();
-        visualizeHitbox();
     }
 
     public void move(String move){
@@ -76,15 +75,6 @@ public class Wegwerfpolizist {
         }
     }
 
-    private void visualizeHitbox(){
-        Rectangle bboxView = new Rectangle(this.entity.getWidth(), this.entity.getHeight());
-        bboxView.setFill(Color.TRANSPARENT);
-        bboxView.setStroke(Color.RED);
-
-        bboxView.translateXProperty().bind(this.entity.xProperty());
-        bboxView.translateYProperty().bind(this.entity.yProperty());
-        bboxView.setTranslateZ(100);
-    }
     //move Player to the given direction
     private void movePlayer(String direction){
         switch (direction){
@@ -102,19 +92,19 @@ public class Wegwerfpolizist {
         switch (move){
             case "Left":
                 this.entity.getViewComponent().clearChildren();
-                this.entity.getViewComponent().addChild(new Texture(FXGL.getAssetLoader().loadImage("wegwerfpolizist_l.png")));
+                this.entity.getViewComponent().addChild(new Texture(FXGL.getAssetLoader().loadImage("wegwerfpolizist_l_resized.png")));
                 break;
             case "Right":
                 this.entity.getViewComponent().clearChildren();
-                this.entity.getViewComponent().addChild(new Texture(FXGL.getAssetLoader().loadImage("wegwerfpolizist_r.png")));
+                this.entity.getViewComponent().addChild(new Texture(FXGL.getAssetLoader().loadImage("wegwerfpolizist_r_resized.png")));
                 break;
             case "Down_R":
                 this.entity.getViewComponent().clearChildren();
-                this.entity.getViewComponent().addChild(new Texture(FXGL.getAssetLoader().loadImage("wegwerfpolizist_d.png")));
+                this.entity.getViewComponent().addChild(new Texture(FXGL.getAssetLoader().loadImage("wegwerfpolizist_d_r_resized.png")));
                 break;
             case "Down_L":
                 this.entity.getViewComponent().clearChildren();
-                this.entity.getViewComponent().addChild(new Texture(FXGL.getAssetLoader().loadImage("wegwerfpolizist_d_l.png")));
+                this.entity.getViewComponent().addChild(new Texture(FXGL.getAssetLoader().loadImage("wegwerfpolizist_d_l_resized.png")));
                 break;
         }
     }

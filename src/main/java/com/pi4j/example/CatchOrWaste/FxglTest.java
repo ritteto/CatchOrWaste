@@ -68,7 +68,7 @@ public class FxglTest extends GameApplication {
         spawn("RECYCLING", getAppWidth()*-0.002, getAppHeight()*0.48);
 
         //spawn the player from the factory
-        Entity playerEntity = spawn("PLAYER",100,getAppHeight()*0.76);
+        Entity playerEntity = spawn("PLAYER",100,getAppHeight()*0.8);
         player = new Wegwerfpolizist(playerEntity);
         cart = new Cart();
 

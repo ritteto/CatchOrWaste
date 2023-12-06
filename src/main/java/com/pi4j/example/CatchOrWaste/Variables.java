@@ -13,7 +13,7 @@ public class Variables {
 
     //Player variables
     static double PLAYERSIZE = 3000*0.035;
-    static double PLAYER_RIGHT = STREET_RIGHT -PLAYERSIZE;
+    static double PLAYER_RIGHT = STREET_RIGHT - PLAYERSIZE*0.8;
     static double PLAYER_LEFT = STREET_LEFT;
     static int PLAYER_SPEED = 5;
 

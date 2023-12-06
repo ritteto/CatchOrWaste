@@ -32,13 +32,12 @@ public class SimpleFactory implements EntityFactory {
     @Spawns("PLAYER")
     public Entity newPlayer(SpawnData data) {
         Entity entity = FXGL.entityBuilder(data)
-                .view("wegwerfpolizist_l.png")
+                .view("wegwerfpolizist_R_resized.png")
                 .scale(scale,scale)
                 .type(EntityType.PLAYER)
-                //.bbox(BoundingShape.box(PLAYERSIZE,PLAYERSIZE))
                 .build();
 
-        Rectangle bboxView = new Rectangle(PLAYERSIZE*0.91, PLAYERSIZE*0.91);
+        Rectangle bboxView = new Rectangle(2400*0.035,1951*0.035); //entity.getX()+50,entity.getY()+50,
         bboxView.setFill(Color.TRANSPARENT);
         bboxView.setStroke(Color.RED);
 
