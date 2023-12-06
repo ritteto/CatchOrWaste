@@ -21,7 +21,7 @@ public class Variables {
     static int CART_SPEED = 2;
 
     //Switch variables
-    static double SWITCH_HEIGHT = getAppHeight()*0.59;
+    static double SWITCH_HEIGHT = getAppHeight()*0.32;
 
     //Falling objects variables
     static int FALLING_OBJECT_AMOUNT = 3;
