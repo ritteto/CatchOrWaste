@@ -60,7 +60,6 @@ public class FxglTest extends GameApplication {
         setBackground(background2, "streets.png");
 
         for (double i=0; i<0.5;i+=0.12) {
-            System.out.println(i);
             spawn("HOUSE",getAppWidth()*i,getAppHeight()*0.35);
         }
 

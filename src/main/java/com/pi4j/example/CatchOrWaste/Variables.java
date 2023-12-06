@@ -8,7 +8,7 @@ public class Variables {
 
 
     //Street variables
-    static double STREET_LEFT = 0;
+    static double STREET_LEFT = getAppWidth() * 0.08;
     static double STREET_RIGHT = getAppWidth() *0.85;
 
     //Player variables
