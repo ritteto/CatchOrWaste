@@ -32,13 +32,12 @@ public class SimpleFactory implements EntityFactory {
     @Spawns("PLAYER")
     public Entity newPlayer(SpawnData data) {
         Entity entity = FXGL.entityBuilder(data)
-                .view("wegwerfpolizist_l.png")
+                .view("wegwerfpolizist_R_resized.png")
                 .scale(scale,scale)
                 .type(EntityType.PLAYER)
-                //.bbox(BoundingShape.box(PLAYERSIZE,PLAYERSIZE))
                 .build();
 
-        Rectangle bboxView = new Rectangle(PLAYERSIZE*0.91, PLAYERSIZE*0.91);
+        Rectangle bboxView = new Rectangle(2400*0.035,1951*0.035); //entity.getX()+50,entity.getY()+50,
         bboxView.setFill(Color.TRANSPARENT);
         bboxView.setStroke(Color.RED);
 
@@ -53,11 +52,14 @@ public class SimpleFactory implements EntityFactory {
 
     @Spawns("OBJECT")
     public Entity newObject(SpawnData data) {
+        Random random = new Random();
+        String [] zufall = {"kleider.png", "iphonr.png", "kaputte lampe.png", "kaputtes iphone.png"};
+        int zufallszahl = random.nextInt(zufall.length);
         return FXGL.entityBuilder(data)
-                .view("apple.png")
+                .view(zufall [zufallszahl])
                 .type(EntityType.OBJECT)
-                .scale(0.01,0.01)
-                .with(new ProjectileComponent(new Point2D(0,1),50))
+                .scale(0.02,0.02)
+                .with(new ProjectileComponent(new Point2D(0,1),100))
                 .build();
     }
 
@@ -81,7 +83,7 @@ public class SimpleFactory implements EntityFactory {
         int zufallszahl = random.nextInt(zufall.length);
         return FXGL.entityBuilder(data)
                 .view(zufall [zufallszahl])
-                .type(EntityType.APFEL)
+                .type(EntityType.ZUFALL)
                 .scale(0.02,0.02)
                 .with(new ProjectileComponent(new Point2D(0,20),200))
                 .build();

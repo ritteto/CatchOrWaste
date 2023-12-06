@@ -22,8 +22,8 @@ public class FxglTest extends GameApplication {
 
     @Override
     protected void initSettings(GameSettings settings) {
-        //settings.setFullScreenAllowed(true);
-        //settings.setFullScreenFromStart(true);
+        settings.setFullScreenAllowed(true);
+        settings.setFullScreenFromStart(true);
     }
 
     @Override
@@ -68,17 +68,14 @@ public class FxglTest extends GameApplication {
         spawn("RECYCLING", getAppWidth()*-0.018, getAppHeight()*0.48);
 
         //spawn the player from the factory
-        Entity playerEntity = spawn("PLAYER",100,getAppHeight()*0.76);
+        Entity playerEntity = spawn("PLAYER",100,getAppHeight()*0.8);
         player = new Wegwerfpolizist(playerEntity);
         cart = new Cart();
 
+
         //spawn objects
-        Random random = new Random();
-        int randomX = random.nextInt(501);
-
-        Entity fallingObject = spawn("ZUFALL", 500, 100);
-
-
+        Entity fallingObject_entity = spawn("OBJECT", 500, 100);
+        fallingObject = new FallingObject(fallingObject_entity);
 
 
     }
