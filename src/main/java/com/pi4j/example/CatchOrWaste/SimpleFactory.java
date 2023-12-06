@@ -101,14 +101,29 @@ public class SimpleFactory implements EntityFactory {
     }
 
 
-    @Spawns("HOUSE")
-    public Entity newHouse(SpawnData data) {
-        Random random = new Random();
-        String [] zufall = {"House1.png", "House2.png", "House3.png"};
-        int zufallszahl = random.nextInt(zufall.length);
+    @Spawns("HOUSE1")
+    public Entity newHouse1(SpawnData data) {
         return FXGL.entityBuilder(data)
-                .view(zufall [zufallszahl])
-                .type(EntityType.HOUSE)
+                .view("House1.png")
+                .type(EntityType.HOUSE1)
+                .scale(0.04,0.04)
+                .build();
+    }
+
+    @Spawns("HOUSE2")
+    public Entity newHouse2(SpawnData data) {
+        return FXGL.entityBuilder(data)
+                .view("House2.png")
+                .type(EntityType.HOUSE2)
+                .scale(0.04,0.04)
+                .build();
+    }
+
+    @Spawns("HOUSE3")
+    public Entity newHouse3(SpawnData data) {
+        return FXGL.entityBuilder(data)
+                .view("House3.png")
+                .type(EntityType.HOUSE3)
                 .scale(0.04,0.04)
                 .build();
     }

@@ -32,8 +32,11 @@ public class Variables {
 
 
 
-    //Switch variables
-     // Höhe der Weiche
+    // House Variables
+
+    static double HOUSE1_X = getAppWidth()*0.62;
+    static double HOUSE1_Y = getAppHeight()*-0.001;
+
 
     //Falling objects variables
     static int FALLING_OBJECT_AMOUNT = 3;

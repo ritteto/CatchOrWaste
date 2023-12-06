@@ -22,8 +22,8 @@ public class FxglTest extends GameApplication {
 
     @Override
     protected void initSettings(GameSettings settings) {
-        settings.setFullScreenAllowed(true);
-        settings.setFullScreenFromStart(true);
+        // settings.setFullScreenAllowed(true);
+        // settings.setFullScreenFromStart(true);
     }
 
     @Override
@@ -58,14 +58,16 @@ public class FxglTest extends GameApplication {
         setBackground(background2, "streets.png");
 
         // spawn housses
-        for (double i=0.135; i<0.635;i+=0.12) {
-            spawn("HOUSE",getAppWidth()*i,getAppHeight()*0.0001);
-        }
+        spawn("HOUSE1",HOUSE1_X,HOUSE1_Y);
+        spawn("HOUSE2",getAppWidth()*0.45,getAppHeight()*-0.0005);
+        spawn("HOUSE3",getAppWidth()*0.3,getAppHeight()*-0.0005);
+        spawn("HOUSE2",getAppWidth()*0.15,getAppHeight()*-0.0005);
+
 
         // spawn market, repaicenter & recycling
         spawn("REPAIR", getAppWidth()*0.837, getAppHeight()*0.1);
         spawn("MARKET", getAppWidth()*0.73, getAppHeight()*0.1);
-        spawn("RECYCLING", getAppWidth()*-0.018, getAppHeight()*0.48);
+        spawn("RECYCLING", getAppWidth()*-0.0185, getAppHeight()*0.48);
 
         //spawn the player from the factory
         Entity playerEntity = spawn("PLAYER",100,getAppHeight()*0.8);
