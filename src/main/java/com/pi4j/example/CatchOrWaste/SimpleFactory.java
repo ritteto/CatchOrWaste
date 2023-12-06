@@ -9,11 +9,13 @@ import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.Spawns;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
+import com.almasb.fxgl.physics.PolygonShapeData;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Point2D;
 import java.util.Random;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getAssetLoader;
+import static com.pi4j.example.CatchOrWaste.Variables.PLAYERSIZE;
 import static com.pi4j.example.CatchOrWaste.Variables.STREET_RIGHT;
 import static java.lang.Math.random;
 
@@ -28,6 +30,7 @@ public class SimpleFactory implements EntityFactory {
                 .view("wegwerfpolizist_l.png")
                 .scale(scale,scale)
                 .type(EntityType.PLAYER)
+                //.bbox(BoundingShape.box(PLAYERSIZE,PLAYERSIZE))
                 .build();
     }
 
