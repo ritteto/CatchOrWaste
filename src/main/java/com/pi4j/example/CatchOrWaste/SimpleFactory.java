@@ -127,7 +127,39 @@ public class SimpleFactory implements EntityFactory {
                 .build();
     }
 
+    @Spawns("REPAIR")
+    public Entity newRrepair(SpawnData data) {
 
+        return FXGL.entityBuilder(data)
+                .view("reparieren.png")
+                .type(EntityType.REPAIR)
+                .scale(0.04,0.04)
+                .zIndex(10)
+                .build();
+    }
+
+    @Spawns("MARKET")
+    public Entity newMarket(SpawnData data) {
+
+        return FXGL.entityBuilder(data)
+                .view("weitergeben.png")
+                .type(EntityType.MARKET)
+                .scale(0.04,0.04)
+                .zIndex(10)
+                .build();
+
+    }
+
+    @Spawns("RECYCLING")
+    public Entity newRecycling(SpawnData data) {
+
+        return FXGL.entityBuilder(data)
+                .view("recyclestation.png")
+                .type(EntityType.RECYCLING)
+                .scale(0.04,0.04)
+                .zIndex(10)
+                .build();
+    }
 
 
 }

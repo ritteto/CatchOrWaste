@@ -9,6 +9,7 @@ import java.util.Random;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
+import static com.pi4j.example.CatchOrWaste.Variables.*;
 
 public class FxglTest extends GameApplication {
 
@@ -56,9 +57,15 @@ public class FxglTest extends GameApplication {
         setBackground(background1, "background_bad.png");
         setBackground(background2, "streets.png");
 
-        for (double i=0; i<0.5;i+=0.12) {
-            spawn("HOUSE",getAppWidth()*i,getAppHeight()*0.35);
+        // spawn housses
+        for (double i=0.135; i<0.635;i+=0.12) {
+            spawn("HOUSE",getAppWidth()*i,getAppHeight()*0.0001);
         }
+
+        // spawn market, repaicenter & recycling
+        spawn("REPAIR", getAppWidth()*0.854, getAppHeight()*0.15);
+        spawn("MARKET", getAppWidth()*0.745, getAppHeight()*0.15);
+        spawn("RECYCLING", getAppWidth()*-0.002, getAppHeight()*0.48);
 
         //spawn the player from the factory
         Entity playerEntity = spawn("PLAYER",100,getAppHeight()*0.76);
