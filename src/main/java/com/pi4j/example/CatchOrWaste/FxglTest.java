@@ -63,9 +63,9 @@ public class FxglTest extends GameApplication {
         }
 
         // spawn market, repaicenter & recycling
-        spawn("REPAIR", getAppWidth()*0.854, getAppHeight()*0.15);
-        spawn("MARKET", getAppWidth()*0.745, getAppHeight()*0.15);
-        spawn("RECYCLING", getAppWidth()*-0.002, getAppHeight()*0.48);
+        spawn("REPAIR", getAppWidth()*0.837, getAppHeight()*0.1);
+        spawn("MARKET", getAppWidth()*0.73, getAppHeight()*0.1);
+        spawn("RECYCLING", getAppWidth()*-0.018, getAppHeight()*0.48);
 
         //spawn the player from the factory
         Entity playerEntity = spawn("PLAYER",100,getAppHeight()*0.76);

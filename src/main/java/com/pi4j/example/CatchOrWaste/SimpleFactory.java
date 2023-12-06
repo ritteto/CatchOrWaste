@@ -128,12 +128,12 @@ public class SimpleFactory implements EntityFactory {
     }
 
     @Spawns("REPAIR")
-    public Entity newRrepair(SpawnData data) {
+    public Entity newRepair(SpawnData data) {
 
         return FXGL.entityBuilder(data)
                 .view("reparieren.png")
                 .type(EntityType.REPAIR)
-                .scale(0.04,0.04)
+                .scale(0.05,0.05)
                 .zIndex(10)
                 .build();
     }
@@ -144,7 +144,7 @@ public class SimpleFactory implements EntityFactory {
         return FXGL.entityBuilder(data)
                 .view("weitergeben.png")
                 .type(EntityType.MARKET)
-                .scale(0.04,0.04)
+                .scale(0.05,0.05)
                 .zIndex(10)
                 .build();
 
@@ -156,7 +156,7 @@ public class SimpleFactory implements EntityFactory {
         return FXGL.entityBuilder(data)
                 .view("recyclestation.png")
                 .type(EntityType.RECYCLING)
-                .scale(0.04,0.04)
+                .scale(0.05,0.05)
                 .zIndex(10)
                 .build();
     }
