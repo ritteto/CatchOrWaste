@@ -1,4 +1,4 @@
-package com.pi4j.example.CatchOrWaste;
+package com.pi4j.example.CatchOrWaste.Ausprobieren;
 
 
 import com.almasb.fxgl.app.GameApplication;
@@ -6,6 +6,8 @@ import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.components.ViewComponent;
 import com.almasb.fxgl.texture.Texture;
+import com.pi4j.example.CatchOrWaste.EntityType;
+import com.pi4j.example.CatchOrWaste.SimpleFactory;
 import javafx.scene.input.KeyCode;
 
 import java.util.Random;

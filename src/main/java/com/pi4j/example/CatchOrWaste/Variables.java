@@ -22,4 +22,7 @@ public class Variables {
 
     //Switch variables
     static double SWITCH_HEIGHT = getAppHeight()*0.59;
+
+    //Falling objects variables
+    static int FALLING_OBJECT_AMOUNT = 3;
 }

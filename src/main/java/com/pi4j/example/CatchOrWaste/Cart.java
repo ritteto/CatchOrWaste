@@ -66,7 +66,7 @@ public class Cart {
                 //horizontal movement at gate height
                 } else if(entity.getY()==SWITCH_HEIGHT-0.1) {
                     if(gate && entity.getX() == getAppWidth()*0.836){
-                        entity.setX(entity.getX()-1);
+                        entity.setX(entity.getX()-CART_SPEED);
                     }else{
                         entity.setX(entity.getX()+1);
                     }if(entity.getX()>getAppWidth()*0.78 && entity.getX()<getAppWidth()*0.836){

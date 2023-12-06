@@ -5,7 +5,11 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.texture.Texture;
 import javafx.scene.input.KeyCode;
 
+import java.util.Random;
+
 import static com.almasb.fxgl.dsl.FXGL.*;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
+import static com.pi4j.example.CatchOrWaste.Variables.PLAYERSIZE;
 
 public class FxglTest extends GameApplication {
 
@@ -16,10 +20,12 @@ public class FxglTest extends GameApplication {
     Cart cart;
     FallingObject fallingObject;
 
+    Entity zufall;
+
     @Override
     protected void initSettings(GameSettings settings) {
-        settings.setFullScreenAllowed(true);
-        settings.setFullScreenFromStart(true);
+        //settings.setFullScreenAllowed(true);
+        //settings.setFullScreenFromStart(true);
     }
 
     @Override
@@ -36,6 +42,9 @@ public class FxglTest extends GameApplication {
         onKey(KeyCode.DIGIT1,"1", ()-> gate = true);
 
         onKey(KeyCode.DIGIT2,"2", ()-> gate = false);
+
+        onKey(KeyCode.F,"F", ()-> spawn("MARTIN",100,100));
+
 
 
     }
@@ -59,7 +68,7 @@ public class FxglTest extends GameApplication {
         Entity playerEntity = spawn("PLAYER",100,getAppHeight()*0.76);
         player = new Player(playerEntity);
         cart = new Cart();
-        fallingObject = new FallingObject();
+
 
 
 
@@ -94,4 +103,5 @@ public class FxglTest extends GameApplication {
         entity.getViewComponent().clearChildren();
         entity.getViewComponent().addChild(textureFromView);
     }
+
 }

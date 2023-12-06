@@ -1,13 +1,21 @@
 package com.pi4j.example.CatchOrWaste;
 
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.dsl.FXGLForKtKt;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.Spawns;
+import com.almasb.fxgl.physics.BoundingShape;
+import com.almasb.fxgl.physics.HitBox;
+import javafx.geometry.BoundingBox;
 import javafx.geometry.Point2D;
 import java.util.Random;
+
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAssetLoader;
+import static com.pi4j.example.CatchOrWaste.Variables.STREET_RIGHT;
+import static java.lang.Math.random;
 
 public class SimpleFactory implements EntityFactory {
 
@@ -85,9 +93,17 @@ public class SimpleFactory implements EntityFactory {
 
     @Spawns("BACKGROUND")
     public Entity newBackground(SpawnData data) {
-         return FXGL.entityBuilder(data)
+        return FXGL.entityBuilder(data)
                 .view("background_bad.png")
                 .type(EntityType.BACKGROUND)
+                .build();
+    }
+
+    @Spawns("MARTIN")
+    public Entity newMartin(SpawnData data) {
+        return FXGL.entityBuilder(data)
+                .view("cool.png")
+                .type(EntityType.ZUFALL)
                 .build();
     }
 
@@ -95,3 +111,4 @@ public class SimpleFactory implements EntityFactory {
 
 
 }
+
