@@ -20,8 +20,6 @@ public class FxglTest extends GameApplication {
     Cart cart;
     FallingObject fallingObject;
 
-    Entity zufall;
-
     @Override
     protected void initSettings(GameSettings settings) {
         //settings.setFullScreenAllowed(true);
@@ -67,6 +65,12 @@ public class FxglTest extends GameApplication {
         Entity playerEntity = spawn("PLAYER",100,getAppHeight()*0.76);
         player = new Player(playerEntity);
         cart = new Cart();
+
+        //spawn objects
+        Random random = new Random();
+        int randomX = random.nextInt(501);
+
+        Entity fallingObject = spawn("ZUFALL", 500, 100);
 
 
 

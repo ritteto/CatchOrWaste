@@ -62,7 +62,7 @@ public class SimpleFactory implements EntityFactory {
         return FXGL.entityBuilder(data)
                 .view(zufall [zufallszahl])
                 .type(EntityType.APFEL)
-                .scale(0.05,0.05)
+                .scale(0.02,0.02)
                 .with(new ProjectileComponent(new Point2D(0,20),200))
                 .build();
     }
