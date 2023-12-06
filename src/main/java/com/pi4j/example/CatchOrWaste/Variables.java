@@ -19,6 +19,9 @@ public class Variables {
 
     //Cart variables
     static int CART_SPEED = 2;
+    static double CART_CURVE_BR = getAppWidth() * 0.825; // First curve to vertical on right side of street
+    static double CART_CURVE_BL = getAppWidth() * 0.2; // First curve to vertical on left side of street
+    static double CART_CURVE_TR = getAppHeight() * 0.2; // Height of Curve on top to the village
 
     //Switch variables
     static double SWITCH_HEIGHT = getAppHeight()*0.32;

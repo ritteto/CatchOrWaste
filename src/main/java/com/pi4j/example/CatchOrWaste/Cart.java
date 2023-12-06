@@ -42,10 +42,10 @@ public class Cart {
                     if(entity.getX() < getAppWidth() * 0.836){
                         entity.setX(entity.getX()+CART_SPEED);
                     }
-                    if(entity.getX() >= getAppWidth() * 0.836){
+                    if(entity.getX() >= CART_CURVE_BR){
                         entity.getViewComponent().clearChildren();
                         entity.getViewComponent().addChild(new Texture(getAssetLoader().loadImage("cart_vertical.png")));
-                        entity.setX(getAppWidth()*0.836);
+                        entity.setX(CART_CURVE_BR);
                         entity.setY(entity.getY()-1);
                         }
 
@@ -65,13 +65,13 @@ public class Cart {
 
                 //horizontal movement at gate height
                 } else if(entity.getY()==SWITCH_HEIGHT-0.1) {
-                    if(gate && entity.getX() == getAppWidth()*0.836){
+                    if(gate && entity.getX() == CART_CURVE_BR){
                         entity.setX(entity.getX()-CART_SPEED);
                     }else{
                         entity.setX(entity.getX()+1);
-                    }if(entity.getX()>getAppWidth()*0.78 && entity.getX()<getAppWidth()*0.836){
+                    }if(entity.getX()>getAppWidth()*0.78 && entity.getX()<CART_CURVE_BR){
                         entity.setX(entity.getX()-CART_SPEED);
-                    }else if(entity.getX()<getAppWidth()*0.8875 && entity.getX()>getAppWidth()*0.836){
+                    }else if(entity.getX()<getAppWidth()*0.8875 && entity.getX()>CART_CURVE_BR){
                         entity.setX(entity.getX()+CART_SPEED);
                     }if(entity.getX()>getAppWidth()*0.885 || entity.getX()<getAppWidth()*0.7825){
                         entity.getViewComponent().clearChildren();
