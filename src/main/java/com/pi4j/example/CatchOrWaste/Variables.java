@@ -27,8 +27,8 @@ public class Variables {
     static double CART_SWITCH_LENGTH_RIGHT = getAppWidth() * 0.875;// Kurve nach oben bei rechts turn
     static double CART_SWITCH_LENGTH_LEFT = getAppWidth() * 0.77; // Kurve nach oben bei Links turn
 
-    static double CART_CURVE_RIGHT_HEIGHT = getAppHeight()*0.16;
-    static double CART_CURVE_LEFT_HEIGHT = getAppHeight()*0.25;
+    static double CART_CURVE_RIGHT_HEIGHT = getAppHeight()*0.00005;
+    static double CART_CURVE_LEFT_HEIGHT = getAppHeight()*0.1;
 
 
 

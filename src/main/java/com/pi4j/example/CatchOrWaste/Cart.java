@@ -80,17 +80,17 @@ public class Cart {
                     }
 
                 //vertical movement between gate and upper rail
-                }else if(entity.getY()<= CART_SWITCH_HEIGHT -1 && entity.getY()>getAppHeight()*0.159+CART_SPEED){
+                }else if(entity.getY()<= CART_SWITCH_HEIGHT -1 && entity.getY()>CART_CURVE_RIGHT_HEIGHT+CART_SPEED){
                     entity.setY(entity.getY()-CART_SPEED);
 
                 //set new image if upper rail is reached
-                }else if(entity.getY()<getAppHeight()*0.159+CART_SPEED && entity.getY()>getAppHeight()*0.16){
+                }else if(entity.getY()<CART_CURVE_RIGHT_HEIGHT+CART_SPEED && entity.getY()>CART_CURVE_RIGHT_HEIGHT){
                     entity.getViewComponent().clearChildren();
                     entity.getViewComponent().addChild(new Texture(getAssetLoader().loadImage("cart_horizontal.png")));
-                    entity.setY(getAppHeight()*0.16);
+                    entity.setY(CART_CURVE_RIGHT_HEIGHT);
 
                 //horizontal movement on upper rail
-                }else if(entity.getY()<= getAppHeight()*0.16&&entity.getX()>getAppWidth()*0.1){
+                }else if(entity.getY()<= CART_CURVE_RIGHT_HEIGHT &&entity.getX()>getAppWidth()*0.7){
                     entity.setX(entity.getX()-CART_SPEED);
 
                 //remove cart at the end
