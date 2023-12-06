@@ -59,9 +59,9 @@ public class FxglTest extends GameApplication {
 
         // spawn housses
         spawn("HOUSE1",HOUSE1_X,HOUSE1_Y);
-        spawn("HOUSE2",getAppWidth()*0.45,getAppHeight()*-0.0005);
-        spawn("HOUSE3",getAppWidth()*0.3,getAppHeight()*-0.0005);
-        spawn("HOUSE2",getAppWidth()*0.15,getAppHeight()*-0.0005);
+        spawn("HOUSE2",HOUSE2_X,HOUSE2_Y);
+        spawn("HOUSE3",HOUSE3_X,HOUSE3_Y);
+        spawn("HOUSE2",HOUSE4_X,HOUSE4_Y);
 
 
         // spawn market, repaicenter & recycling
