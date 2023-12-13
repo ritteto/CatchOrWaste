@@ -31,4 +31,14 @@ public class Variables {
 
     //Falling objects variables
     static int FALLING_OBJECT_AMOUNT = 3;
+
+    static double HOUSE1_X = getAppWidth()*0.62;
+    static double HOUSE1_Y = getAppHeight()*-0.001;
+    static double HOUSE2_X = getAppWidth()*0.48;
+    static double HOUSE2_Y = getAppHeight()*-0.001;
+    static double HOUSE3_X = getAppWidth()*0.34;
+    static double HOUSE3_Y = getAppHeight()*-0.001;
+    static double HOUSE4_X = getAppWidth()*0.20;
+    static double HOUSE4_Y = getAppHeight()*-0.001;
+
 }
