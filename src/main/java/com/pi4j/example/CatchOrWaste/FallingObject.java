@@ -73,17 +73,15 @@ public class FallingObject {
                 }
             }
         }
-        /*
 
         for (FallingObject object : fallingObjects) {
             if (object != null && object.isCatched) {
-                System.out.println(object.isCatched);
                 this.entity.setX(player.getX());
                 this.entity.setY(player.getY());
                 }
             }
 
-         */
+
 
         return fallingObjects;
     }

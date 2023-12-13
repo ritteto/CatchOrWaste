@@ -72,19 +72,15 @@ public class Wegwerfpolizist {
     }
 
     private boolean detectCollision(FallingObject[] fallingObjects){
-        //System.out.println("Player: "+this.entity.getX()+this.entity.getY());
         for (FallingObject object: fallingObjects) {
-            //System.out.println("Entity: "+en.getX()+"/"+en.getY());
-            if(this.direction.equals("Right")){
-                if(object != null && object.getEntity().getY()>this.entity.getY()
-                        && object.getEntity().getY() < this.entity.getY() + PLAYERSIZE
-                        && object.getEntity().getX() > this.entity.getX()
-                        && object.getEntity().getX() < this.entity.getX() + PLAYERSIZE
-                ){
-                    object.getEntity().removeComponent(ProjectileComponent.class);
-                    object.isCatched(true);
+            if(object != null && object.getEntity().getY()>this.entity.getY()
+                    && object.getEntity().getY() < this.entity.getY() + PLAYERSIZE
+                    && object.getEntity().getX() > this.entity.getX()
+                    && object.getEntity().getX() < this.entity.getX() + PLAYERSIZE
+            ){
+                object.getEntity().removeComponent(ProjectileComponent.class);
+                object.isCatched(true);
 
-                }
             }
         }
 

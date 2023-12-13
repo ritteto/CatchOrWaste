@@ -79,6 +79,7 @@ public class FxglTest extends GameApplication {
         //spawn objects
         Entity fallingObject_entity = spawn("OBJECT", 500, 100);
         fallingObject = new FallingObject(fallingObject_entity);
+        //fallingObjects[0]
 
 
     }

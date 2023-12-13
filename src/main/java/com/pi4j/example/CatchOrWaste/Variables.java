@@ -23,6 +23,15 @@ public class Variables {
     static double CART_CURVE_BL = getAppWidth() * 0.2; // First curve to vertical on left side of street
     static double CART_CURVE_TR = getAppHeight() * 0.2; // Height of Curve on top to the village
 
+    static double CART_SWITCH_HEIGHT = getAppHeight()*0.32;
+
+    static double CART_SWITCH_LENGTH_RIGHT = getAppWidth() * 0.875;// Kurve nach oben bei rechts turn
+    static double CART_SWITCH_LENGTH_LEFT = getAppWidth() * 0.77; // Kurve nach oben bei Links turn
+
+    static double CART_CURVE_RIGHT_HEIGHT = getAppHeight()*0.00005;
+    static double CART_CURVE_LEFT_HEIGHT = getAppHeight()*0.1;
+
+
 
     //Switch variables
     static double SWITCH_HEIGHT = getAppHeight()*0.32; // Höhe der Weiche
