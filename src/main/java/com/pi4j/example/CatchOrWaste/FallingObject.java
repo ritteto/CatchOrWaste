@@ -16,6 +16,13 @@ import static com.pi4j.example.CatchOrWaste.Variables.STREET_RIGHT;
 public class FallingObject {
 
     private Entity entity;
+    private final int [] houseX = new int[]{house1, house2, house3, house4, house5, house6};
+    private final int house1 = 100;
+    private final int house2 = 200;
+    private final int house3 = 300;
+    private final int house4 = 400;
+    private final int house5 = 500;
+    private final int house6 = 600;
 
 
    public FallingObject(Entity entity) {
@@ -23,34 +30,27 @@ public class FallingObject {
        entity.getBoundingBoxComponent().addHitBox(new HitBox(BoundingShape.box(30,30)));
     }
 
+
+    public void spawn(GameWorld gameWorld){
+        if(gameWorld.getEntitiesByType(EntityType.OBJECT).size() < FALLING_OBJECT_AMOUNT){
+            gameWorld.spawn("OBJECT",houseX[getRandomHouse()],0);
+        }
+    }
     public void onUpdate(GameWorld gameWorld){
 
-       int house1 = 100;
-       int house2 = 200;
-       int house3 = 300;
-       int house4 = 400;
-       int house5 = 500;
-       int house6 = 600;
 
-
-        int [] houseX = {house1, house2, house3, house4,house5,house6};
-
-        Random random = new Random();
-        int randomHouse = random.nextInt(houseX.length);
-
-
-        if(gameWorld.getEntitiesByType(EntityType.OBJECT).size() < FALLING_OBJECT_AMOUNT){
-            gameWorld.spawn("OBJECT",houseX[randomHouse],0);
-        }
         if(!gameWorld.getEntitiesByType(EntityType.OBJECT).isEmpty()){
             for (Entity entity: gameWorld.getEntitiesByType(EntityType.OBJECT)) {
                 if(entity.getY()>=getAppHeight()){
                     entity.removeFromWorld();
-                    gameWorld.spawn("OBJECT",houseX[randomHouse],0);
+                    gameWorld.spawn("OBJECT",houseX[getRandomHouse()],0);
                 }
             }
         }
+    }
 
-
+    private int getRandomHouse() {
+        Random random = new Random();
+        return  random.nextInt(houseX.length);
     }
 }
