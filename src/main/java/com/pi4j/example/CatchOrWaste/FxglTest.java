@@ -19,6 +19,7 @@ public class FxglTest extends GameApplication {
     Wegwerfpolizist player;
     Cart cart;
     FallingObject fallingObject;
+    FallingObject[] fallingObjects = new FallingObject[1];
 
     @Override
     protected void initSettings(GameSettings settings) {
@@ -86,7 +87,7 @@ public class FxglTest extends GameApplication {
     protected void onUpdate(double tpf) {
 
         if(player != null){
-            player.playerOnUpdate(cart,getGameWorld());
+            player.playerOnUpdate(cart,getGameWorld(),fallingObjects);
         }
 
         if(cart != null){
@@ -94,7 +95,7 @@ public class FxglTest extends GameApplication {
         }
 
         if(fallingObject != null){
-            fallingObject.onUpdate(getGameWorld());
+            fallingObject.onUpdate(getGameWorld(), fallingObjects, player);
         }
 
     }

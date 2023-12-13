@@ -37,15 +37,7 @@ public class SimpleFactory implements EntityFactory {
                 .type(EntityType.PLAYER)
                 .build();
 
-        Rectangle bboxView = new Rectangle(2400*0.035,1951*0.035); //entity.getX()+50,entity.getY()+50,
-        bboxView.setFill(Color.TRANSPARENT);
-        bboxView.setStroke(Color.RED);
-
-        bboxView.translateXProperty().bind(entity.xProperty());
-        bboxView.translateYProperty().bind(entity.yProperty());
-        bboxView.setTranslateZ(100);
-
-        getGameScene().addUINode(bboxView);
+        entity.getBoundingBoxComponent().addHitBox(new HitBox(BoundingShape.box(PLAYERSIZE,PLAYERSIZE)));
 
         return entity;
     }

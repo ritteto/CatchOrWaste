@@ -1,27 +1,34 @@
 package com.pi4j.example.CatchOrWaste;
 
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.dsl.components.ProjectileComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
+import com.almasb.fxgl.entity.components.ViewComponent;
 import com.almasb.fxgl.physics.BoundingShape;
+import com.almasb.fxgl.physics.CollisionResult;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.texture.Texture;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import static com.almasb.fxgl.physics.SAT.isColliding;
 import static com.pi4j.example.CatchOrWaste.Variables.*;
 
 public class Wegwerfpolizist {
 
     private final Entity entity;
+    private String direction;
+
     public Wegwerfpolizist(Entity entity) {
         this.entity = entity;
-        entity.getBoundingBoxComponent().addHitBox(new HitBox(BoundingShape.box(3000*0.035,3000*0.035)));
+        this.direction = "Right";
+        entity.getBoundingBoxComponent().addHitBox(new HitBox(BoundingShape.box(2400*0.035,1951*0.035)));
     }
 
-    public void playerOnUpdate(Cart cart, GameWorld gameWorld){
-        collide(gameWorld);
+    public void playerOnUpdate(Cart cart, GameWorld gameWorld, FallingObject[] fallingObjects){
         boundaries();
+        detectCollision(fallingObjects);
         if (isAtRightEnd()){
             cart.spawn(gameWorld);
         }
@@ -37,6 +44,53 @@ public class Wegwerfpolizist {
         return entity.getX();
     }
 
+    public double getY(){
+        return entity.getX();
+    }
+
+    public void setX(double x){
+        entity.setX(x);
+    }
+
+    public void setY(double y){
+        entity.setY(y);
+    }
+
+    public double getWidth(){
+        return entity.getWidth();
+    }
+    public double getHeight(){
+        return entity.getHeight();
+    }
+
+    public String getDirection(){
+        return this.direction;
+    }
+
+    public void setDirection(String direction){
+        this.direction = direction;
+    }
+
+    private boolean detectCollision(FallingObject[] fallingObjects){
+        //System.out.println("Player: "+this.entity.getX()+this.entity.getY());
+        for (FallingObject object: fallingObjects) {
+            //System.out.println("Entity: "+en.getX()+"/"+en.getY());
+            if(this.direction.equals("Right")){
+                if(object != null && object.getEntity().getY()>this.entity.getY()
+                        && object.getEntity().getY() < this.entity.getY() + PLAYERSIZE
+                        && object.getEntity().getX() > this.entity.getX()
+                        && object.getEntity().getX() < this.entity.getX() + PLAYERSIZE
+                ){
+                    object.getEntity().removeComponent(ProjectileComponent.class);
+                    object.isCatched(true);
+
+                }
+            }
+        }
+
+        return true;
+    }
+
     private void boundaries(){
 
         //Boundary right
@@ -46,14 +100,6 @@ public class Wegwerfpolizist {
         //Boundary left
         }else if(this.entity.getX()<PLAYER_LEFT){
             this.entity.setX(PLAYER_LEFT);
-        }
-    }
-
-    public void collide(GameWorld gameWorld){
-        for (Entity collision_entity :gameWorld.getEntitiesByType(EntityType.OBJECT)) {
-            if(this.entity.isColliding(collision_entity)){
-                System.out.println("HeyHo");
-            }
         }
     }
 
@@ -108,4 +154,5 @@ public class Wegwerfpolizist {
                 break;
         }
     }
+
 }

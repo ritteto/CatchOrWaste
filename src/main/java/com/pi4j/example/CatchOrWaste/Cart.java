@@ -50,47 +50,47 @@ public class Cart {
                         }
 
                 //vertical movement between street height and gate
-                }else if(entity.getY()<=getAppHeight()*0.785 && entity.getY()> CART_SWITCH_HEIGHT){
-                    if(entity.getY()<= CART_SWITCH_HEIGHT){
-                        entity.setY(CART_SWITCH_HEIGHT);
+                }else if(entity.getY()<=getAppHeight()*0.785 && entity.getY()> SWITCH_HEIGHT){
+                    if(entity.getY()<= SWITCH_HEIGHT){
+                        entity.setY(SWITCH_HEIGHT);
                     }else{
                         entity.setY(entity.getY()-CART_SPEED);
                     }
 
                 //set new image at gate
-                }else if(entity.getY()== CART_SWITCH_HEIGHT){
+                }else if(entity.getY()== SWITCH_HEIGHT){
                     entity.getViewComponent().clearChildren();
                     entity.getViewComponent().addChild(new Texture(getAssetLoader().loadImage("cart_horizontal.png")));
-                    entity.setY(CART_SWITCH_HEIGHT -0.1);
+                    entity.setY(SWITCH_HEIGHT -0.1);
 
                 //horizontal movement at gate height
-                } else if(entity.getY()== CART_SWITCH_HEIGHT -0.1) {
+                } else if(entity.getY()== SWITCH_HEIGHT -0.1) {
                     if(gate && entity.getX() == CART_CURVE_BR){
                         entity.setX(entity.getX()-CART_SPEED);
                     }else{
                         entity.setX(entity.getX()+1);
-                    }if(entity.getX()>CART_SWITCH_LENGTH_LEFT && entity.getX()<CART_CURVE_BR){
+                    }if(entity.getX()>SWITCH_LEFT && entity.getX()<CART_CURVE_BR){
                         entity.setX(entity.getX()-CART_SPEED);
-                    }else if(entity.getX()<CART_SWITCH_LENGTH_RIGHT && entity.getX()>CART_CURVE_BR){
+                    }else if(entity.getX()<SWITCH_RIGHT && entity.getX()>CART_CURVE_BR){
                         entity.setX(entity.getX()+CART_SPEED);
-                    }if(entity.getX()>CART_SWITCH_LENGTH_RIGHT || entity.getX()<CART_SWITCH_LENGTH_LEFT){
+                    }if(entity.getX()>SWITCH_RIGHT || entity.getX()<SWITCH_LEFT){
                         entity.getViewComponent().clearChildren();
                         entity.getViewComponent().addChild(new Texture(getAssetLoader().loadImage("cart_vertical.png")));
-                        entity.setY(CART_SWITCH_HEIGHT-1);
+                        entity.setY(SWITCH_HEIGHT-1);
                     }
 
                 //vertical movement between gate and upper rail
-                }else if(entity.getY()<= CART_SWITCH_HEIGHT -1 && entity.getY()>CART_CURVE_RIGHT_HEIGHT+CART_SPEED){
+                }else if(entity.getY()<= SWITCH_HEIGHT -1 && entity.getY()>CART_CURVE_TR+CART_SPEED){
                     entity.setY(entity.getY()-CART_SPEED);
 
                 //set new image if upper rail is reached
-                }else if(entity.getY()<CART_CURVE_RIGHT_HEIGHT+CART_SPEED && entity.getY()>CART_CURVE_RIGHT_HEIGHT){
+                }else if(entity.getY()<CART_CURVE_TR+CART_SPEED && entity.getY()>CART_CURVE_TR){
                     entity.getViewComponent().clearChildren();
                     entity.getViewComponent().addChild(new Texture(getAssetLoader().loadImage("cart_horizontal.png")));
-                    entity.setY(CART_CURVE_RIGHT_HEIGHT);
+                    entity.setY(CART_CURVE_TR);
 
                 //horizontal movement on upper rail
-                }else if(entity.getY()<= CART_CURVE_RIGHT_HEIGHT &&entity.getX()>getAppWidth()*0.7){
+                }else if(entity.getY()<= CART_CURVE_TR &&entity.getX()>getAppWidth()*0.7){
                     entity.setX(entity.getX()-CART_SPEED);
 
                 //remove cart at the end
