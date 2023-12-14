@@ -29,9 +29,13 @@ public class FallingObject {
        return this.entity;
     }
 
-    public void isCatched(Boolean isCatched){
+    public void setCatched(Boolean isCatched){
        this.isCatched = isCatched;
     }
+    public Boolean isCatched(){
+        return this.isCatched;
+    }
+
     public FallingObject[] onUpdate(GameWorld gameWorld, FallingObject[] fallingObjects, Wegwerfpolizist player){
 
        int house1 = 100;
@@ -75,9 +79,9 @@ public class FallingObject {
         }
 
         for (FallingObject object : fallingObjects) {
-            if (object != null && object.isCatched) {
-                this.entity.setX(player.getX());
-                this.entity.setY(player.getY());
+            if(object!=null){
+                //System.out.println(object.isCatched);
+                int peter;
                 }
             }
 

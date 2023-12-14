@@ -79,7 +79,7 @@ public class FxglTest extends GameApplication {
         //spawn objects
         Entity fallingObject_entity = spawn("OBJECT", 500, 100);
         fallingObject = new FallingObject(fallingObject_entity);
-        //fallingObjects[0]
+        fallingObjects[0] = fallingObject;
 
 
     }
@@ -96,7 +96,7 @@ public class FxglTest extends GameApplication {
         }
 
         if(fallingObject != null){
-            fallingObject.onUpdate(getGameWorld(), fallingObjects, player);
+            fallingObjects = fallingObject.onUpdate(getGameWorld(), fallingObjects, player);
         }
 
     }
