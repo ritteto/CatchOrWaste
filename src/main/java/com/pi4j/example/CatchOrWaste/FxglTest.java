@@ -5,8 +5,6 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.texture.Texture;
 import javafx.scene.input.KeyCode;
 
-import java.util.Random;
-
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 import static com.pi4j.example.CatchOrWaste.Variables.*;
@@ -96,7 +94,7 @@ public class FxglTest extends GameApplication {
         }
 
         if(fallingObject != null){
-            fallingObjects = fallingObject.onUpdate(getGameWorld(), fallingObjects, player);
+            fallingObjects = fallingObject.onUpdate(getGameWorld(), fallingObjects);
         }
 
     }

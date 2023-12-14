@@ -17,8 +17,6 @@ import static com.pi4j.example.CatchOrWaste.Variables.PLAYERSIZE;
 
 public class SimpleFactory implements EntityFactory {
 
-    public static double scale; //scale=0.035
-
 
     @Spawns("PLAYER")
     public Entity newPlayer(SpawnData data) {

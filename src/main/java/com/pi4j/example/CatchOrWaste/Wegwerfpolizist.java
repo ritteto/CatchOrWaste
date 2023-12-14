@@ -4,16 +4,10 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
-import com.almasb.fxgl.entity.components.ViewComponent;
 import com.almasb.fxgl.physics.BoundingShape;
-import com.almasb.fxgl.physics.CollisionResult;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.texture.Texture;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
-import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
-import static com.almasb.fxgl.physics.SAT.isColliding;
 import static com.pi4j.example.CatchOrWaste.Variables.*;
 
 public class Wegwerfpolizist {

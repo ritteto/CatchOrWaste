@@ -2,9 +2,6 @@ package com.pi4j.example.CatchOrWaste;
 
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
-import com.almasb.fxgl.physics.BoundingShape;
-import com.almasb.fxgl.physics.HitBox;
-import javafx.application.Platform;
 
 
 import java.util.Arrays;
@@ -12,7 +9,6 @@ import java.util.Random;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 import static com.pi4j.example.CatchOrWaste.Variables.FALLING_OBJECT_AMOUNT;
-import static com.pi4j.example.CatchOrWaste.Variables.STREET_RIGHT;
 
 public class FallingObject {
 
@@ -36,7 +32,7 @@ public class FallingObject {
         return this.isCatched;
     }
 
-    public FallingObject[] onUpdate(GameWorld gameWorld, FallingObject[] fallingObjects, Wegwerfpolizist player){
+    public FallingObject[] onUpdate(GameWorld gameWorld, FallingObject[] fallingObjects){
 
        int house1 = 100;
        int house2 = 200;
@@ -78,12 +74,6 @@ public class FallingObject {
             }
         }
 
-        for (FallingObject object : fallingObjects) {
-            if(object!=null){
-                //System.out.println(object.isCatched);
-                int peter;
-                }
-            }
 
 
 
