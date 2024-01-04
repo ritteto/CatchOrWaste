@@ -4,15 +4,10 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
-import com.almasb.fxgl.entity.components.ViewComponent;
 import com.almasb.fxgl.physics.BoundingShape;
-import com.almasb.fxgl.physics.CollisionResult;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.texture.Texture;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
-import static com.almasb.fxgl.physics.SAT.isColliding;
 import static com.pi4j.example.CatchOrWaste.Variables.*;
 
 public class Wegwerfpolizist {
@@ -52,10 +47,6 @@ public class Wegwerfpolizist {
         entity.setX(x);
     }
 
-    public void setY(double y){
-        entity.setY(y);
-    }
-
     public double getWidth(){
         return entity.getWidth();
     }
@@ -63,15 +54,9 @@ public class Wegwerfpolizist {
         return entity.getHeight();
     }
 
-    public String getDirection(){
-        return this.direction;
-    }
 
-    public void setDirection(String direction){
-        this.direction = direction;
-    }
 
-    private boolean detectCollision(FallingObject[] fallingObjects){
+    private void detectCollision(FallingObject[] fallingObjects){
         for (FallingObject object: fallingObjects) {
             if(object != null && object.getEntity().getY()>this.entity.getY()
                     && object.getEntity().getY() < this.entity.getY() + PLAYERSIZE
@@ -84,7 +69,6 @@ public class Wegwerfpolizist {
             }
         }
 
-        return true;
     }
 
     private void boundaries(){
@@ -108,12 +92,9 @@ public class Wegwerfpolizist {
         }
     }
 
-    private boolean isAtLeftEnd(){
+    private void isAtLeftEnd(){
         if(this.entity.getX() <= PLAYER_LEFT){
             setImage("Down_L");
-            return true;
-        }else{
-            return false;
         }
     }
 
