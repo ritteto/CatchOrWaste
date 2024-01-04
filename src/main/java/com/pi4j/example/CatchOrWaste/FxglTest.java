@@ -69,9 +69,6 @@ public class FxglTest extends GameApplication {
                 entitiy.removeComponent(ProjectileComponent.class);
                 Rectangle rectangle = new Rectangle(entitiy.getX()-60,entitiy.getY(),60,60);
                 Rectangle rectangle2 = new Rectangle(player.getX(),player.getY(),PLAYERSIZE,60);
-                System.out.println(player.isFull());
-                System.out.println(player.getX()+"/"+player.getY()+"/"+(player.getY()+PLAYERSIZE));
-                System.out.println(entitiy.getX()+"/"+entitiy.getY());
                 rectangle.setFill(null);
                 rectangle.setStroke(Color.BLACK);
                 addUINode(rectangle);
@@ -109,7 +106,7 @@ public class FxglTest extends GameApplication {
         spawn("RECYCLING", getAppWidth()*-0.0185, getAppHeight()*0.48);
 
         //spawn the player from the factory
-        Entity playerEntity = spawn("PLAYER",100,getAppHeight()*0.8);
+        Entity playerEntity = spawn("PLAYER",100,getAppHeight()*0.785);
         player = new Wegwerfpolizist(playerEntity);
         cart = new Cart();
 
