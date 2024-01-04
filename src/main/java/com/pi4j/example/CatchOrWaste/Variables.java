@@ -12,15 +12,16 @@ public class Variables {
     static double STREET_RIGHT = getAppWidth() *0.85;
 
     //Player variables
-    static double PLAYERSIZE = 3000*0.035;
+    static double PLAYERSIZE = 84; //800*0.105
     static double PLAYER_RIGHT = STREET_RIGHT -PLAYERSIZE;
     static double PLAYER_LEFT = STREET_LEFT;
     static int PLAYER_SPEED = 5;
 
     //Cart variables
     static int CART_SPEED = 2;
+    static double CART_SIZE = 860*0.105;
     static double CART_CURVE_BR = getAppWidth() * 0.825; // First curve to vertical on right side of street
-    static double CART_CURVE_BL = getAppWidth() * 0.2; // First curve to vertical on left side of street
+    static double CART_CURVE_BL = getAppWidth() * 0.015; // First curve to vertical on left side of street
     static double CART_CURVE_TR = getAppHeight() * 0.2; // Height of Curve on top to the village
 
     static double CART_SWITCH_HEIGHT = getAppHeight()*0.32;
@@ -40,6 +41,7 @@ public class Variables {
 
     //Falling objects variables
     static int FALLING_OBJECT_AMOUNT = 3;
+    static double FO_SIZE = 860 *0.07;
 
     static double HOUSE1_X = getAppWidth()*0.62;
     static double HOUSE1_Y = getAppHeight()*-0.001;

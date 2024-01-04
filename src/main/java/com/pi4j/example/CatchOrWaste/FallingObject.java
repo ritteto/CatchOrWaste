@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
+import static com.pi4j.example.CatchOrWaste.FxglTest.fallingObjects;
 import static com.pi4j.example.CatchOrWaste.Variables.FALLING_OBJECT_AMOUNT;
 
 public class FallingObject {
@@ -32,7 +33,7 @@ public class FallingObject {
         return this.isCatched;
     }
 
-    public FallingObject[] onUpdate(GameWorld gameWorld, FallingObject[] fallingObjects){
+    public void onUpdate(GameWorld gameWorld){
 
        int house1 = 100;
        int house2 = 200;
@@ -49,34 +50,39 @@ public class FallingObject {
 
 
         if(gameWorld.getEntitiesByType(EntityType.OBJECT).size() < FALLING_OBJECT_AMOUNT){
-            gameWorld.spawn("OBJECT",houseX[randomHouse],0);
+            FallingObject fallingObject = new FallingObject(gameWorld.spawn("OBJECT",houseX[randomHouse],0));
+            addFallingObjectToArray(fallingObject);
         }
         if(!gameWorld.getEntitiesByType(EntityType.OBJECT).isEmpty()){
             for (Entity entity: gameWorld.getEntitiesByType(EntityType.OBJECT)) {
                 if(entity.getY()>=getAppHeight()){
                     entity.removeFromWorld();
                     for(int i=0; i<fallingObjects.length; i++){
-                        if(fallingObjects[i] != null && fallingObjects[i].entity==entity){
+                        if(fallingObjects[i] != null && fallingObjects[i].entity.equals(entity)){
                             fallingObjects[i] = null;
                         }
                     }
-                    Entity newEntity = spawn("OBJECT",houseX[randomHouse],0);
-                    FallingObject fallingObject = new FallingObject(newEntity);
-                    fallingObjects = Arrays.copyOf(fallingObjects, fallingObjects.length +1);
-                    for (int i=0; i < fallingObjects.length; i++){
-                        if(fallingObjects[i]==null){
-                            fallingObjects[i]=fallingObject;
-                            break;
-                        }
-                    }
-
+                    FallingObject fallingObject = new FallingObject(spawn("OBJECT",houseX[randomHouse],0));
+                    addFallingObjectToArray(fallingObject);
                 }
             }
         }
 
+    }
+
+    private void addFallingObjectToArray(FallingObject fallingObject){
+       if(Arrays.asList(fallingObjects).contains(null)){
+           for (int i=0; i < fallingObjects.length; i++){
+               if(fallingObjects[i]==null){
+                   fallingObjects[i]=fallingObject;
+                   break;
+               }
+           }
+       }else{
+           fallingObjects = Arrays.copyOf(fallingObjects, fallingObjects.length +1);
+           fallingObjects[fallingObjects.length-1] = fallingObject;
+       }
 
 
-
-        return fallingObjects;
     }
 }

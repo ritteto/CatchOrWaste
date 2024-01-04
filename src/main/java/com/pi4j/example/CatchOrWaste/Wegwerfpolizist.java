@@ -8,6 +8,11 @@ import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.texture.Texture;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
+import static com.pi4j.example.CatchOrWaste.FxglTest.carts;
+import static com.pi4j.example.CatchOrWaste.FxglTest.fallingObjects;
 import static com.pi4j.example.CatchOrWaste.Variables.*;
 
 public class Wegwerfpolizist {
@@ -22,11 +27,11 @@ public class Wegwerfpolizist {
         entity.getBoundingBoxComponent().addHitBox(new HitBox(BoundingShape.box(2400*0.035,1951*0.035)));
     }
 
-    public void playerOnUpdate(Cart cart, GameWorld gameWorld, FallingObject[] fallingObjects){
+    public void playerOnUpdate(Cart cart, GameWorld gameWorld){
         boundaries();
-        detectCollision(fallingObjects);
-        isAtRightEnd(fallingObjects, gameWorld, cart);
-        isAtLeftEnd(fallingObjects);
+        catchObject();
+        isAtRightEnd(cart, gameWorld);
+        isAtLeftEnd(cart, gameWorld);
     }
 
     public void move(String move){
@@ -35,11 +40,11 @@ public class Wegwerfpolizist {
     }
 
     public double getX(){
-        return entity.getX();
+        return this.entity.getX();
     }
 
     public double getY(){
-        return entity.getX();
+        return this.entity.getY();
     }
 
     public void setX(double x){
@@ -73,32 +78,31 @@ public class Wegwerfpolizist {
         this.direction = direction;
     }
 
-    private void detectCollision(FallingObject[] fallingObjects){
-        if(!this.full){
+    private void catchObject(){
+        if(this.catchedEntity == null){
             for (FallingObject object: fallingObjects) {
-                if(object != null && !object.isCatched()  && !this.full
-                        && object.getEntity().getY()>this.entity.getY()
+                if(object != null && !object.isCatched()
+                        && object.getEntity().getY()+60 >this.entity.getY()
                         && object.getEntity().getY() < this.entity.getY() + PLAYERSIZE
-                        && object.getEntity().getX() > this.entity.getX()
-                        && object.getEntity().getX() < this.entity.getX() + PLAYERSIZE
+                        && object.getEntity().getX()-30 > this.entity.getX()
+                        && object.getEntity().getX()-30 < this.entity.getX() + PLAYERSIZE
                 ){
                     object.getEntity().removeComponent(ProjectileComponent.class);
+                    this.catchedEntity = object.getEntity();
                     object.setCatched(true);
+
 
                 }else if(object!= null && object.isCatched() ){
                     if(this.direction){
                         object.getEntity().setX(this.entity.getX());
                         object.getEntity().setY(this.entity.getY());
                     }else{
-                        object.getEntity().setX(this.entity.getX());
+                        object.getEntity().setX(this.entity.getX()*0.75);
                         object.getEntity().setY(this.entity.getY());
                     }
-                    this.catchedEntity = object.getEntity();
-                    this.full = true;
                 }
             }
         } else{
-            if(this.catchedEntity!=null){
                 if(this.direction){
                     this.catchedEntity.setX(this.entity.getX()+PLAYERSIZE/2);
                     this.catchedEntity.setY(this.entity.getY());
@@ -106,12 +110,8 @@ public class Wegwerfpolizist {
                     this.catchedEntity.setX(this.entity.getX()+PLAYERSIZE);
                     this.catchedEntity.setY(this.entity.getY());
                 }
-            }
         }
-
-
     }
-
 
     private void boundaries(){
 
@@ -125,41 +125,17 @@ public class Wegwerfpolizist {
         }
     }
 
-    private void isAtRightEnd(FallingObject[] fallingObjects, GameWorld gameWorld, Cart cart){
+    private void isAtRightEnd(Cart cart, GameWorld gameWorld){
         if(this.entity.getX() == PLAYER_RIGHT){
             setImage("Down_R");
-            if(this.full){
-                for (FallingObject object : fallingObjects) {
-                   if(object != null && object.isCatched()){
-                       object.setCatched(false);
-                   }
-                }
-                this.catchedEntity.removeFromWorld();
-                this.catchedEntity = null;
-                this.full = false;
-                cart.spawn(gameWorld);
-            }
-
+            releaseEntity(cart, gameWorld, false);
         }
     }
 
-    private boolean isAtLeftEnd(FallingObject[] fallingObjects){
+    private void isAtLeftEnd(Cart cart, GameWorld gameWorld){
         if(this.entity.getX() <= PLAYER_LEFT){
             setImage("Down_L");
-            if(this.full){
-                for (FallingObject object : fallingObjects) {
-                    if(object != null && object.isCatched()){
-                        object.setCatched(false);
-                    }
-                }
-                this.catchedEntity.removeFromWorld();
-                this.catchedEntity = null;
-                this.full = false;
-                System.out.println("set rightEnd");
-            }
-            return true;
-        }else{
-            return false;
+            releaseEntity(cart, gameWorld, true);
         }
     }
 
@@ -199,4 +175,29 @@ public class Wegwerfpolizist {
         }
     }
 
+    public void releaseEntity(Cart cart, GameWorld gameWorld, Boolean left){
+        if(this.catchedEntity != null){
+            for (FallingObject object : fallingObjects) {
+                if(object != null && object.isCatched()){
+                    object.setCatched(false);
+                }
+            }
+            for (int i=0; i<fallingObjects.length; i++) {
+                if( fallingObjects[i] != null && this.catchedEntity.equals(fallingObjects[i].getEntity())){
+                    fallingObjects[i] = null;
+                }
+            }
+            System.out.println("CatchedEntity: "+catchedEntity);
+            if(left){
+                cart.spawn(gameWorld, true, catchedEntity);
+
+            }else{
+                cart.spawn(gameWorld, false, catchedEntity);
+
+            }
+            //this.catchedEntity.removeFromWorld();
+            this.catchedEntity = null;
+
+        }
+    }
 }
