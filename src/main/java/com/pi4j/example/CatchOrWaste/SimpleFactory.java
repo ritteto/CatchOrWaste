@@ -89,7 +89,7 @@ public class SimpleFactory implements EntityFactory {
         return FXGL.entityBuilder(data)
                 .view("House1.png")
                 .type(EntityType.HOUSE1)
-                .scale(0.04,0.04)
+                .scale(0.14,0.14)
                 .build();
     }
 
@@ -98,7 +98,7 @@ public class SimpleFactory implements EntityFactory {
         return FXGL.entityBuilder(data)
                 .view("House2.png")
                 .type(EntityType.HOUSE2)
-                .scale(0.04,0.04)
+                .scale(0.14,0.14)
                 .build();
     }
 
@@ -107,7 +107,7 @@ public class SimpleFactory implements EntityFactory {
         return FXGL.entityBuilder(data)
                 .view("House3.png")
                 .type(EntityType.HOUSE3)
-                .scale(0.04,0.04)
+                .scale(0.14,0.14)
                 .build();
     }
 
