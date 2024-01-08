@@ -8,10 +8,6 @@ import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.texture.Texture;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
-
-import static com.pi4j.example.CatchOrWaste.FxglTest.carts;
 import static com.pi4j.example.CatchOrWaste.FxglTest.fallingObjects;
 import static com.pi4j.example.CatchOrWaste.Variables.*;
 
@@ -187,13 +183,7 @@ public class Wegwerfpolizist {
                     fallingObjects[i] = null;
                 }
             }
-            if(left){
-                cart.spawn(gameWorld, true, catchedEntity);
-
-            }else{
-                cart.spawn(gameWorld, false, catchedEntity);
-
-            }
+            cart.spawn(gameWorld, left, catchedEntity);
             //this.catchedEntity.removeFromWorld();
             this.catchedEntity.setType(EntityType.OBJECT_CART);
             this.catchedEntity.setVisible(false);

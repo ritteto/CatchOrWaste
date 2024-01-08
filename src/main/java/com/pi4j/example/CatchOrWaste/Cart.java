@@ -3,9 +3,8 @@ package com.pi4j.example.CatchOrWaste;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 import com.almasb.fxgl.entity.SpawnData;
-import com.almasb.fxgl.entity.components.ViewComponent;
+
 import com.almasb.fxgl.texture.Texture;
-import javafx.scene.text.Text;
 
 import java.util.Arrays;
 
@@ -54,11 +53,7 @@ public class Cart {
 
         }else {
             for (Entity entity: gameWorld.getEntitiesByType(EntityType.CART)) {
-                if(entity.getX()<getAppWidth()*0.78+40 && entity.getY() >=getAppHeight()*0.785){
-                    distance = false;
-                }else{
-                    distance = true;
-                }
+                distance = !(entity.getX() < getAppWidth() * 0.78 + 40) || !(entity.getY() >= getAppHeight() * 0.785);
             }
             if(distance) {
                 if(left){

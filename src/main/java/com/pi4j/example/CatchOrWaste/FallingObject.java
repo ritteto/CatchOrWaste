@@ -13,7 +13,7 @@ import static com.pi4j.example.CatchOrWaste.Variables.FALLING_OBJECT_AMOUNT;
 
 public class FallingObject {
 
-    private Entity entity;
+    private final Entity entity;
     private boolean isCatched;
 
 
