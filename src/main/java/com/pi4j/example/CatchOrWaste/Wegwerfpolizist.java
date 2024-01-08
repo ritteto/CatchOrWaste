@@ -76,7 +76,7 @@ public class Wegwerfpolizist {
 
     private void catchObject(){
         if(this.catchedEntity == null){
-            for (FallingObject object: fallingObjects) {
+            for(FallingObject object: fallingObjects) {
                 if(object != null && !object.isCatched()
                         && object.getEntity().getY()+60 >this.entity.getY()
                         && object.getEntity().getY() < this.entity.getY() + PLAYERSIZE
@@ -86,6 +86,7 @@ public class Wegwerfpolizist {
                     object.getEntity().removeComponent(ProjectileComponent.class);
                     this.catchedEntity = object.getEntity();
                     object.setCatched(true);
+                    break;
 
 
                 }else if(object!= null && object.isCatched() ){
@@ -100,17 +101,16 @@ public class Wegwerfpolizist {
             }
         } else{
                 if(this.direction){
-                    this.catchedEntity.setX(this.entity.getX()+PLAYERSIZE/2);
+                    this.catchedEntity.setX(this.entity.getX()+PLAYERSIZE/5*3);
                     this.catchedEntity.setY(this.entity.getY());
                 }else{
-                    this.catchedEntity.setX(this.entity.getX()+PLAYERSIZE);
+                    this.catchedEntity.setX(this.entity.getX()+PLAYERSIZE*1.2);
                     this.catchedEntity.setY(this.entity.getY());
                 }
         }
     }
 
     private void boundaries(){
-
         //Boundary right
         if(this.entity.getX() > PLAYER_RIGHT){
             this.entity.setX(PLAYER_RIGHT);

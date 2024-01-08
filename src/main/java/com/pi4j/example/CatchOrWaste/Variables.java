@@ -20,16 +20,16 @@ public class Variables {
     //Cart variables
     static int CART_SPEED = 2;
     static double CART_SIZE = 860*0.105;
-    static double CART_CURVE_BR = getAppWidth() * 0.825; // First curve to vertical on right side of street
-    static double CART_CURVE_BL = getAppWidth() * 0.015; // First curve to vertical on left side of street
+    static double CART_CURVE_BR = getAppWidth() * 0.8175; // First curve to vertical on right side of street
+    static double CART_CURVE_BL = getAppWidth() * 0.01; // First curve to vertical on left side of street
     static double CART_CURVE_TR = getAppHeight() * 0.2; // Height of Curve on top to the village
 
     static double CART_SWITCH_HEIGHT = getAppHeight()*0.32;
 
-    static double CART_SWITCH_LENGTH_RIGHT = getAppWidth() * 0.875;// Kurve nach oben bei rechts turn
-    static double CART_SWITCH_LENGTH_LEFT = getAppWidth() * 0.77; // Kurve nach oben bei Links turn
+    static double CART_SWITCH_LENGTH_RIGHT = getAppWidth() * 0.8675;// Kurve nach oben bei rechts turn
+    static double CART_SWITCH_LENGTH_LEFT = getAppWidth() * 0.76; // Kurve nach oben bei Links turn
 
-    static double CART_CURVE_RIGHT_HEIGHT = getAppHeight()*0.00005;
+    static double CART_CURVE_RIGHT_HEIGHT = getAppHeight()*0.00000000001;
     static double CART_CURVE_LEFT_HEIGHT = getAppHeight()*0.1;
 
 

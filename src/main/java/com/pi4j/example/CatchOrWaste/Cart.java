@@ -41,27 +41,26 @@ public class Cart {
     public void spawn(GameWorld gameWorld, Boolean left, Entity cargo){
         if(gameWorld.getEntitiesByType(EntityType.CART).isEmpty()){
             if(left){
-                Cart cart = new Cart(gameWorld.spawn("CART",new SpawnData(getAppWidth()*0.06,getAppHeight()*0.785).put("Name",getImageName(cargo.getComponent(ImageNameComponent.class).getImageName()))));
+                Cart cart = new Cart(gameWorld.spawn("CART",new SpawnData(getAppWidth()*0.04,getAppHeight()*0.775).put("Name",getImageName(cargo.getComponent(ImageNameComponent.class).getImageName()))));
                 cart.setCargo(cargo);
                 addCartToArray(cart);
             }else{
-                Cart cart = new Cart(gameWorld.spawn("CART",new SpawnData(getAppWidth()*0.78,getAppHeight()*0.785).put("Name",getImageName(cargo.getComponent(ImageNameComponent.class).getImageName()))));
-                System.out.println( cargo.getComponent(ImageNameComponent.class).getImageName());
+                Cart cart = new Cart(gameWorld.spawn("CART",new SpawnData(getAppWidth()*0.785,getAppHeight()*0.775).put("Name",getImageName(cargo.getComponent(ImageNameComponent.class).getImageName()))));
                 cart.setCargo(cargo);
                 addCartToArray(cart);
             }
 
         }else {
             for (Entity entity: gameWorld.getEntitiesByType(EntityType.CART)) {
-                distance = !(entity.getX() < getAppWidth() * 0.78 + 40) || !(entity.getY() >= getAppHeight() * 0.785);
+                distance = !(entity.getX() < getAppWidth() * 0.78 + 40) || !(entity.getY() >= getAppHeight() * 0.775);
             }
             if(distance) {
                 if(left){
-                    Cart cart = new Cart(gameWorld.spawn("CART",new SpawnData(getAppWidth()*0.06,getAppHeight()*0.785).put("Name",getImageName(cargo.getComponent(ImageNameComponent.class).getImageName()))));
+                    Cart cart = new Cart(gameWorld.spawn("CART",new SpawnData(getAppWidth()*0.04,getAppHeight()*0.775).put("Name",getImageName(cargo.getComponent(ImageNameComponent.class).getImageName()))));
                     cart.setCargo(cargo);
                     addCartToArray(cart);
                 }else{
-                    Cart cart = new Cart(gameWorld.spawn("CART",new SpawnData(getAppWidth()*0.78,getAppHeight()*0.785).put("Name",getImageName(cargo.getComponent(ImageNameComponent.class).getImageName()))));
+                    Cart cart = new Cart(gameWorld.spawn("CART",new SpawnData(getAppWidth()*0.78,getAppHeight()*0.775).put("Name",getImageName(cargo.getComponent(ImageNameComponent.class).getImageName()))));
                     cart.setCargo(cargo);
                     addCartToArray(cart);
                 }
@@ -73,11 +72,6 @@ public class Cart {
 
         attachCargo();
 
-        for (Cart cart : carts) {
-            if (cart!=null && cart.getCargo()!=null){
-                System.out.println("Cart_cargo: "+cart.getEntity().getComponent(ImageNameComponent.class).getImageName());
-            }
-        }
 
         for (Entity entity: gameWorld.getEntitiesByType(EntityType.CART)) {
 
@@ -88,18 +82,18 @@ public class Cart {
                     }
                 }
             //cart movement left rail
-            if(entity.getY() >= getAppHeight()*0.785 && entity.getX()<=getAppWidth()*0.2){
+            if(entity.getY() >= getAppHeight()*0.775 && entity.getX()<=getAppWidth()*0.2){
                 entity.setX(entity.getX()-CART_SPEED);
                 direction = true;
             }
-            if(entity.getY() >= getAppHeight()*0.785 && entity.getX() <= CART_CURVE_BL){
+            if(entity.getY() >= getAppHeight()*0.775 && entity.getX() <= CART_CURVE_BL){
                 entity.getViewComponent().clearChildren();
                 entity.getViewComponent().addChild(new Texture(getAssetLoader().loadImage(getImageName(this_cart.getCargo().getComponent(ImageNameComponent.class).getImageName())+"_cart_vertical.png")));
                 direction = false;
                 entity.setX(CART_CURVE_BL);
                 entity.setY(entity.getY()-1);
             }
-            if(entity.getY() < getAppHeight()*0.785 && entity.getX()<getAppWidth()*0.5){
+            if(entity.getY() < getAppHeight()*0.775 && entity.getX()<getAppWidth()*0.5){
                 entity.setY(entity.getY()-CART_SPEED);
             }
             if(entity.getY() < getAppHeight()*0.6 && entity.getX()<getAppWidth()*0.5){
@@ -108,7 +102,7 @@ public class Cart {
 
             //cart movement right rail
             //horizontal movement after spawn
-                if(entity.getY() >= getAppHeight() * 0.785){
+                if(entity.getY() >= getAppHeight() * 0.775){
 
                     if(entity.getX() < getAppWidth() * 0.836 && entity.getX()> getAppWidth()*0.5){
                         entity.setX(entity.getX()+CART_SPEED);
@@ -123,7 +117,7 @@ public class Cart {
                         }
 
                 //vertical movement between street height and gate
-                }else if(entity.getY()<=getAppHeight()*0.785 && entity.getY()> CART_SWITCH_HEIGHT && entity.getX()>getAppWidth()*0.5){
+                }else if(entity.getY()<=getAppHeight()*0.775 && entity.getY()> CART_SWITCH_HEIGHT && entity.getX()>getAppWidth()*0.5){
                     if(entity.getY()<= CART_SWITCH_HEIGHT){
                         entity.setY(CART_SWITCH_HEIGHT);
                     }else{
@@ -161,7 +155,6 @@ public class Cart {
                 //set new image if upper rail is reached
                 }else if(entity.getY()<CART_CURVE_RIGHT_HEIGHT+CART_SPEED && entity.getY()>CART_CURVE_RIGHT_HEIGHT && entity.getX()>getAppWidth()*0.5){
                     entity.getViewComponent().clearChildren();
-                    System.out.println();
                     entity.getViewComponent().addChild(new Texture(getAssetLoader().loadImage(getImageName(this_cart.getCargo().getComponent(ImageNameComponent.class).getImageName())+"_cart_horizontal.png")));
                     direction = true;
                     entity.setY(CART_CURVE_RIGHT_HEIGHT);
