@@ -187,7 +187,6 @@ public class Wegwerfpolizist {
                     fallingObjects[i] = null;
                 }
             }
-            System.out.println("CatchedEntity: "+catchedEntity);
             if(left){
                 cart.spawn(gameWorld, true, catchedEntity);
 
@@ -196,6 +195,8 @@ public class Wegwerfpolizist {
 
             }
             //this.catchedEntity.removeFromWorld();
+            this.catchedEntity.setType(EntityType.OBJECT_CART);
+            this.catchedEntity.setVisible(false);
             this.catchedEntity = null;
 
         }

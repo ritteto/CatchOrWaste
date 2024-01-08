@@ -36,13 +36,14 @@ public class SimpleFactory implements EntityFactory {
     @Spawns("OBJECT")
     public Entity newObject(SpawnData data) {
         Random random = new Random();
-        String [] zufall = {"kleider_gedreht.png", "iphone.png", "kaputte_lampe.png", "kaputtes_iphone.png"};
+        String [] zufall = {"kleider.png", "iphone.png", "kaputte_lampe.png","lampe_leuchtend.png", "kaputtes_iphone.png"};
         int zufallszahl = random.nextInt(zufall.length);
         return FXGL.entityBuilder(data)
                 .view(zufall [zufallszahl])
                 .type(EntityType.OBJECT)
                 .scale(0.07,0.07)
                 .with(new ProjectileComponent(new Point2D(0,1),100))
+                .with(new ImageNameComponent(zufall[zufallszahl]))
                 .build();
     }
 
@@ -77,7 +78,8 @@ public class SimpleFactory implements EntityFactory {
     @Spawns("CART")
     public Entity newCart(SpawnData data) {
         return FXGL.entityBuilder(data)
-                .view("cart_horizontal.png")
+                .view(data.get("Name")+"_cart_horizontal.png")
+                .with(new ImageNameComponent(data.get("Name")+"_cart"))
                 .scale(0.12,0.12)
                 .type(EntityType.CART)
                 .build();

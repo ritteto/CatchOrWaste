@@ -48,7 +48,6 @@ public class FallingObject {
         Random random = new Random();
         int randomHouse = random.nextInt(houseX.length);
 
-
         if(gameWorld.getEntitiesByType(EntityType.OBJECT).size() < FALLING_OBJECT_AMOUNT){
             FallingObject fallingObject = new FallingObject(gameWorld.spawn("OBJECT",houseX[randomHouse],0));
             addFallingObjectToArray(fallingObject);

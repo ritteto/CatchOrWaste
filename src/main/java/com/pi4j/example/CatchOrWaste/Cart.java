@@ -2,7 +2,10 @@ package com.pi4j.example.CatchOrWaste;
 
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
+import com.almasb.fxgl.entity.SpawnData;
+import com.almasb.fxgl.entity.components.ViewComponent;
 import com.almasb.fxgl.texture.Texture;
+import javafx.scene.text.Text;
 
 import java.util.Arrays;
 
@@ -31,15 +34,20 @@ public class Cart {
         return cargo;
     }
 
+    public Entity getEntity() {
+        return this.entity;
+    }
+
     //spawn new cart only if other cart is at least 40 pixel away
     public void spawn(GameWorld gameWorld, Boolean left, Entity cargo){
         if(gameWorld.getEntitiesByType(EntityType.CART).isEmpty()){
             if(left){
-                Cart cart = new Cart(gameWorld.spawn("CART",getAppWidth()*0.06,getAppHeight()*0.785));
+                Cart cart = new Cart(gameWorld.spawn("CART",new SpawnData(getAppWidth()*0.06,getAppHeight()*0.785).put("Name",getImageName(cargo.getComponent(ImageNameComponent.class).getImageName()))));
                 cart.setCargo(cargo);
                 addCartToArray(cart);
             }else{
-                Cart cart = new Cart(gameWorld.spawn("CART",getAppWidth()*0.78,getAppHeight()*0.785));
+                Cart cart = new Cart(gameWorld.spawn("CART",new SpawnData(getAppWidth()*0.78,getAppHeight()*0.785).put("Name",getImageName(cargo.getComponent(ImageNameComponent.class).getImageName()))));
+                System.out.println( cargo.getComponent(ImageNameComponent.class).getImageName());
                 cart.setCargo(cargo);
                 addCartToArray(cart);
             }
@@ -54,11 +62,11 @@ public class Cart {
             }
             if(distance) {
                 if(left){
-                    Cart cart = new Cart(gameWorld.spawn("CART",getAppWidth()*0.06,getAppHeight()*0.785));
+                    Cart cart = new Cart(gameWorld.spawn("CART",new SpawnData(getAppWidth()*0.06,getAppHeight()*0.785).put("Name",getImageName(cargo.getComponent(ImageNameComponent.class).getImageName()))));
                     cart.setCargo(cargo);
                     addCartToArray(cart);
                 }else{
-                    Cart cart = new Cart(gameWorld.spawn("CART",getAppWidth()*0.78,getAppHeight()*0.785));
+                    Cart cart = new Cart(gameWorld.spawn("CART",new SpawnData(getAppWidth()*0.78,getAppHeight()*0.785).put("Name",getImageName(cargo.getComponent(ImageNameComponent.class).getImageName()))));
                     cart.setCargo(cargo);
                     addCartToArray(cart);
                 }
@@ -70,8 +78,20 @@ public class Cart {
 
         attachCargo();
 
+        for (Cart cart : carts) {
+            if (cart!=null && cart.getCargo()!=null){
+                System.out.println("Cart_cargo: "+cart.getEntity().getComponent(ImageNameComponent.class).getImageName());
+            }
+        }
+
         for (Entity entity: gameWorld.getEntitiesByType(EntityType.CART)) {
 
+            Cart this_cart = new Cart();
+            for (Cart cart : carts) {
+                if (cart!=null && cart.getEntity().equals(entity)) {
+                    this_cart = cart;
+                    }
+                }
             //cart movement left rail
             if(entity.getY() >= getAppHeight()*0.785 && entity.getX()<=getAppWidth()*0.2){
                 entity.setX(entity.getX()-CART_SPEED);
@@ -79,7 +99,7 @@ public class Cart {
             }
             if(entity.getY() >= getAppHeight()*0.785 && entity.getX() <= CART_CURVE_BL){
                 entity.getViewComponent().clearChildren();
-                entity.getViewComponent().addChild(new Texture(getAssetLoader().loadImage("cart_vertical.png")));
+                entity.getViewComponent().addChild(new Texture(getAssetLoader().loadImage(getImageName(this_cart.getCargo().getComponent(ImageNameComponent.class).getImageName())+"_cart_vertical.png")));
                 direction = false;
                 entity.setX(CART_CURVE_BL);
                 entity.setY(entity.getY()-1);
@@ -101,7 +121,7 @@ public class Cart {
                     }
                     if(entity.getX() >= CART_CURVE_BR){
                         entity.getViewComponent().clearChildren();
-                        entity.getViewComponent().addChild(new Texture(getAssetLoader().loadImage("cart_vertical.png")));
+                        entity.getViewComponent().addChild(new Texture(getAssetLoader().loadImage(getImageName(this_cart.getCargo().getComponent(ImageNameComponent.class).getImageName())+"_cart_vertical.png")));
                         direction = false;
                         entity.setX(CART_CURVE_BR);
                         entity.setY(entity.getY()-1);
@@ -118,7 +138,7 @@ public class Cart {
                 //set new image at gate
                 }else if(entity.getY()== CART_SWITCH_HEIGHT && entity.getX() > getAppWidth()*0.5){
                     entity.getViewComponent().clearChildren();
-                    entity.getViewComponent().addChild(new Texture(getAssetLoader().loadImage("cart_horizontal.png")));
+                    entity.getViewComponent().addChild(new Texture(getAssetLoader().loadImage(getImageName(this_cart.getCargo().getComponent(ImageNameComponent.class).getImageName())+"_cart_horizontal.png")));
                     direction = true;
                     entity.setY(CART_SWITCH_HEIGHT -0.1);
 
@@ -134,7 +154,7 @@ public class Cart {
                         entity.setX(entity.getX()+CART_SPEED);
                     }if(entity.getX()>CART_SWITCH_LENGTH_RIGHT || entity.getX()<CART_SWITCH_LENGTH_LEFT){
                         entity.getViewComponent().clearChildren();
-                        entity.getViewComponent().addChild(new Texture(getAssetLoader().loadImage("cart_vertical.png")));
+                        entity.getViewComponent().addChild(new Texture(getAssetLoader().loadImage(getImageName(this_cart.getCargo().getComponent(ImageNameComponent.class).getImageName())+"_cart_vertical.png")));
                         direction = false;
                         entity.setY(CART_SWITCH_HEIGHT-1);
                     }
@@ -146,7 +166,8 @@ public class Cart {
                 //set new image if upper rail is reached
                 }else if(entity.getY()<CART_CURVE_RIGHT_HEIGHT+CART_SPEED && entity.getY()>CART_CURVE_RIGHT_HEIGHT && entity.getX()>getAppWidth()*0.5){
                     entity.getViewComponent().clearChildren();
-                    entity.getViewComponent().addChild(new Texture(getAssetLoader().loadImage("cart_horizontal.png")));
+                    System.out.println();
+                    entity.getViewComponent().addChild(new Texture(getAssetLoader().loadImage(getImageName(this_cart.getCargo().getComponent(ImageNameComponent.class).getImageName())+"_cart_horizontal.png")));
                     direction = true;
                     entity.setY(CART_CURVE_RIGHT_HEIGHT);
 
@@ -208,5 +229,12 @@ public class Cart {
 
             }
         }
+
+    public String getImageName(String imageName){
+        if(imageName.contains(".png")){
+            imageName = imageName.replace(".png","");
+        }
+        return imageName;
+    }
 
 }
