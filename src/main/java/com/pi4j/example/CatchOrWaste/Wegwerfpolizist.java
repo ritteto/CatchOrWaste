@@ -4,35 +4,30 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
-import com.almasb.fxgl.entity.components.ViewComponent;
 import com.almasb.fxgl.physics.BoundingShape;
-import com.almasb.fxgl.physics.CollisionResult;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.texture.Texture;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
-import static com.almasb.fxgl.physics.SAT.isColliding;
+import static com.pi4j.example.CatchOrWaste.FxglTest.fallingObjects;
 import static com.pi4j.example.CatchOrWaste.Variables.*;
 
 public class Wegwerfpolizist {
 
     private final Entity entity;
-    private String direction;
+    private Entity catchedEntity;
+    private boolean full, direction; //left = true, right = false
 
     public Wegwerfpolizist(Entity entity) {
         this.entity = entity;
-        this.direction = "Right";
+        this.full = false;
         entity.getBoundingBoxComponent().addHitBox(new HitBox(BoundingShape.box(2400*0.035,1951*0.035)));
     }
 
-    public void playerOnUpdate(Cart cart, GameWorld gameWorld, FallingObject[] fallingObjects){
+    public void playerOnUpdate(Cart cart, GameWorld gameWorld){
         boundaries();
-        detectCollision(fallingObjects);
-        if (isAtRightEnd()){
-            cart.spawn(gameWorld);
-        }
-        isAtLeftEnd();
+        catchObject();
+        isAtRightEnd(cart, gameWorld);
+        isAtLeftEnd(cart, gameWorld);
     }
 
     public void move(String move){
@@ -41,11 +36,11 @@ public class Wegwerfpolizist {
     }
 
     public double getX(){
-        return entity.getX();
+        return this.entity.getX();
     }
 
     public double getY(){
-        return entity.getX();
+        return this.entity.getY();
     }
 
     public void setX(double x){
@@ -63,32 +58,59 @@ public class Wegwerfpolizist {
         return entity.getHeight();
     }
 
-    public String getDirection(){
+    public boolean isFull(){
+        return this.full;
+    }
+
+    public void setFull(Boolean full){
+        this.full = full;
+    }
+
+    public boolean getDirection(){
         return this.direction;
     }
 
-    public void setDirection(String direction){
+    public void setDirection(Boolean direction){
         this.direction = direction;
     }
 
-    private boolean detectCollision(FallingObject[] fallingObjects){
-        for (FallingObject object: fallingObjects) {
-            if(object != null && object.getEntity().getY()>this.entity.getY()
-                    && object.getEntity().getY() < this.entity.getY() + PLAYERSIZE
-                    && object.getEntity().getX() > this.entity.getX()
-                    && object.getEntity().getX() < this.entity.getX() + PLAYERSIZE
-            ){
-                object.getEntity().removeComponent(ProjectileComponent.class);
-                object.isCatched(true);
+    private void catchObject(){
+        if(this.catchedEntity == null){
+            for(FallingObject object: fallingObjects) {
+                if(object != null && !object.isCatched()
+                        && object.getEntity().getY()+60 >this.entity.getY()
+                        && object.getEntity().getY() < this.entity.getY() + PLAYERSIZE
+                        && object.getEntity().getX()-30 > this.entity.getX()
+                        && object.getEntity().getX()-30 < this.entity.getX() + PLAYERSIZE
+                ){
+                    object.getEntity().removeComponent(ProjectileComponent.class);
+                    this.catchedEntity = object.getEntity();
+                    object.setCatched(true);
+                    break;
 
+
+                }else if(object!= null && object.isCatched() ){
+                    if(this.direction){
+                        object.getEntity().setX(this.entity.getX());
+                        object.getEntity().setY(this.entity.getY());
+                    }else{
+                        object.getEntity().setX(this.entity.getX()*0.75);
+                        object.getEntity().setY(this.entity.getY());
+                    }
+                }
             }
+        } else{
+                if(this.direction){
+                    this.catchedEntity.setX(this.entity.getX()+PLAYERSIZE/5*3);
+                    this.catchedEntity.setY(this.entity.getY());
+                }else{
+                    this.catchedEntity.setX(this.entity.getX()+PLAYERSIZE*1.2);
+                    this.catchedEntity.setY(this.entity.getY());
+                }
         }
-
-        return true;
     }
 
     private void boundaries(){
-
         //Boundary right
         if(this.entity.getX() > PLAYER_RIGHT){
             this.entity.setX(PLAYER_RIGHT);
@@ -99,21 +121,17 @@ public class Wegwerfpolizist {
         }
     }
 
-    private boolean isAtRightEnd(){
+    private void isAtRightEnd(Cart cart, GameWorld gameWorld){
         if(this.entity.getX() == PLAYER_RIGHT){
             setImage("Down_R");
-            return true;
-        }else{
-            return false;
+            releaseEntity(cart, gameWorld, false);
         }
     }
 
-    private boolean isAtLeftEnd(){
+    private void isAtLeftEnd(Cart cart, GameWorld gameWorld){
         if(this.entity.getX() <= PLAYER_LEFT){
             setImage("Down_L");
-            return true;
-        }else{
-            return false;
+            releaseEntity(cart, gameWorld, true);
         }
     }
 
@@ -135,10 +153,12 @@ public class Wegwerfpolizist {
             case "Left":
                 this.entity.getViewComponent().clearChildren();
                 this.entity.getViewComponent().addChild(new Texture(FXGL.getAssetLoader().loadImage("wegwerfpolizist_l_resized.png")));
+                this.direction = true;
                 break;
             case "Right":
                 this.entity.getViewComponent().clearChildren();
                 this.entity.getViewComponent().addChild(new Texture(FXGL.getAssetLoader().loadImage("wegwerfpolizist_r_resized.png")));
+                this.direction = false;
                 break;
             case "Down_R":
                 this.entity.getViewComponent().clearChildren();
@@ -151,4 +171,24 @@ public class Wegwerfpolizist {
         }
     }
 
+    public void releaseEntity(Cart cart, GameWorld gameWorld, Boolean left){
+        if(this.catchedEntity != null){
+            for (FallingObject object : fallingObjects) {
+                if(object != null && object.isCatched()){
+                    object.setCatched(false);
+                }
+            }
+            for (int i=0; i<fallingObjects.length; i++) {
+                if( fallingObjects[i] != null && this.catchedEntity.equals(fallingObjects[i].getEntity())){
+                    fallingObjects[i] = null;
+                }
+            }
+            cart.spawn(gameWorld, left, catchedEntity);
+            //this.catchedEntity.removeFromWorld();
+            this.catchedEntity.setType(EntityType.OBJECT_CART);
+            this.catchedEntity.setVisible(false);
+            this.catchedEntity = null;
+
+        }
+    }
 }

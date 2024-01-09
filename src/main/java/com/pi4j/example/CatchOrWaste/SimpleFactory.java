@@ -17,7 +17,7 @@ import static com.pi4j.example.CatchOrWaste.Variables.PLAYERSIZE;
 
 public class SimpleFactory implements EntityFactory {
 
-    public static double scale=0.035; //scale=0.035
+    public static double scale=0.115; //scale=0.035
 
 
     @Spawns("PLAYER")
@@ -36,13 +36,14 @@ public class SimpleFactory implements EntityFactory {
     @Spawns("OBJECT")
     public Entity newObject(SpawnData data) {
         Random random = new Random();
-        String [] zufall = {"kleider.png", "iphonr.png", "kaputte lampe.png", "kaputtes iphone.png"};
+        String [] zufall = {"kleider.png", "iphone.png", "kaputte_lampe.png","lampe_leuchtend.png", "kaputtes_iphone.png"};
         int zufallszahl = random.nextInt(zufall.length);
         return FXGL.entityBuilder(data)
                 .view(zufall [zufallszahl])
                 .type(EntityType.OBJECT)
-                .scale(0.02,0.02)
+                .scale(0.07,0.07)
                 .with(new ProjectileComponent(new Point2D(0,1),100))
+                .with(new ImageNameComponent(zufall[zufallszahl]))
                 .build();
     }
 
@@ -62,12 +63,12 @@ public class SimpleFactory implements EntityFactory {
     @Spawns("ZUFALL")
     public Entity newRandom(SpawnData data) {
         Random random = new Random();
-        String [] zufall = {"kleider.png", "iphonr.png", "kaputte lampe.png", "kaputtes iphone.png"};
+        String [] zufall = {"kleider_gedreht.png", "iphone.png", "kaputte lampe.png", "kaputtes_iphone.png"};
         int zufallszahl = random.nextInt(zufall.length);
         return FXGL.entityBuilder(data)
                 .view(zufall [zufallszahl])
                 .type(EntityType.ZUFALL)
-                .scale(0.02,0.02)
+                .scale(0.07,0.07)
                 .with(new ProjectileComponent(new Point2D(0,20),200))
                 .build();
     }
@@ -77,8 +78,9 @@ public class SimpleFactory implements EntityFactory {
     @Spawns("CART")
     public Entity newCart(SpawnData data) {
         return FXGL.entityBuilder(data)
-                .view("cart_horizontal.png")
-                .scale(0.03,0.03)
+                .view(data.get("Name")+"_cart_horizontal.png")
+                .with(new ImageNameComponent(data.get("Name")+"_cart"))
+                .scale(0.12,0.12)
                 .type(EntityType.CART)
                 .build();
     }
@@ -89,7 +91,7 @@ public class SimpleFactory implements EntityFactory {
         return FXGL.entityBuilder(data)
                 .view("House1.png")
                 .type(EntityType.HOUSE1)
-                .scale(0.04,0.04)
+                .scale(0.14,0.14)
                 .build();
     }
 
@@ -98,7 +100,7 @@ public class SimpleFactory implements EntityFactory {
         return FXGL.entityBuilder(data)
                 .view("House2.png")
                 .type(EntityType.HOUSE2)
-                .scale(0.04,0.04)
+                .scale(0.14,0.14)
                 .build();
     }
 
@@ -107,7 +109,7 @@ public class SimpleFactory implements EntityFactory {
         return FXGL.entityBuilder(data)
                 .view("House3.png")
                 .type(EntityType.HOUSE3)
-                .scale(0.04,0.04)
+                .scale(0.14,0.14)
                 .build();
     }
 

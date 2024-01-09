@@ -1,11 +1,13 @@
 package com.pi4j.example.CatchOrWaste;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.dsl.components.ProjectileComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.texture.Texture;
+import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
-
-import java.util.Random;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
@@ -19,12 +21,13 @@ public class FxglTest extends GameApplication {
     Wegwerfpolizist player;
     Cart cart;
     FallingObject fallingObject;
-    FallingObject[] fallingObjects = new FallingObject[1];
+    public static FallingObject[] fallingObjects = new FallingObject[1];
+    public static Cart[] carts = new Cart[1];
 
     @Override
     protected void initSettings(GameSettings settings) {
-        // settings.setFullScreenAllowed(true);
-        // settings.setFullScreenFromStart(true);
+        //settings.setFullScreenAllowed(true);
+        //settings.setFullScreenFromStart(true);
     }
 
     @Override
@@ -35,14 +38,41 @@ public class FxglTest extends GameApplication {
 
         onKey(KeyCode.LEFT,"Move Left", ()-> player.move("Left"));
 
-        onKeyDown(KeyCode.G,"G",()-> spawn("CART",getAppWidth()*0.77,getAppHeight()*0.78));
-
 
         onKey(KeyCode.DIGIT1,"1", ()-> gate = true);
 
         onKey(KeyCode.DIGIT2,"2", ()-> gate = false);
 
-        onKey(KeyCode.F,"F", ()-> spawn("MARTIN",100,100));
+        onKeyDown(KeyCode.L,()->{
+            for (Entity en :
+                    getGameWorld().getEntitiesByType(EntityType.OBJECT)) {
+                en.addComponent(new ProjectileComponent(new Point2D(0,1), 100));
+            }
+        });
+
+        onKeyDown(KeyCode.O, ()->{
+            for (FallingObject fallingObject :
+                    fallingObjects) {
+                if(fallingObject != null &&fallingObject.isCatched()){
+                    System.out.println(fallingObject);
+                }
+            }
+        });
+
+        onKeyDown(KeyCode.F,"F", ()-> {
+            for(Entity entitiy : getGameWorld().getEntitiesByType(EntityType.OBJECT)) {
+                entitiy.removeComponent(ProjectileComponent.class);
+                Rectangle rectangle = new Rectangle(entitiy.getX()-60,entitiy.getY(),60,60);
+                Rectangle rectangle2 = new Rectangle(player.getX(),player.getY(),PLAYERSIZE,60);
+                rectangle.setFill(null);
+                rectangle.setStroke(Color.BLACK);
+                addUINode(rectangle);
+                rectangle2.setFill(null);
+                rectangle2.setStroke(Color.RED);
+                addUINode(rectangle2);
+            }
+        });
+
 
 
 
@@ -71,7 +101,7 @@ public class FxglTest extends GameApplication {
         spawn("RECYCLING", getAppWidth()*-0.0185, getAppHeight()*0.48);
 
         //spawn the player from the factory
-        Entity playerEntity = spawn("PLAYER",100,getAppHeight()*0.8);
+        Entity playerEntity = spawn("PLAYER",100,getAppHeight()*0.785);
         player = new Wegwerfpolizist(playerEntity);
         cart = new Cart();
 
@@ -79,16 +109,14 @@ public class FxglTest extends GameApplication {
         //spawn objects
         Entity fallingObject_entity = spawn("OBJECT", 500, 100);
         fallingObject = new FallingObject(fallingObject_entity);
-        //fallingObjects[0]
-
+        fallingObjects[0] = fallingObject;
 
     }
 
     @Override
     protected void onUpdate(double tpf) {
-
         if(player != null){
-            player.playerOnUpdate(cart,getGameWorld(),fallingObjects);
+            player.playerOnUpdate(new Cart(), getGameWorld());
         }
 
         if(cart != null){
@@ -96,7 +124,7 @@ public class FxglTest extends GameApplication {
         }
 
         if(fallingObject != null){
-            fallingObject.onUpdate(getGameWorld(), fallingObjects, player);
+            fallingObject.onUpdate(getGameWorld());
         }
 
     }

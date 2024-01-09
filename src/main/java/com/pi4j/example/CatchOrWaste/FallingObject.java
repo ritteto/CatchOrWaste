@@ -2,21 +2,18 @@ package com.pi4j.example.CatchOrWaste;
 
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
-import com.almasb.fxgl.physics.BoundingShape;
-import com.almasb.fxgl.physics.HitBox;
-import javafx.application.Platform;
 
 
 import java.util.Arrays;
 import java.util.Random;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
+import static com.pi4j.example.CatchOrWaste.FxglTest.fallingObjects;
 import static com.pi4j.example.CatchOrWaste.Variables.FALLING_OBJECT_AMOUNT;
-import static com.pi4j.example.CatchOrWaste.Variables.STREET_RIGHT;
 
 public class FallingObject {
 
-    private Entity entity;
+    private final Entity entity;
     private boolean isCatched;
 
 
@@ -29,10 +26,14 @@ public class FallingObject {
        return this.entity;
     }
 
-    public void isCatched(Boolean isCatched){
+    public void setCatched(Boolean isCatched){
        this.isCatched = isCatched;
     }
-    public FallingObject[] onUpdate(GameWorld gameWorld, FallingObject[] fallingObjects, Wegwerfpolizist player){
+    public Boolean isCatched(){
+        return this.isCatched;
+    }
+
+    public void onUpdate(GameWorld gameWorld){
 
        int house1 = 100;
        int house2 = 200;
@@ -47,42 +48,40 @@ public class FallingObject {
         Random random = new Random();
         int randomHouse = random.nextInt(houseX.length);
 
-
         if(gameWorld.getEntitiesByType(EntityType.OBJECT).size() < FALLING_OBJECT_AMOUNT){
-            gameWorld.spawn("OBJECT",houseX[randomHouse],0);
+            FallingObject fallingObject = new FallingObject(gameWorld.spawn("OBJECT",houseX[randomHouse],0));
+            addFallingObjectToArray(fallingObject);
         }
         if(!gameWorld.getEntitiesByType(EntityType.OBJECT).isEmpty()){
             for (Entity entity: gameWorld.getEntitiesByType(EntityType.OBJECT)) {
                 if(entity.getY()>=getAppHeight()){
                     entity.removeFromWorld();
                     for(int i=0; i<fallingObjects.length; i++){
-                        if(fallingObjects[i] != null && fallingObjects[i].entity==entity){
+                        if(fallingObjects[i] != null && fallingObjects[i].entity.equals(entity)){
                             fallingObjects[i] = null;
                         }
                     }
-                    Entity newEntity = spawn("OBJECT",houseX[randomHouse],0);
-                    FallingObject fallingObject = new FallingObject(newEntity);
-                    fallingObjects = Arrays.copyOf(fallingObjects, fallingObjects.length +1);
-                    for (int i=0; i < fallingObjects.length; i++){
-                        if(fallingObjects[i]==null){
-                            fallingObjects[i]=fallingObject;
-                            break;
-                        }
-                    }
-
+                    FallingObject fallingObject = new FallingObject(spawn("OBJECT",houseX[randomHouse],0));
+                    addFallingObjectToArray(fallingObject);
                 }
             }
         }
 
-        for (FallingObject object : fallingObjects) {
-            if (object != null && object.isCatched) {
-                this.entity.setX(player.getX());
-                this.entity.setY(player.getY());
-                }
-            }
+    }
+
+    private void addFallingObjectToArray(FallingObject fallingObject){
+       if(Arrays.asList(fallingObjects).contains(null)){
+           for (int i=0; i < fallingObjects.length; i++){
+               if(fallingObjects[i]==null){
+                   fallingObjects[i]=fallingObject;
+                   break;
+               }
+           }
+       }else{
+           fallingObjects = Arrays.copyOf(fallingObjects, fallingObjects.length +1);
+           fallingObjects[fallingObjects.length-1] = fallingObject;
+       }
 
 
-
-        return fallingObjects;
     }
 }
