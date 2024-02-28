@@ -1,4 +1,4 @@
-package com.pi4j.example.CatchOrWaste;
+package code;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
@@ -11,7 +11,7 @@ import javafx.scene.shape.Rectangle;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
-import static com.pi4j.example.CatchOrWaste.Variables.*;
+import static code.Variables.*;
 
 public class FxglTest extends GameApplication {
 
@@ -85,8 +85,8 @@ public class FxglTest extends GameApplication {
 
         Entity background1 = spawn("BACKGROUND",0,0);
         Entity background2 = spawn("BACKGROUND",0,0);
-        setBackground(background1, "background_bad.png");
-        setBackground(background2, "streets.png");
+        setBackground(background1, "backgrounds/background_bad.png");
+        setBackground(background2, "backgrounds/streets.png");
 
         // spawn housses
         spawn("HOUSE1",HOUSE1_X,HOUSE1_Y);

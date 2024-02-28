@@ -1,4 +1,4 @@
-package com.pi4j.example.CatchOrWaste;
+package code;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
@@ -8,8 +8,9 @@ import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.texture.Texture;
 
-import static com.pi4j.example.CatchOrWaste.FxglTest.fallingObjects;
-import static com.pi4j.example.CatchOrWaste.Variables.*;
+import static code.FxglTest.fallingObjects;
+import static code.Variables.*;
+
 
 public class Wegwerfpolizist {
 
@@ -152,21 +153,21 @@ public class Wegwerfpolizist {
         switch (move){
             case "Left":
                 this.entity.getViewComponent().clearChildren();
-                this.entity.getViewComponent().addChild(new Texture(FXGL.getAssetLoader().loadImage("wegwerfpolizist_l_resized.png")));
+                this.entity.getViewComponent().addChild(new Texture(FXGL.getAssetLoader().loadImage("player/wegwerfpolizist_l_resized.png")));
                 this.direction = true;
                 break;
             case "Right":
                 this.entity.getViewComponent().clearChildren();
-                this.entity.getViewComponent().addChild(new Texture(FXGL.getAssetLoader().loadImage("wegwerfpolizist_r_resized.png")));
+                this.entity.getViewComponent().addChild(new Texture(FXGL.getAssetLoader().loadImage("player/wegwerfpolizist_r_resized.png")));
                 this.direction = false;
                 break;
             case "Down_R":
                 this.entity.getViewComponent().clearChildren();
-                this.entity.getViewComponent().addChild(new Texture(FXGL.getAssetLoader().loadImage("wegwerfpolizist_d_r_resized.png")));
+                this.entity.getViewComponent().addChild(new Texture(FXGL.getAssetLoader().loadImage("player/wegwerfpolizist_d_r_resized.png")));
                 break;
             case "Down_L":
                 this.entity.getViewComponent().clearChildren();
-                this.entity.getViewComponent().addChild(new Texture(FXGL.getAssetLoader().loadImage("wegwerfpolizist_d_l_resized.png")));
+                this.entity.getViewComponent().addChild(new Texture(FXGL.getAssetLoader().loadImage("player/wegwerfpolizist_d_l_resized.png")));
                 break;
         }
     }
@@ -184,7 +185,7 @@ public class Wegwerfpolizist {
                 }
             }
             cart.spawn(gameWorld, left, catchedEntity);
-            //this.catchedEntity.removeFromWorld();
+
             this.catchedEntity.setType(EntityType.OBJECT_CART);
             this.catchedEntity.setVisible(false);
             this.catchedEntity = null;

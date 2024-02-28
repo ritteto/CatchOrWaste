@@ -1,4 +1,4 @@
-package com.pi4j.example.CatchOrWaste;
+package code;
 
 public enum EntityType {
     PLAYER, OBJECT,CART, BACKGROUND, HOUSE1, HOUSE2, HOUSE3, APFEL, ZUFALL, RECYCLING, REPAIR, MARKET, OBJECT_CART

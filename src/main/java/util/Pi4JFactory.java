@@ -1,4 +1,4 @@
-package com.pi4j.example.util;
+package util;
 
 import com.pi4j.Pi4J;
 import com.pi4j.context.Context;

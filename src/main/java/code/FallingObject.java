@@ -1,15 +1,15 @@
-package com.pi4j.example.CatchOrWaste;
+package code;
 
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 
-
 import java.util.Arrays;
 import java.util.Random;
 
-import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
-import static com.pi4j.example.CatchOrWaste.FxglTest.fallingObjects;
-import static com.pi4j.example.CatchOrWaste.Variables.FALLING_OBJECT_AMOUNT;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppHeight;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
+import static code.FxglTest.*;
+import static code.Variables.*;
 
 /**
  * Represents a falling object in the game.

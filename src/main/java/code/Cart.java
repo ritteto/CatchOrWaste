@@ -1,16 +1,15 @@
-package com.pi4j.example.CatchOrWaste;
+package code;
 
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 import com.almasb.fxgl.entity.SpawnData;
-
 import com.almasb.fxgl.texture.Texture;
 
 import java.util.Arrays;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
-import static com.pi4j.example.CatchOrWaste.FxglTest.*;
-import static com.pi4j.example.CatchOrWaste.Variables.*;
+import static code.FxglTest.*;
+import static code.Variables.*;
 
 public class Cart {
 

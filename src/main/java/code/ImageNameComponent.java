@@ -1,4 +1,4 @@
-package com.pi4j.example.CatchOrWaste;
+package code;
 
 import com.almasb.fxgl.entity.component.Component;
 
