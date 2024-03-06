@@ -1,5 +1,8 @@
-package code;
+package code.model.factories;
 
+import code.model.components.CargoComponent;
+import code.model.components.ImageNameComponent;
+import code.model.enums.EntityType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
 import com.almasb.fxgl.entity.Entity;
@@ -8,11 +11,12 @@ import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.Spawns;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
+import com.fasterxml.jackson.databind.node.ValueNode;
 import javafx.geometry.Point2D;
 
 import java.util.Random;
 
-import static code.Variables.*;
+import static code.model.PlayerModel.PLAYERSIZE;
 
 
 public class SimpleFactory implements EntityFactory {
@@ -36,15 +40,15 @@ public class SimpleFactory implements EntityFactory {
     @Spawns("OBJECT")
     public Entity newObject(SpawnData data) {
         Random random = new Random();
-        String [] zufall =
-                {"kleider.png", "iphone.png", "kaputte_lampe.png", "lampe_leuchtend.png", "kaputtes_iphone.png"};
+        String [] zufall = {"kleider.png", "iphone.png", "kaputte_lampe.png", "lampe_leuchtend.png", "kaputtes_iphone.png"};
         int zufallszahl = random.nextInt(zufall.length);
+        String name = zufall[zufallszahl].replace(".png", "");
         return FXGL.entityBuilder(data)
                 .view("fallingObjects/"+zufall [zufallszahl])
                 .type(EntityType.OBJECT)
                 .scale(0.07,0.07)
                 .with(new ProjectileComponent(new Point2D(0,1),100))
-                .with(new ImageNameComponent(zufall[zufallszahl]))
+                .with(new ImageNameComponent(name))
                 .build();
     }
 
@@ -84,6 +88,19 @@ public class SimpleFactory implements EntityFactory {
                 .with(new ImageNameComponent(data.get("Name")+"_cart"))
                 .scale(0.12,0.12)
                 .type(EntityType.CART)
+                .build();
+    }
+
+    @Spawns("TEST")
+    public Entity newTest(SpawnData data) {
+        return FXGL.entityBuilder(data)
+                .view("carts/"+data.get("CargoName")+"_cart_horizontal.png")
+                .at(data.getX(),data.getY())
+                .with(new ImageNameComponent(data.get("CargoName")))
+                .with(new CargoComponent(data.get("Cargo")))
+                .with(new ProjectileComponent(new Point2D(1,0), data.get("Speed")))
+                .scale(0.12,0.12)
+                .type(EntityType.TEST)
                 .build();
     }
 

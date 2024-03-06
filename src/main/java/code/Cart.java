@@ -1,5 +1,7 @@
 package code;
 
+import code.model.components.ImageNameComponent;
+import code.model.enums.EntityType;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 import com.almasb.fxgl.entity.SpawnData;
@@ -19,6 +21,7 @@ public class Cart {
     //idk why this is here
     public Cart() {}
 
+
     public Cart(Entity entity) {
         this.entity = entity;
     }
@@ -35,6 +38,7 @@ public class Cart {
     public Entity getEntity() {
         return this.entity;
     }
+
 
     //spawn new cart only if other cart is at least 40 pixel away
     public void spawn(GameWorld gameWorld, Boolean left, Entity cargo){

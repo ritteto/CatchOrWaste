@@ -1,0 +1,5 @@
+package code.model.enums;
+
+public enum EntityType {
+    PLAYER, OBJECT,CART, BACKGROUND, HOUSE1, HOUSE2, HOUSE3, APFEL, ZUFALL, RECYCLING, REPAIR, MARKET, OBJECT_CART,TEST
+}

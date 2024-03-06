@@ -1,5 +1,6 @@
 package code;
 
+import static code.model.PlayerModel.PLAYERSIZE;
 import static com.almasb.fxgl.dsl.FXGL.getAppHeight;
 import static com.almasb.fxgl.dsl.FXGL.getAppWidth;
 
@@ -12,10 +13,10 @@ public class Variables {
     static double STREET_RIGHT = getAppWidth() *0.85;
 
     //Player variables
-    static double PLAYERSIZE = 84; //800*0.105
+    //static double PLAYERSIZE = 84; //800*0.105
     static double PLAYER_RIGHT = STREET_RIGHT -PLAYERSIZE;
     static double PLAYER_LEFT = STREET_LEFT;
-    static int PLAYER_SPEED = 5;
+    //static int PLAYER_SPEED = 5;
 
     //Cart variables
     static int CART_SPEED = 2;

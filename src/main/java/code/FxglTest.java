@@ -1,4 +1,7 @@
 package code;
+import code.model.components.ImageNameComponent;
+import code.model.enums.EntityType;
+import code.model.factories.SimpleFactory;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
@@ -9,9 +12,13 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import static code.controller.CartController.cartMovement;
+import static code.model.PlayerModel.PLAYERSIZE;
+import static code.view.CartView.spawnCart;
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 import static code.Variables.*;
+
 
 public class FxglTest extends GameApplication {
 
@@ -59,6 +66,12 @@ public class FxglTest extends GameApplication {
             }
         });
 
+        onKeyDown(KeyCode.K, ()-> {
+            Entity entity = new Entity();
+            entity.addComponent(new ImageNameComponent("iphone"));
+            spawnCart(getGameWorld(),getAppWidth()*0.785,getAppHeight()*0.775,entity);
+        });
+
         onKeyDown(KeyCode.F,"F", ()-> {
             for(Entity entitiy : getGameWorld().getEntitiesByType(EntityType.OBJECT)) {
                 entitiy.removeComponent(ProjectileComponent.class);
@@ -72,8 +85,6 @@ public class FxglTest extends GameApplication {
                 addUINode(rectangle2);
             }
         });
-
-
 
 
     }
@@ -115,6 +126,9 @@ public class FxglTest extends GameApplication {
 
     @Override
     protected void onUpdate(double tpf) {
+
+        cartMovement();
+
         if(player != null){
             player.playerOnUpdate(new Cart(), getGameWorld());
         }

@@ -1,5 +1,6 @@
 package code;
 
+import code.model.enums.EntityType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
 import com.almasb.fxgl.entity.Entity;
@@ -10,6 +11,8 @@ import com.almasb.fxgl.texture.Texture;
 
 import static code.FxglTest.fallingObjects;
 import static code.Variables.*;
+import static code.model.PlayerModel.PLAYERSIZE;
+import static code.model.PlayerModel.PLAYER_SPEED;
 
 
 public class Wegwerfpolizist {

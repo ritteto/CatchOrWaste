@@ -17,13 +17,13 @@
         <!-- PROJECT ENCODING PROPERTIES -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <launcher.class>com.pi4j.example/CatchOrWaste.FxglTest</launcher.class>
+        <launcher.class>code/FxglTest</launcher.class>
 
 
         <pi.hostname>pi4j</pi.hostname>
-        <pi.ipnumber>192.168.178.19</pi.ipnumber>  <!-- change to concrete ip-number if hostname is not unique in wlan -->
+        <pi.ipnumber>172.20.10.2</pi.ipnumber>  <!-- change to concrete ip-number if hostname is not unique in wlan -->
         <pi.port>22</pi.port>
-        <pi.username>pi</pi.username>
+        <pi.username>pi4j</pi.username>
         <pi.password>pi4j</pi.password>
         <pi.deploydirectory>/home/pi/deploy</pi.deploydirectory>
         <pi.jvmOptions/>
@@ -226,6 +226,7 @@
                                              port="${pi.port}">
                                             <fileset dir="${project.build.directory}/distribution">
                                                 <exclude name="javafx*.jar"/>/>
+                                                <exclude name="jackson.annotation-2.12.1.jar"/>
                                             </fileset>
                                         </scp>
 
