@@ -11,12 +11,11 @@ import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.Spawns;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
-import com.fasterxml.jackson.databind.node.ValueNode;
 import javafx.geometry.Point2D;
 
 import java.util.Random;
 
-import static code.model.PlayerModel.PLAYERSIZE;
+import static code.model.Constants.Constants.PLAYERSIZE;
 
 
 public class SimpleFactory implements EntityFactory {
@@ -91,18 +90,6 @@ public class SimpleFactory implements EntityFactory {
                 .build();
     }
 
-    @Spawns("TEST")
-    public Entity newTest(SpawnData data) {
-        return FXGL.entityBuilder(data)
-                .view("carts/"+data.get("CargoName")+"_cart_horizontal.png")
-                .at(data.getX(),data.getY())
-                .with(new ImageNameComponent(data.get("CargoName")))
-                .with(new CargoComponent(data.get("Cargo")))
-                .with(new ProjectileComponent(new Point2D(1,0), data.get("Speed")))
-                .scale(0.12,0.12)
-                .type(EntityType.TEST)
-                .build();
-    }
 
 
     @Spawns("HOUSE1")

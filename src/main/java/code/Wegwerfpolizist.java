@@ -11,8 +11,9 @@ import com.almasb.fxgl.texture.Texture;
 
 import static code.FxglTest.fallingObjects;
 import static code.Variables.*;
-import static code.model.PlayerModel.PLAYERSIZE;
-import static code.model.PlayerModel.PLAYER_SPEED;
+import static code.model.Constants.Constants.*;
+import static code.model.PlayerModel.playerSpeed;
+import static code.view.CartView.spawnCart;
 
 
 public class Wegwerfpolizist {
@@ -143,10 +144,10 @@ public class Wegwerfpolizist {
     private void movePlayer(String direction){
         switch (direction){
             case "Left":
-                this.entity.translateX(-PLAYER_SPEED);
+                this.entity.translateX(-playerSpeed);
                 break;
             case "Right":
-                this.entity.translateX(PLAYER_SPEED);
+                this.entity.translateX(playerSpeed);
                 break;
         }
     }
@@ -187,7 +188,9 @@ public class Wegwerfpolizist {
                     fallingObjects[i] = null;
                 }
             }
-            cart.spawn(gameWorld, left, catchedEntity);
+
+            spawnCart(gameWorld,STREET_RIGHT_END, STREET_HEIGHT,catchedEntity);
+            //cart.spawn(gameWorld, left, catchedEntity);
 
             this.catchedEntity.setType(EntityType.OBJECT_CART);
             this.catchedEntity.setVisible(false);

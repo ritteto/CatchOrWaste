@@ -1,6 +1,6 @@
 package code;
 
-import static code.model.PlayerModel.PLAYERSIZE;
+import static code.model.Constants.Constants.PLAYERSIZE;
 import static com.almasb.fxgl.dsl.FXGL.getAppHeight;
 import static com.almasb.fxgl.dsl.FXGL.getAppWidth;
 

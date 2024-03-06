@@ -2,9 +2,24 @@ package code.model;
 
 public class CartModel {
 
-    public static int cartSpeed = 50;
-    public static double cartSize = 860*0.105;
+    private static int cartSpeed = 1;
 
-    public static boolean gate = true;
+    private static boolean gate = true;
 
+
+    public static int getCartSpeed() {
+        return cartSpeed;
+    }
+
+    public static void setCartSpeed(int cartSpeed) {
+        CartModel.cartSpeed = cartSpeed;
+    }
+
+    public static boolean isGate() {
+        return gate;
+    }
+
+    public static void setGate(boolean gate) {
+        CartModel.gate = gate;
+    }
 }
