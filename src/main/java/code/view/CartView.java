@@ -8,9 +8,6 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.texture.Texture;
-import javafx.geometry.Point2D;
-
-import java.util.Objects;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 
@@ -20,13 +17,13 @@ public class CartView {
     public static void spawnCart(GameWorld gameWorld, double x, double y, Entity cargo){
         boolean distance = false;
         if(gameWorld.getEntitiesByType(EntityType.CART).isEmpty()){
-            gameWorld.spawn("TEST", new SpawnData(x,y).put("Cargo", cargo).put("CargoName", cargoName(cargo)).put("Speed", (double) CartModel.CART_SPEED));
+            gameWorld.spawn("TEST", new SpawnData(x,y).put("Cargo", cargo).put("CargoName", cargoName(cargo)).put("Speed", (double) CartModel.cartSpeed));
         }else{
             for (Entity entity: gameWorld.getEntitiesByType(EntityType.CART)) {
                 distance = !(entity.getX() < getAppWidth() * 0.78 + 40) || !(entity.getY() >= getAppHeight() * 0.775);
             }
             if(distance){
-                gameWorld.spawn("TEST", new SpawnData(x,y).put("Cargo", cargo).put("CargoName", cargoName(cargo)).put("Speed", (double) CartModel.CART_SPEED));
+                gameWorld.spawn("TEST", new SpawnData(x,y).put("Cargo", cargo).put("CargoName", cargoName(cargo)).put("Speed", (double) CartModel.cartSpeed));
             }
         }
     }

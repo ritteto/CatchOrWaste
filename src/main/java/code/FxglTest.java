@@ -1,4 +1,6 @@
 package code;
+import code.controller.CartController;
+import code.controller.FallingObjectController;
 import code.model.components.ImageNameComponent;
 import code.model.enums.EntityType;
 import code.model.factories.SimpleFactory;
@@ -133,13 +135,18 @@ public class FxglTest extends GameApplication {
             player.playerOnUpdate(new Cart(), getGameWorld());
         }
 
+        /*
         if(cart != null){
             cart.onUpdate(getGameWorld());
         }
 
+         */
+
         if(fallingObject != null){
             fallingObject.onUpdate(getGameWorld());
         }
+
+        CartController.cartMovement();
 
     }
 
