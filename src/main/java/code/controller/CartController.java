@@ -1,6 +1,5 @@
 package code.controller;
 
-import code.model.components.ImageNameComponent;
 import code.model.enums.EntityType;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
