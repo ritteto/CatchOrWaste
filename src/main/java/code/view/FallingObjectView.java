@@ -1,11 +1,6 @@
 package code.view;
 
-import code.model.components.CargoComponent;
-import code.model.components.ImageNameComponent;
-import code.model.components.IsCatchedComponent;
-import code.model.components.PlayerDirectionComponent;
 import code.model.enums.EntityType;
-import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 
 import java.util.Random;

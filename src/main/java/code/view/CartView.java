@@ -28,7 +28,7 @@ public class CartView {
         }
     }
 
-    public static void changeCartImage(Entity entity, String string){
+    public static void changeCartImage(Entity entity){
         String url;
         if(entity.getComponent(CartDirectionComponent.class).getDirection()) {
             url= "carts/" + entity.getComponent(ImageNameComponent.class).getImageName() + "_cart_vertical.png";

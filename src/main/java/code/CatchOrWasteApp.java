@@ -8,9 +8,7 @@ import com.almasb.fxgl.entity.GameWorld;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.texture.Texture;
 import javafx.scene.input.KeyCode;
-import old_files.Cart;
-import old_files.FallingObject;
-import old_files.Wegwerfpolizist;
+
 
 import static code.controller.CartController.cartMovement;
 import static code.controller.FallingObjectController.dropObjects;

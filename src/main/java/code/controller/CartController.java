@@ -2,7 +2,6 @@ package code.controller;
 
 import code.model.components.ImageNameComponent;
 import code.model.enums.EntityType;
-import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 
@@ -27,7 +26,7 @@ public class CartController {
 
             //switch cart direction at bottom left curve
             if(entity.getX() <= CURVE_BL && entity.getY() >= STREET_HEIGHT){
-                changeCartImage(entity, entity.getComponent(ImageNameComponent.class).getImageName());
+                changeCartImage(entity);
                 entity.setX(CURVE_BL);
                 entity.translateY(-1);
             }
@@ -50,7 +49,7 @@ public class CartController {
 
             //switch cart direction at bottom right curve
             if(entity.getX()>= CURVE_BR && entity.getY()>= STREET_HEIGHT){
-                changeCartImage(entity,entity.getComponent(ImageNameComponent.class).getImageName());
+                changeCartImage(entity);
                 entity.setX(CURVE_BR);
                 entity.translateY(-1);
             }
@@ -63,7 +62,7 @@ public class CartController {
 
             //turn at gate
             if(entity.getX() > STREET_RIGHT_END && entity.getY() == GATE_HEIGHT) {
-                changeCartImage(entity, entity.getComponent(ImageNameComponent.class).getImageName());
+                changeCartImage(entity);
                 entity.setY(GATE_HEIGHT-1);
 
             }
@@ -84,7 +83,7 @@ public class CartController {
                     entity.translateX(getCartSpeed());
                 }
                 if (entity.getX() <= GATE_LEFT_END || entity.getX() >= GATE_RIGHT_END) {
-                    changeCartImage(entity, entity.getComponent(ImageNameComponent.class).getImageName());
+                    changeCartImage(entity);
                     entity.translateY(-1);
                 }
             }
@@ -98,7 +97,7 @@ public class CartController {
 
             //change cart direction at top right curve
             if (entity.getX() > STREET_RIGHT_END && entity.getY() == CURVE_TR) {
-                changeCartImage(entity, entity.getComponent(ImageNameComponent.class).getImageName());
+                changeCartImage(entity);
                 entity.setY(CURVE_TR-1);
             }
 

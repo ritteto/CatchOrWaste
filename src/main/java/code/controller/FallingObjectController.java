@@ -8,8 +8,6 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 
 import static code.model.Constants.Constants.PLAYERSIZE;
-import static code.model.FallingObjectModel.amount_FO;
-import static code.view.FallingObjectView.spawnObjects;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 
 public class FallingObjectController {
