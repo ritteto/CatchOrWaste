@@ -15,7 +15,7 @@ public final class Constants {
 
     public static final double CURVE_BR = getAppWidth() * 0.8175; // First curve to vertical on right side of street
     public static final double CURVE_BL = getAppWidth() * 0.01; // First curve to vertical on left side of street
-    public static final double CURVE_TR = getAppHeight() * 0.2; // Height of Curve on top to the village
+    public static final double CURVE_TR = 1; // Height of Curve on top to the village
 
     public static final double RECYCLE_HEIGHT = getAppHeight()*0.6;
 
@@ -23,11 +23,11 @@ public final class Constants {
     public static final double GATE_LEFT_END = getAppWidth() * 0.76;
     public static final double GATE_RIGHT_END = getAppWidth() * 0.8675;
 
-    //Falling Objects
-
-
 
     //Background
+    public static final double HOUSE_Y = getAppHeight()*-0.001;
+    public static final double HOUSE1_X = getAppWidth()*0.20;
+    public static final double HOUSE2_X = getAppWidth()*0.34;
+    public static final double HOUSE3_X = getAppWidth()*0.48;
     public static final double HOUSE4_X = getAppWidth()*0.62;
-    public static final double HOUSE3_X = 1;
 }

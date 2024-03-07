@@ -1,6 +1,7 @@
 package code.view;
 
 import code.model.CartModel;
+import code.model.components.CartDirectionComponent;
 import code.model.enums.EntityType;
 import code.model.components.ImageNameComponent;
 import com.almasb.fxgl.entity.Entity;
@@ -29,10 +30,12 @@ public class CartView {
 
     public static void changeCartImage(Entity entity, String string){
         String url;
-        if(string.contains("horizontal")) {
-            url= "carts/" + entity.getComponent(ImageNameComponent.class).getImageName() + "_cart_horizontal.png";
-        }else{
+        if(entity.getComponent(CartDirectionComponent.class).getDirection()) {
             url= "carts/" + entity.getComponent(ImageNameComponent.class).getImageName() + "_cart_vertical.png";
+            entity.getComponent(CartDirectionComponent.class).setDirection(false);
+        }else{
+            url= "carts/" + entity.getComponent(ImageNameComponent.class).getImageName() + "_cart_horizontal.png";
+            entity.getComponent(CartDirectionComponent.class).setDirection(true);
         }
         entity.getViewComponent().clearChildren();
         entity.getViewComponent().addChild(new Texture(getAssetLoader().loadImage(url)));

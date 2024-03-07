@@ -1,4 +1,4 @@
-package code;
+package old_files;
 
 import static code.model.Constants.Constants.PLAYERSIZE;
 import static com.almasb.fxgl.dsl.FXGL.getAppHeight;

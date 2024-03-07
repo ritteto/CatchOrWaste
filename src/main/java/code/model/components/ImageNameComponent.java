@@ -3,7 +3,7 @@ package code.model.components;
 import com.almasb.fxgl.entity.component.Component;
 
 public class ImageNameComponent extends Component {
-    private final String imageName;
+    private String imageName;
 
     public ImageNameComponent(String imageName) {
         this.imageName = imageName;
@@ -11,6 +11,10 @@ public class ImageNameComponent extends Component {
 
     public String getImageName() {
         return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
     }
 }
 

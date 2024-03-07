@@ -1,4 +1,4 @@
-package code;
+package old_files;
 
 import code.model.components.ImageNameComponent;
 import code.model.enums.EntityType;
@@ -10,13 +10,15 @@ import com.almasb.fxgl.texture.Texture;
 import java.util.Arrays;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
-import static code.FxglTest.*;
-import static code.Variables.*;
+import static old_files.FxglTest.*;
+import static old_files.Variables.*;
 
 public class Cart {
 
     private boolean distance, direction;
     private Entity cargo, entity;
+
+
 
     //idk why this is here
     public Cart() {}
@@ -227,5 +229,7 @@ public class Cart {
         }
         return imageName;
     }
+
+
 
 }

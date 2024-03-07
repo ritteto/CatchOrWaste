@@ -1,4 +1,4 @@
-package code;
+package old_files;
 
 import code.model.enums.EntityType;
 import com.almasb.fxgl.entity.Entity;
@@ -9,8 +9,7 @@ import java.util.Random;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppHeight;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
-import static code.FxglTest.*;
-import static code.Variables.*;
+import static old_files.FxglTest.*;
 
 /**
  * Represents a falling object in the game.

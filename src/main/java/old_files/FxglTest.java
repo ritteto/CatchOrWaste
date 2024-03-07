@@ -1,10 +1,11 @@
-package code;
+package old_files;
 import code.model.enums.EntityType;
-import code.model.factories.SimpleFactory;
+import code.model.factories.EntityFactory;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.GameWorld;
 import com.almasb.fxgl.texture.Texture;
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
@@ -13,11 +14,14 @@ import javafx.scene.shape.Rectangle;
 
 import static code.controller.CartController.cartMovement;
 import static code.controller.FallingObjectController.*;
+import static code.controller.PlayerController.*;
+import static code.model.CartModel.setGate;
 import static code.model.Constants.Constants.PLAYERSIZE;
 import static code.view.FallingObjectView.spawnObjects;
+import static code.view.PlayerView.isAtStreetEnd;
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
-import static code.Variables.*;
+import static old_files.Variables.*;
 
 
 public class FxglTest extends GameApplication {
@@ -41,14 +45,14 @@ public class FxglTest extends GameApplication {
     protected void initInput() {
 
         //check for Key Inputs
-        onKey(KeyCode.RIGHT,"Move Right", ()-> player.move("Right"));
+        onKey(KeyCode.RIGHT,"Move Right", ()-> movePlayer(true, getGameWorld()));
 
-        onKey(KeyCode.LEFT,"Move Left", ()-> player.move("Left"));
+        onKey(KeyCode.LEFT,"Move Left", ()-> movePlayer(false, getGameWorld()));
 
 
-        onKey(KeyCode.DIGIT1,"1", ()-> gate = true);
+        onKey(KeyCode.DIGIT1,"1", ()-> setGate(true));
 
-        onKey(KeyCode.DIGIT2,"2", ()-> gate = false);
+        onKey(KeyCode.DIGIT2,"2", ()-> setGate(false));
 
         onKeyDown(KeyCode.L,()->{
             for (Entity en :
@@ -87,7 +91,7 @@ public class FxglTest extends GameApplication {
     @Override
     protected void initGame() {
 
-        getGameWorld().addEntityFactory(new SimpleFactory());
+        getGameWorld().addEntityFactory(new EntityFactory());
 
         Entity background1 = spawn("BACKGROUND",0,0);
         Entity background2 = spawn("BACKGROUND",0,0);
@@ -113,29 +117,31 @@ public class FxglTest extends GameApplication {
 
 
         //spawn objects
-        Entity fallingObject_entity = spawn("OBJECT", 500, 100);
-        fallingObject = new FallingObject(fallingObject_entity);
-        fallingObjects[0] = fallingObject;
+        //Entity fallingObject_entity = spawn("OBJECT", 500, 100);
+        //fallingObject = new FallingObject(fallingObject_entity);
+        //fallingObjects[0] = fallingObject;
 
     }
 
     @Override
     protected void onUpdate(double tpf) {
 
-        //cartMovement();
-        spawnObjects(getGameWorld());
-        dropObjects(getGameWorld());
+        playerOnUpdate(getGameWorld());
+        cartOnUpdate(getGameWorld());
+        fallingObjectOnUpdate(getGameWorld());
 
+        /*
         if(player != null){
             player.playerOnUpdate(new Cart(), getGameWorld());
         }
+         */
 
-
-
+        /*
         if(cart != null){
             cart.onUpdate(getGameWorld());
         }
 
+         */
 
         /*
         if(fallingObject != null){
@@ -157,5 +163,22 @@ public class FxglTest extends GameApplication {
         entity.getViewComponent().clearChildren();
         entity.getViewComponent().addChild(textureFromView);
     }
+
+    public static void fallingObjectOnUpdate(GameWorld gameWorld){
+        spawnObjects(gameWorld);
+        dropObjects(gameWorld);
+        stickToPlayer(gameWorld);
+    }
+
+    public static void cartOnUpdate(GameWorld gameWorld){
+        cartMovement(gameWorld);
+    }
+
+    public static void playerOnUpdate(GameWorld gameWorld){
+        catchObject(gameWorld);
+        boundaries(gameWorld);
+        isAtStreetEnd(gameWorld);
+    }
+
 
 }

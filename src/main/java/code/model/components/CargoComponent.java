@@ -6,17 +6,16 @@ import com.almasb.fxgl.entity.component.Component;
 
 public class CargoComponent extends Component {
 
-    private Entity cargo;
+    private Entity catchedEntity;
 
     public CargoComponent(Entity entity){
-        this.cargo = entity;
+        this.catchedEntity = entity;
     }
 
-    public Entity getCargo() {
-        return cargo;
-    }
+    public boolean isFull() {return this.catchedEntity != null;}
 
-    public void setCargo(Entity cargo) {
-        this.cargo = cargo;
-    }
+    public Entity getCatchedEntity() {return catchedEntity;}
+
+    public void setCatchedEntity(Entity entity) {this.catchedEntity = entity;}
+
 }

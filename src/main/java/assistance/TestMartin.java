@@ -1,4 +1,4 @@
-package code.assistance;
+package assistance;
 
 public class TestMartin {
 

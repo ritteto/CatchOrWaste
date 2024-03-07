@@ -1,4 +1,4 @@
-package code;
+package old_files;
 
 import code.model.enums.EntityType;
 import com.almasb.fxgl.dsl.FXGL;
@@ -9,11 +9,10 @@ import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.texture.Texture;
 
-import static code.FxglTest.fallingObjects;
-import static code.Variables.*;
+import static old_files.FxglTest.fallingObjects;
+import static old_files.Variables.*;
 import static code.model.Constants.Constants.*;
 import static code.model.PlayerModel.playerSpeed;
-import static code.view.CartView.spawnCart;
 
 
 public class Wegwerfpolizist {
@@ -79,6 +78,7 @@ public class Wegwerfpolizist {
         this.direction = direction;
     }
 
+
     private void catchObject(){
         if(this.catchedEntity == null){
             for(FallingObject object: fallingObjects) {
@@ -114,6 +114,8 @@ public class Wegwerfpolizist {
                 }
         }
     }
+
+
 
     private void boundaries(){
         //Boundary right
@@ -189,10 +191,9 @@ public class Wegwerfpolizist {
                 }
             }
 
-            spawnCart(gameWorld,STREET_RIGHT_END, STREET_HEIGHT,catchedEntity);
-            //cart.spawn(gameWorld, left, catchedEntity);
+            cart.spawn(gameWorld, left, catchedEntity);
 
-            this.catchedEntity.setType(EntityType.OBJECT_CART);
+            this.catchedEntity.setType(EntityType.CART);
             this.catchedEntity.setVisible(false);
             this.catchedEntity = null;
 
