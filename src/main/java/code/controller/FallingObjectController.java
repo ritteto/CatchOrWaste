@@ -34,10 +34,10 @@ public class FallingObjectController {
                         && isCatched){
                     player.getComponent(CargoComponent.class).setCatchedEntity(object);
                     if(player.getComponent(PlayerDirectionComponent.class).getDirection()){
-                        object.setX(player.getX());
+                        object.setX(player.getX()+PLAYERSIZE*1.2);
                         object.setY(player.getY());
                     }else{
-                        object.setX(player.getX()*0.75);
+                        object.setX(player.getX()+PLAYERSIZE/5*3);
                         object.setY(player.getY());
                     }
                 } else if (player.getComponent(CargoComponent.class).isFull()
