@@ -18,7 +18,7 @@ public class PlayerView {
             if (player.getX() == STREET_RIGHT_END) {
                 changePlayerImage("Down_Right", gameWorld);
                 if(player.getComponent(CargoComponent.class).isFull()){
-                    spawnCart(gameWorld,STREET_RIGHT_END, STREET_HEIGHT, player.getComponent(CargoComponent.class).getCatchedEntity());
+                    spawnCart(gameWorld,STREET_RIGHT_END+50, STREET_HEIGHT, player.getComponent(CargoComponent.class).getCatchedEntity());
                     player.getComponent(CargoComponent.class).getCatchedEntity().removeFromWorld();
                     player.getComponent(CargoComponent.class).setCatchedEntity(null);
                     amount_FO--;
@@ -27,7 +27,7 @@ public class PlayerView {
             if (player.getX() == STREET_LEFT_END) {
                 changePlayerImage("Down_Left", gameWorld);
                 if(player.getComponent(CargoComponent.class).isFull()){
-                    spawnCart(gameWorld,STREET_LEFT_END, STREET_HEIGHT, player.getComponent(CargoComponent.class).getCatchedEntity());
+                    spawnCart(gameWorld,STREET_LEFT_END-30, STREET_HEIGHT, player.getComponent(CargoComponent.class).getCatchedEntity());
                     player.getComponent(CargoComponent.class).getCatchedEntity().removeFromWorld();
                     player.getComponent(CargoComponent.class).setCatchedEntity(null);
                     amount_FO--;

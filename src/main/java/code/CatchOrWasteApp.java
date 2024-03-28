@@ -26,8 +26,8 @@ public class CatchOrWasteApp extends GameApplication {
 
     @Override
     protected void initSettings(GameSettings settings) {
-        //settings.setFullScreenAllowed(true);
-        //settings.setFullScreenFromStart(true);
+        // settings.setFullScreenAllowed(true);
+        // settings.setFullScreenFromStart(true);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class CatchOrWasteApp extends GameApplication {
         // spawn housses
         spawn("HOUSE",new SpawnData(HOUSE1_X,HOUSE_Y).put("Position", 1));
         spawn("HOUSE",new SpawnData(HOUSE2_X,HOUSE_Y).put("Position", 2));
-        spawn("HOUSE",new SpawnData(HOUSE3_X,HOUSE_Y).put("Position", 3));
+        spawn("HOUSE",new SpawnData(HOUSE3_X,HOUSE_Y).put("Position", 1));
         spawn("HOUSE",new SpawnData(HOUSE4_X,HOUSE_Y).put("Position", 2));
 
 
@@ -67,16 +67,14 @@ public class CatchOrWasteApp extends GameApplication {
         spawn("WORKSTATION", new SpawnData(getAppWidth()*-0.0185, getAppHeight()*0.48).put("Position",3));
 
         //spawn the player from the factory
-        spawn("PLAYER",100,getAppHeight()*0.785);
+        spawn("PLAYER",100,getAppHeight()*0.73);
     }
 
     @Override
     protected void onUpdate(double tpf) {
-
         playerOnUpdate(getGameWorld());
         cartOnUpdate(getGameWorld());
         fallingObjectOnUpdate(getGameWorld());
-
     }
 
     public static void main(String[] args) {

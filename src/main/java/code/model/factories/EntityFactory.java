@@ -18,7 +18,6 @@ import static code.model.Constants.Constants.PLAYERSIZE;
 
 public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
 
-    public static double scale=0.115;
 
 
     @Spawns("PLAYER")
@@ -27,7 +26,7 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
                 .view("player/wegwerfpolizist_R_resized.png")
                 .with(new CargoComponent(null))
                 .with(new PlayerDirectionComponent(true))
-                .scale(scale,scale)
+                .scale(2,2)
                 .type(EntityType.PLAYER)
                 .build();
 
@@ -39,13 +38,13 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
     @Spawns("OBJECT")
     public Entity newObject(SpawnData data) {
         Random random = new Random();
-        String [] zufall = {"kleider.png", "iphone.png", "kaputte_lampe.png", "lampe_leuchtend.png", "kaputtes_iphone.png"};
+        String [] zufall = {"iphone_d.png", "iphone_f.png", "iphone_r.png", "kleid_d.png", "kleid_f.png", "kleid_r.png", "lampe_d.png", "lampe_f.png", "lampe_r.png"};
         int zufallszahl = random.nextInt(zufall.length);
         String name = zufall[zufallszahl].replace(".png", "");
         return FXGL.entityBuilder(data)
                 .view("fallingObjects/"+zufall [zufallszahl])
                 .type(EntityType.OBJECT)
-                .scale(0.07,0.07)
+                .scale(1,1)
                 .with(new ProjectileComponent(new Point2D(0,1),100))
                 .with(new ImageNameComponent(name))
                 .with(new IsCatchedComponent(false))
@@ -59,7 +58,7 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
                 .view("carts/"+data.get("CargoName")+"_cart_horizontal.png")
                 .with(new ImageNameComponent(data.get("CargoName")))
                 .with(new CartDirectionComponent(true))
-                .scale(0.12,0.12)
+                .scale(1.7,1.7)
                 .type(EntityType.CART)
                 .build();
     }
@@ -68,11 +67,11 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
 
     @Spawns("HOUSE")
     public Entity newHouse(SpawnData data) {
-        var houses = new String[]{"structures/House1.png","structures/House2.png","structures/House3.png"};
+        var houses = new String[]{"structures/haus1.png","structures/haus2.png"};
         return FXGL.entityBuilder(data)
                 .view(houses[(int) data.get("Position")-1])
                 .type(EntityType.HOUSE)
-                .scale(0.14,0.14)
+                .scale(1.2,1.2)
                 .build();
     }
 
@@ -88,10 +87,10 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
 
     @Spawns("WORKSTATION")
     public Entity newWorkstation(SpawnData data) {
-        var workstations = new String[]{"structures/reparieren.png","structures/market.png","structures/recyclestation.png"};
+        var workstations = new String[]{"structures/reparieren.png","structures/markt.png","structures/recycle.png"};
         return FXGL.entityBuilder(data)
                 .view(workstations[(int)data.get("Position")-1])
-                .scale(0.05,0.05)
+                .scale(1.45,1.45)
                 .zIndex(10)
                 .build();
     }
