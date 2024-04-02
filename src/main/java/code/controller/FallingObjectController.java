@@ -34,20 +34,20 @@ public class FallingObjectController {
                         && isCatched){
                     player.getComponent(CargoComponent.class).setCatchedEntity(object);
                     if(player.getComponent(PlayerDirectionComponent.class).getDirection()){
-                        object.setX(player.getX()+PLAYERSIZE*1.2);
-                        object.setY(player.getY());
+                        object.setX(player.getX()+PLAYERSIZE*1.05);
+                        object.setY(player.getY()*1.1);
                     }else{
-                        object.setX(player.getX()+PLAYERSIZE/5*3);
-                        object.setY(player.getY());
+                        object.setX(player.getX()+PLAYERSIZE*0.45);
+                        object.setY(player.getY()*1.1);
                     }
                 } else if (player.getComponent(CargoComponent.class).isFull()
                         && isCatched && player.getComponent(CargoComponent.class).getCatchedEntity().equals(object)) {
                     if(player.getComponent(PlayerDirectionComponent.class).getDirection()){
-                        object.setX(player.getX()+PLAYERSIZE*1.2);
-                        object.setY(player.getY());
+                        object.setX(player.getX()+PLAYERSIZE*1.05);
+                        object.setY(player.getY()*1.1);
                     }else{
-                        object.setX(player.getX()+PLAYERSIZE/5*3);
-                        object.setY(player.getY());
+                        object.setX(player.getX()+PLAYERSIZE*0.45);
+                        object.setY(player.getY()*1.1);
                     }
                 }
             }

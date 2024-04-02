@@ -2,5 +2,5 @@ package code.model;
 
 public class FallingObjectModel {
 
-    public static int amount_FO = 3;
+    public static int amount_FO = 1;
 }
