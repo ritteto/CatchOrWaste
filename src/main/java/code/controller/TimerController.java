@@ -5,10 +5,9 @@ import code.model.TimerModel;
 import code.view.TimerView;
 import com.almasb.fxgl.dsl.FXGL;
 import javafx.animation.AnimationTimer;
-
+import static code.model.Constants.Constants.TOTAL_TIME_LIMIT_SECONDS;
 public class TimerController {
 
-    private static final int TOTAL_TIME_LIMIT_SECONDS = 180; // 3 min in seconds
 
     private final TimerModel timerModel;
     private final TimerView timerView;
