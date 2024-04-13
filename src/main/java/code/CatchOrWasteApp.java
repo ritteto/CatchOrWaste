@@ -1,5 +1,6 @@
 package code;
 
+import code.controller.GPIOController;
 import code.controller.TimerController;
 import code.model.TimerModel;
 import code.model.factories.EntityFactory;
@@ -12,39 +13,70 @@ import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.texture.Texture;
 import javafx.scene.input.KeyCode;
 
-
 import static code.controller.CartController.cartMovement;
 import static code.controller.FallingObjectController.dropObjects;
 import static code.controller.FallingObjectController.stickToPlayer;
-import static code.controller.PlayerController.*;
+import static code.controller.PlayerController.boundaries;
+import static code.controller.PlayerController.catchObject;
+import static code.controller.PlayerController.movePlayer;
 import static code.model.CartModel.setGate;
-import static code.model.Constants.Constants.*;
+import static code.model.Constants.Constants.HOUSE1_X;
+import static code.model.Constants.Constants.HOUSE2_X;
+import static code.model.Constants.Constants.HOUSE3_X;
+import static code.model.Constants.Constants.HOUSE4_X;
+import static code.model.Constants.Constants.HOUSE_Y;
 import static code.view.FallingObjectView.spawnObjects;
 import static code.view.PlayerView.isAtStreetEnd;
-import static com.almasb.fxgl.dsl.FXGL.*;
+import static com.almasb.fxgl.dsl.FXGL.getAppHeight;
+import static com.almasb.fxgl.dsl.FXGL.getAppWidth;
+import static com.almasb.fxgl.dsl.FXGL.getAssetLoader;
+import static com.almasb.fxgl.dsl.FXGL.getGameScene;
+import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
+import static com.almasb.fxgl.dsl.FXGL.onKey;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 
 public class CatchOrWasteApp extends GameApplication {
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    public static void fallingObjectOnUpdate(GameWorld gameWorld) {
+        spawnObjects(gameWorld);
+        dropObjects(gameWorld);
+        stickToPlayer(gameWorld);
+    }
+
+    public static void cartOnUpdate(GameWorld gameWorld) {
+        cartMovement(gameWorld);
+    }
+
+    public static void playerOnUpdate(GameWorld gameWorld) {
+        catchObject(gameWorld);
+        boundaries(gameWorld);
+        isAtStreetEnd(gameWorld);
+    }
+
     @Override
     protected void initSettings(GameSettings settings) {
         // settings.setFullScreenAllowed(true);
         // settings.setFullScreenFromStart(true);
+        settings.setTicksPerSecond(60);
     }
 
     @Override
     protected void initInput() {
+        String osArch = System.getProperty("os.arch").toLowerCase();
 
-        //check for Key Inputs
+        if (osArch.contains("arm") || osArch.contains("aarch64")) {
+            GPIOController controller = new GPIOController(); // Funktioniert nur bei ARM Prozessoren (Raspberry Pi)
+        }
+
         onKey(KeyCode.RIGHT, "Move Right", () -> movePlayer(true, getGameWorld()));
-
         onKey(KeyCode.LEFT, "Move Left", () -> movePlayer(false, getGameWorld()));
-
         onKey(KeyCode.DIGIT1, "1", () -> setGate(true));
-
         onKey(KeyCode.DIGIT2, "2", () -> setGate(false));
-
     }
 
     @Override
@@ -89,11 +121,6 @@ public class CatchOrWasteApp extends GameApplication {
         fallingObjectOnUpdate(getGameWorld());
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-
     public void setBackground(Entity entity, String view) {
         Texture textureFromView = new Texture(getAssetLoader().loadImage(view));
         textureFromView.setFitWidth(getAppWidth());
@@ -102,25 +129,9 @@ public class CatchOrWasteApp extends GameApplication {
         entity.getViewComponent().addChild(textureFromView);
     }
 
-    public static void fallingObjectOnUpdate(GameWorld gameWorld) {
-        spawnObjects(gameWorld);
-        dropObjects(gameWorld);
-        stickToPlayer(gameWorld);
-    }
-
-    public static void cartOnUpdate(GameWorld gameWorld) {
-        cartMovement(gameWorld);
-    }
-
-    public static void playerOnUpdate(GameWorld gameWorld) {
-        catchObject(gameWorld);
-        boundaries(gameWorld);
-        isAtStreetEnd(gameWorld);
-    }
-
     public void timeIsUp() {
         //TODO: show end screen with results after time is up
-          System.out.println("Time's up!");
+        System.out.println("Time's up!");
     }
 
 }

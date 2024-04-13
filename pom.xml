@@ -17,15 +17,15 @@
         <!-- PROJECT ENCODING PROPERTIES -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <launcher.class>code/FxglTest</launcher.class>
+        <launcher.class>com.pi4j.example/code.CatchOrWasteApp</launcher.class>
 
 
         <pi.hostname>pi4j</pi.hostname>
-        <pi.ipnumber>172.20.10.2</pi.ipnumber>  <!-- change to concrete ip-number if hostname is not unique in wlan -->
+        <pi.ipnumber>172.20.10.5</pi.ipnumber>  <!-- change to concrete ip-number if hostname is not unique in wlan -->
         <pi.port>22</pi.port>
         <pi.username>pi4j</pi.username>
         <pi.password>pi4j</pi.password>
-        <pi.deploydirectory>/home/pi/deploy</pi.deploydirectory>
+        <pi.deploydirectory>/home/pi4j/deploy</pi.deploydirectory>
         <pi.jvmOptions/>
 
         <!-- Maven Plugin Versions -->
@@ -226,7 +226,6 @@
                                              port="${pi.port}">
                                             <fileset dir="${project.build.directory}/distribution">
                                                 <exclude name="javafx*.jar"/>/>
-                                                <exclude name="jackson.annotation-2.12.1.jar"/>
                                             </fileset>
                                         </scp>
 
@@ -234,7 +233,7 @@
                                         <sshexec host="${pi.ipnumber}" port="${pi.port}"
                                                  username="${pi.username}" password="${pi.password}" trust="true"
                                                  failonerror="false" usepty="true" useSystemIn="true"
-                                                 command="DISPLAY=:0 XAUTHORITY=/home/pi/.Xauthority sudo -E java -XX:+UseZGC -Xmx1G  ${pi.jvmOptions} --module-path /opt/javafx-sdk/lib:${pi.deploydirectory} --add-modules javafx.controls -Dglass.platform=gtk --module ${launcher.class}"/>
+                                                 command="DISPLAY=:0 XAUTHORITY=/home/pi4j/.Xauthority sudo -E java -XX:+UseZGC -Xmx1G  ${pi.jvmOptions} --module-path /opt/javafx-sdk/lib:${pi.deploydirectory} --add-modules javafx.controls -Dglass.platform=gtk --module ${launcher.class}"/>
                                     </target>
                                 </configuration>
                             </execution>
