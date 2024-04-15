@@ -43,5 +43,5 @@ open module com.pi4j.example {
     uses com.pi4j.provider.Provider;
 
     // allow access to classes in the following namespaces for Pi4J annotation processing
-    exports code to com.almasb.fxgl.core;
+    exports CatchOrWaste to com.almasb.fxgl.core;
 }
