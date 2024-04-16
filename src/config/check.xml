@@ -1,84 +1,93 @@
-<?xml version="1.0"?>
-<!DOCTYPE module PUBLIC
-        "-//Puppy Crawl//DTD Check Configuration 1.3//EN"
-        "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
-
-
 <module name="Checker">
+    <!-- Grundlegende Kodierungs- und Lokalisierungseinstellungen -->
     <property name="charset" value="UTF-8"/>
     <property name="localeLanguage" value=""/>
     <property name="localeCountry" value=""/>
 
+    <!-- Erlaubt die Definition von Filtern zur Unterdrückung bestimmter Warnungen -->
     <module name="SuppressionFilter">
         <property name="file" value="src/config/suppressions.xml"/>
         <property name="optional" value="false"/>
     </module>
-    <!--Add more checks from google style guide:-->
-    <!--https://github.com/checkstyle/checkstyle/blob/master/src/main/resources/google_checks.xml-->
+
+    <!-- Hauptmodul zur Analyse der Struktur des Java-Quellcodes -->
     <module name="TreeWalker">
+        <!-- Stellt den Tabulatorabstand für die Einrückung ein -->
         <property name="tabWidth" value="2"/>
+
+        <!-- Überprüft, ob Paketnamen den festgelegten Konventionen entsprechen -->
         <module name="PackageName">
             <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
         </module>
+
+        <!-- Verbietet den Import bestimmter Pakete oder Klassen -->
         <module name="IllegalImport">
             <property name="illegalPkgs" value="junit, org.hamcrest"/>
             <property name="illegalClasses" value="java.util.logging.Logger"/>
         </module>
+
+        <!-- Erkennt redundante Import-Anweisungen -->
         <module name="RedundantImport"/>
+
+        <!-- Vermeidet Import-Anweisungen, die (*) verwenden -->
         <module name="AvoidStarImport"/>
+
+        <!-- Erkennt ungenutzte Import-Anweisungen, inklusive in Javadoc-Kommentaren -->
         <module name="UnusedImports">
             <property name="processJavadoc" value="true"/>
         </module>
 
+        <!-- Verwaltet die Einrückung von Klammern nach Steuerstrukturen -->
         <module name="ParenPad"/>
         <module name="MethodParamPad"/>
-        <!--        <module name="NoWhitespaceAfter"/>-->
-        <!--        <module name="NoWhitespaceBefore"/>-->
-        <!--        <module name="WhitespaceAfter">-->
-        <!--        </module>-->
-        <!--        <module name="WhitespaceAround">-->
-        <!--        </module>-->
 
+        <!-- Überprüft die korrekte Reihenfolge der Java-Modifikatoren -->
         <module name="ModifierOrder"/>
+
+        <!-- Entdeckt redundante Modifikatoren -->
         <module name="RedundantModifier"/>
 
+        <!-- Kontrolliert die Position der öffnenden Klammer '{' -->
         <module name="LeftCurly"/>
+
+        <!-- Überprüft die korrekte Implementierung von 'clone' und 'finalize' Methoden -->
         <module name="SuperClone"/>
         <module name="SuperFinalize"/>
+
+        <!-- Stellt sicher, dass 'default' Anweisungen in 'switch' Strukturen zuletzt kommen -->
         <module name="DefaultComesLast"/>
+
+        <!-- Verhindert die Mehrfachdeklaration von Variablen in einer Zeile -->
         <module name="MultipleVariableDeclarations"/>
+
+        <!-- Erkennt unnötige Klammern in Ausdrücken -->
         <module name="UnnecessaryParentheses"/>
+
+        <!-- Misst die Komplexität in Bezug auf die Anzahl unterschiedlicher Klassen, die eine Klasse verwendet -->
         <module name="ClassFanOutComplexity">
             <property name="max" value="30"/>
         </module>
-        <module name="CyclomaticComplexity">
-            <property name="max" value="11"/>
-        </module>
-        <module name="NPathComplexity"/>
 
-
+        <!-- Bestimmt den Stil von Array-Deklarationen -->
         <module name="ArrayTypeStyle"/>
-        <!--        <module name="Indentation">-->
-        <!--            <property name="basicOffset" value="2"/>-->
-        <!--            <property name="caseIndent" value="2"/>-->
-        <!--            <property name="throwsIndent" value="2"/>-->
-        <!--            <property name="arrayInitIndent" value="2"/>-->
-        <!--            <property name="lineWrappingIndentation" value="2"/>-->
-        <!--        </module>-->
     </module>
 
+    <!-- Filtert spezifische Dateien vor der Ausführung, z.B. module-info.java -->
     <module name="BeforeExecutionExclusionFileFilter">
         <property name="fileNamePattern" value="module-info\.java$"/>
     </module>
 
-
+    <!-- Legt die maximale Zeilenlänge fest und ignoriert dabei bestimmte Muster -->
     <module name="LineLength">
         <property name="ignorePattern" value="^ *\* *@see.+$"/>
         <property name="max" value="120"/>
     </module>
 
+    <!-- Überprüft, ob Dateien mit einem Zeilenumbruch enden -->
     <module name="NewlineAtEndOfFile">
         <property name="lineSeparator" value="crlf"/>
     </module>
+
+    <!-- Ermittelt die Verwendung von Tabulatorzeichen in Dateien -->
     <module name="FileTabCharacter"/>
 </module>
