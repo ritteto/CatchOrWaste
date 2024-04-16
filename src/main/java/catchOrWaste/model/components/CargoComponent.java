@@ -12,10 +12,16 @@ public class CargoComponent extends Component {
         this.catchedEntity = entity;
     }
 
-    public boolean isFull() {return this.catchedEntity != null;}
+    public boolean isFull() {
+        return this.catchedEntity != null;
+    }
 
-    public Entity getCatchedEntity() {return catchedEntity;}
+    public Entity getCatchedEntity() {
+        return catchedEntity;
+    }
 
-    public void setCatchedEntity(Entity entity) {this.catchedEntity = entity;}
+    public void setCatchedEntity(Entity entity) {
+        this.catchedEntity = entity;
+    }
 
 }
