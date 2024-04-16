@@ -1,4 +1,4 @@
-package CatchOrWaste.model.constants;
+package catchOrWaste.model.constants;
 
 import static com.almasb.fxgl.dsl.FXGL.getAppHeight;
 import static com.almasb.fxgl.dsl.FXGL.getAppWidth;

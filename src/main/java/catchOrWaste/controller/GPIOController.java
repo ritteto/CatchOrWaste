@@ -1,4 +1,4 @@
-package CatchOrWaste.controller;
+package catchOrWaste.controller;
 
 import com.pi4j.Pi4J;
 import com.pi4j.context.Context;
@@ -9,7 +9,7 @@ import javafx.application.Platform;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static CatchOrWaste.controller.PlayerController.movePlayer;
+import static catchOrWaste.controller.PlayerController.movePlayer;
 import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
 
 public class GPIOController {

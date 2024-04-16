@@ -1,11 +1,11 @@
-package CatchOrWaste.model.factories;
+package catchOrWaste.model.factories;
 
-import CatchOrWaste.model.components.CargoComponent;
-import CatchOrWaste.model.components.PlayerDirectionComponent;
-import CatchOrWaste.model.components.ImageNameComponent;
-import CatchOrWaste.model.components.IsCatchedComponent;
-import CatchOrWaste.model.components.CartDirectionComponent;
-import CatchOrWaste.model.enums.EntityType;
+import catchOrWaste.model.components.CargoComponent;
+import catchOrWaste.model.components.PlayerDirectionComponent;
+import catchOrWaste.model.components.ImageNameComponent;
+import catchOrWaste.model.components.IsCatchedComponent;
+import catchOrWaste.model.components.CartDirectionComponent;
+import catchOrWaste.model.enums.EntityType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
 import com.almasb.fxgl.entity.Entity;
@@ -19,8 +19,8 @@ import javafx.scene.image.ImageView;
 
 import java.util.Random;
 
-import static CatchOrWaste.CatchOrWasteApp.imageMap;
-import static CatchOrWaste.model.constants.Constants.PLAYERSIZE;
+import static catchOrWaste.CatchOrWasteApp.imageMap;
+import static catchOrWaste.model.constants.Constants.PLAYERSIZE;
 
 
 public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {

@@ -1,13 +1,13 @@
-package CatchOrWaste.view;
+package catchOrWaste.view;
 
 import com.almasb.fxgl.entity.GameWorld;
 
 import java.util.Random;
 
-import static CatchOrWaste.model.constants.Constants.lastSpawnTime;
-import static CatchOrWaste.model.constants.Constants.itemsPerSecond;
-import static CatchOrWaste.model.constants.Constants.HOUSES;
-import static CatchOrWaste.model.constants.Constants.HOUSE_Y;
+import static catchOrWaste.model.constants.Constants.lastSpawnTime;
+import static catchOrWaste.model.constants.Constants.itemsPerSecond;
+import static catchOrWaste.model.constants.Constants.HOUSES;
+import static catchOrWaste.model.constants.Constants.HOUSE_Y;
 
 public class FallingObjectView {
 

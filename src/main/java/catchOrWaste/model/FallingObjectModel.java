@@ -1,4 +1,4 @@
-package CatchOrWaste.model;
+package catchOrWaste.model;
 
 public class FallingObjectModel {
 

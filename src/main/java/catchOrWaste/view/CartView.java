@@ -1,16 +1,16 @@
-package CatchOrWaste.view;
+package catchOrWaste.view;
 
-import CatchOrWaste.model.CartModel;
-import CatchOrWaste.model.components.CartDirectionComponent;
-import CatchOrWaste.model.enums.EntityType;
-import CatchOrWaste.model.components.ImageNameComponent;
+import catchOrWaste.model.CartModel;
+import catchOrWaste.model.components.CartDirectionComponent;
+import catchOrWaste.model.enums.EntityType;
+import catchOrWaste.model.components.ImageNameComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 import com.almasb.fxgl.entity.SpawnData;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import static CatchOrWaste.CatchOrWasteApp.imageMap;
+import static catchOrWaste.CatchOrWasteApp.imageMap;
 import static com.almasb.fxgl.dsl.FXGL.getAppWidth;
 import static com.almasb.fxgl.dsl.FXGL.getAppHeight;
 

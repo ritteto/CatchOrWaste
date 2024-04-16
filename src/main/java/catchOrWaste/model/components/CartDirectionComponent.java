@@ -1,13 +1,13 @@
-package CatchOrWaste.model.components;
+package catchOrWaste.model.components;
 
 import com.almasb.fxgl.entity.component.Component;
 
 
-public class PlayerDirectionComponent extends Component {
+public class CartDirectionComponent extends Component {
 
     private boolean direction;
 
-    public PlayerDirectionComponent(Boolean direction){
+    public CartDirectionComponent(Boolean direction){
         this.direction = direction;
     }
 

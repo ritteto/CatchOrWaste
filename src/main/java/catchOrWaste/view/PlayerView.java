@@ -1,17 +1,17 @@
-package CatchOrWaste.view;
+package catchOrWaste.view;
 
-import CatchOrWaste.model.components.CargoComponent;
-import CatchOrWaste.model.enums.EntityType;
+import catchOrWaste.model.components.CargoComponent;
+import catchOrWaste.model.enums.EntityType;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 import javafx.scene.image.ImageView;
 
-import static CatchOrWaste.CatchOrWasteApp.imageMap;
-import static CatchOrWaste.model.constants.Constants.STREET_RIGHT_END;
-import static CatchOrWaste.model.constants.Constants.STREET_LEFT_END;
-import static CatchOrWaste.model.constants.Constants.STREET_HEIGHT;
-import static CatchOrWaste.model.FallingObjectModel.amount_FO;
-import static CatchOrWaste.view.CartView.spawnCart;
+import static catchOrWaste.CatchOrWasteApp.imageMap;
+import static catchOrWaste.model.constants.Constants.STREET_RIGHT_END;
+import static catchOrWaste.model.constants.Constants.STREET_LEFT_END;
+import static catchOrWaste.model.constants.Constants.STREET_HEIGHT;
+import static catchOrWaste.model.FallingObjectModel.amount_FO;
+import static catchOrWaste.view.CartView.spawnCart;
 public class PlayerView {
 
     public static void isAtStreetEnd(GameWorld gameWorld) {

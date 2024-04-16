@@ -17,7 +17,7 @@
         <!-- PROJECT ENCODING PROPERTIES -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <launcher.class>com.pi4j.example/CatchOrWaste.CatchOrWasteApp</launcher.class>
+        <launcher.class>com.pi4j.example/catchOrWaste.CatchOrWasteApp</launcher.class>
 
 
         <pi.hostname>pi4j</pi.hostname>
@@ -129,7 +129,7 @@
                         <argument>--module-path</argument>
                         <argument>${project.build.directory}/distribution</argument>
                         <argument>--module</argument>
-                        <argument>com.pi4j.example/CatchOrWaste.CatchOrWasteApp</argument>
+                        <argument>com.pi4j.example/catchOrWaste.CatchOrWasteApp</argument>
                     </arguments>
                 </configuration>
             </plugin>

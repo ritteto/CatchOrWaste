@@ -1,23 +1,23 @@
-package CatchOrWaste.controller;
+package catchOrWaste.controller;
 
-import CatchOrWaste.model.enums.EntityType;
+import catchOrWaste.model.enums.EntityType;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 
 
-import static CatchOrWaste.model.CartModel.getCartSpeed;
-import static CatchOrWaste.model.CartModel.isGate;
-import static CatchOrWaste.model.constants.Constants.CURVE_BL;
-import static CatchOrWaste.model.constants.Constants.STREET_LEFT_END;
-import static CatchOrWaste.model.constants.Constants.STREET_RIGHT_END;
-import static CatchOrWaste.model.constants.Constants.STREET_HEIGHT;
-import static CatchOrWaste.model.constants.Constants.GATE_HEIGHT;
-import static CatchOrWaste.model.constants.Constants.GATE_LEFT_END;
-import static CatchOrWaste.model.constants.Constants.GATE_RIGHT_END;
-import static CatchOrWaste.model.constants.Constants.RECYCLE_HEIGHT;
-import static CatchOrWaste.model.constants.Constants.CURVE_BR;
-import static CatchOrWaste.model.constants.Constants.CURVE_TR;
-import static CatchOrWaste.view.CartView.changeCartImage;
+import static catchOrWaste.model.CartModel.getCartSpeed;
+import static catchOrWaste.model.CartModel.isGate;
+import static catchOrWaste.model.constants.Constants.CURVE_BL;
+import static catchOrWaste.model.constants.Constants.STREET_LEFT_END;
+import static catchOrWaste.model.constants.Constants.STREET_RIGHT_END;
+import static catchOrWaste.model.constants.Constants.STREET_HEIGHT;
+import static catchOrWaste.model.constants.Constants.GATE_HEIGHT;
+import static catchOrWaste.model.constants.Constants.GATE_LEFT_END;
+import static catchOrWaste.model.constants.Constants.GATE_RIGHT_END;
+import static catchOrWaste.model.constants.Constants.RECYCLE_HEIGHT;
+import static catchOrWaste.model.constants.Constants.CURVE_BR;
+import static catchOrWaste.model.constants.Constants.CURVE_TR;
+import static catchOrWaste.view.CartView.changeCartImage;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppWidth;
 
 

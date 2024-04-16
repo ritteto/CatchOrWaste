@@ -1,4 +1,4 @@
-package CatchOrWaste.view;
+package catchOrWaste.view;
 
 
 public class BackgroundView {
