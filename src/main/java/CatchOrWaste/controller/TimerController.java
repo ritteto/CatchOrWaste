@@ -5,7 +5,7 @@ import CatchOrWaste.model.TimerModel;
 import CatchOrWaste.view.TimerView;
 import com.almasb.fxgl.dsl.FXGL;
 import javafx.animation.AnimationTimer;
-import static CatchOrWaste.model.Constants.Constants.TOTAL_TIME_LIMIT_SECONDS;
+import static CatchOrWaste.model.constants.Constants.TOTAL_TIME_LIMIT_SECONDS;
 public class TimerController {
 
 

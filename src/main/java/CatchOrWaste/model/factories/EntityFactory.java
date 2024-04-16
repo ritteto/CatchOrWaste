@@ -1,6 +1,10 @@
 package CatchOrWaste.model.factories;
 
-import CatchOrWaste.model.components.*;
+import CatchOrWaste.model.components.CargoComponent;
+import CatchOrWaste.model.components.PlayerDirectionComponent;
+import CatchOrWaste.model.components.ImageNameComponent;
+import CatchOrWaste.model.components.IsCatchedComponent;
+import CatchOrWaste.model.components.CartDirectionComponent;
 import CatchOrWaste.model.enums.EntityType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
@@ -16,7 +20,7 @@ import javafx.scene.image.ImageView;
 import java.util.Random;
 
 import static CatchOrWaste.CatchOrWasteApp.imageMap;
-import static CatchOrWaste.model.Constants.Constants.PLAYERSIZE;
+import static CatchOrWaste.model.constants.Constants.PLAYERSIZE;
 
 
 public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
@@ -44,7 +48,10 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
                 imageMap.get("iphone_d"), imageMap.get("iphone_f"), imageMap.get("iphone_r"),
                 imageMap.get("kleid_d"), imageMap.get("kleid_f"), imageMap.get("kleid_r"),
                 imageMap.get("lampe_d"), imageMap.get("lampe_f"), imageMap.get("lampe_r")};
-        String[] names = {"iphone_d","iphone_f","iphone_r","kleid_d","kleid_f","kleid_r","lampe_d","lampe_f","lampe_r"};
+        String[] names = {
+                "iphone_d", "iphone_f","iphone_r",
+                "kleid_d","kleid_f","kleid_r",
+                "lampe_d","lampe_f","lampe_r"};
         int zufallszahl = random.nextInt(zufall.length);
         String name = names[zufallszahl];
 

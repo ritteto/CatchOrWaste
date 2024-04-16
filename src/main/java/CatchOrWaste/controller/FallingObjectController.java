@@ -7,8 +7,8 @@ import CatchOrWaste.model.enums.EntityType;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 
-import static CatchOrWaste.model.Constants.Constants.PLAYERSIZE;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
+import static CatchOrWaste.model.constants.Constants.PLAYERSIZE;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppHeight;
 
 public class FallingObjectController {
 
