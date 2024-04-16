@@ -1,6 +1,13 @@
 package catchorwaste.model.factories;
 
-import catchorwaste.model.components.*;
+import catchorwaste.model.components.CargoComponent;
+import catchorwaste.model.components.PlayerDirectionComponent;
+import catchorwaste.model.components.ImageNameComponent;
+import catchorwaste.model.components.IsCatchedComponent;
+import catchorwaste.model.components.CartDirectionComponent;
+import catchorwaste.model.components.ItemStatusComponent;
+import catchorwaste.model.components.ItemTypeComponent;
+
 import catchorwaste.model.enums.EntityType;
 import catchorwaste.model.enums.ItemStatus;
 import catchorwaste.model.enums.ItemType;
@@ -52,7 +59,7 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
                 "lampe_d", "lampe_f", "lampe_r"};
         int zufallszahl = random.nextInt(zufall.length);
         String name = names[zufallszahl];
-        ItemStatus itemStatus = null;
+        ItemStatus itemStatus;
         ItemType itemType = null;
         // Bestimme den ItemType basierend auf dem Namen des Objekts
         if (name.startsWith("iphone")) {
@@ -116,10 +123,10 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
 
 
     public Entity newWorkstation(SpawnData data) {
-        var workstations = new String[]{"reparieren","markt","recycle"};
+        var workstations = new String[]{"reparieren", "markt", "recycle"};
         return FXGL.entityBuilder(data)
-                .view(new ImageView(imageMap.get(workstations[(int)data.get("Position")-1])))
-                .scale(1.45,1.45)
+                .view(new ImageView(imageMap.get(workstations[(int) data.get("Position") - 1])))
+                .scale(1.45, 1.45)
                 .zIndex(10)
                 .build();
     }

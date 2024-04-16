@@ -1,9 +1,9 @@
 package catchorwaste.controller;
 
-import catchorwaste.model.PunktesystemModel;
-import catchorwaste.model.components.*;
+import catchorwaste.model.components.IsCatchedComponent;
+import catchorwaste.model.components.CargoComponent;
+import catchorwaste.model.components.PlayerDirectionComponent;
 import catchorwaste.model.enums.EntityType;
-import catchorwaste.view.PunktesystemView;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 

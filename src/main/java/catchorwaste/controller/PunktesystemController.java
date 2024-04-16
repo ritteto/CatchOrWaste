@@ -7,7 +7,9 @@ import catchorwaste.view.PunktesystemView;
 
 import java.util.Objects;
 
-import static catchorwaste.model.constants.Constants.*;
+import static catchorwaste.model.constants.Constants.IPHONE_SCORE;
+import static catchorwaste.model.constants.Constants.LAMP_SCORE;
+import static catchorwaste.model.constants.Constants.DRESS_SCORE;
 
 
 public class PunktesystemController {
