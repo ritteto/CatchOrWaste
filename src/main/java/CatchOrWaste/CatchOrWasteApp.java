@@ -66,8 +66,8 @@ public class CatchOrWasteApp extends GameApplication {
 
     @Override
     protected void initSettings(GameSettings settings) {
-        //settings.setFullScreenAllowed(true);
-        //settings.setFullScreenFromStart(true);
+        settings.setFullScreenAllowed(true);
+        settings.setFullScreenFromStart(true);
         settings.setTicksPerSecond(60);
     }
 
