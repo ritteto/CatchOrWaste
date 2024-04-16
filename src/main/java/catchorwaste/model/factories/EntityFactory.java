@@ -1,11 +1,9 @@
 package catchorwaste.model.factories;
 
-import catchorwaste.model.components.CargoComponent;
-import catchorwaste.model.components.PlayerDirectionComponent;
-import catchorwaste.model.components.ImageNameComponent;
-import catchorwaste.model.components.IsCatchedComponent;
-import catchorwaste.model.components.CartDirectionComponent;
+import catchorwaste.model.components.*;
 import catchorwaste.model.enums.EntityType;
+import catchorwaste.model.enums.ItemStatus;
+import catchorwaste.model.enums.ItemType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
 import com.almasb.fxgl.entity.Entity;
@@ -32,11 +30,11 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
                 .view(new ImageView(imageMap.get("wegwerfpolizist_r_resized")))
                 .with(new CargoComponent(null))
                 .with(new PlayerDirectionComponent(true))
-                .scale(2,2)
+                .scale(2, 2)
                 .type(EntityType.PLAYER)
                 .build();
 
-        entity.getBoundingBoxComponent().addHitBox(new HitBox(BoundingShape.box(PLAYERSIZE,PLAYERSIZE)));
+        entity.getBoundingBoxComponent().addHitBox(new HitBox(BoundingShape.box(PLAYERSIZE, PLAYERSIZE)));
 
         return entity;
     }
@@ -49,19 +47,37 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
                 imageMap.get("kleid_d"), imageMap.get("kleid_f"), imageMap.get("kleid_r"),
                 imageMap.get("lampe_d"), imageMap.get("lampe_f"), imageMap.get("lampe_r")};
         String[] names = {
-                "iphone_d", "iphone_f","iphone_r",
-                "kleid_d","kleid_f","kleid_r",
-                "lampe_d","lampe_f","lampe_r"};
+                "iphone_d", "iphone_f", "iphone_r",
+                "kleid_d", "kleid_f", "kleid_r",
+                "lampe_d", "lampe_f", "lampe_r"};
         int zufallszahl = random.nextInt(zufall.length);
         String name = names[zufallszahl];
-
+        ItemStatus itemStatus = null;
+        ItemType itemType = null;
+        // Bestimme den ItemType basierend auf dem Namen des Objekts
+        if (name.startsWith("iphone")) {
+            itemType = ItemType.IPHONE;
+        } else if (name.startsWith("kleid")) {
+            itemType = ItemType.DRESS;
+        } else if (name.startsWith("lampe")) {
+            itemType = ItemType.LAMP;
+        }
+        if (name.endsWith("_d")) {
+            itemStatus = ItemStatus.DEFECT;
+        } else if ((name.endsWith("_f"))) {
+            itemStatus = ItemStatus.FUNCTIONAL;
+        } else {
+            itemStatus = ItemStatus.REPAIRABLE;
+        }
         return FXGL.entityBuilder(data)
-                .view(new ImageView(zufall [zufallszahl]))
+                .view(new ImageView(zufall[zufallszahl]))
                 .type(EntityType.OBJECT)
-                .scale(1,1)
-                .with(new ProjectileComponent(new Point2D(0,1),100))
+                .scale(1, 1)
+                .with(new ProjectileComponent(new Point2D(0, 1), 100))
                 .with(new ImageNameComponent(name))
                 .with(new IsCatchedComponent(false))
+                .with(new ItemTypeComponent(itemType))
+                .with(new ItemStatusComponent(itemStatus))
                 .build();
     }
 
@@ -69,23 +85,22 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
     @Spawns("CART")
     public Entity newCart(SpawnData data) {
         return FXGL.entityBuilder(data)
-                .view(new ImageView(imageMap.get(data.get("CargoName")+"_cart_horizontal")))
+                .view(new ImageView(imageMap.get(data.get("CargoName") + "_cart_horizontal")))
                 .with(new ImageNameComponent(data.get("CargoName")))
                 .with(new CartDirectionComponent(true))
-                .scale(1.7,1.7)
+                .scale(1.7, 1.7)
                 .type(EntityType.CART)
                 .build();
     }
 
 
-
     @Spawns("HOUSE")
     public Entity newHouse(SpawnData data) {
-        var houses = new String[]{"haus1","haus2"};
+        var houses = new String[]{"haus1", "haus2"};
         return FXGL.entityBuilder(data)
-                .view(new ImageView(imageMap.get(houses[(int)data.get("Position")-1])))
+                .view(new ImageView(imageMap.get(houses[(int) data.get("Position") - 1])))
                 .type(EntityType.HOUSE)
-                .scale(1.2,1.2)
+                .scale(1.2, 1.2)
                 .build();
     }
 
@@ -94,13 +109,12 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
     public Entity newBackground(SpawnData data) {
         var backgrounds = new String[]{"background_bad", "streets"};
         return FXGL.entityBuilder(data)
-                .view(new ImageView(imageMap.get(backgrounds[(int)data.get("Position")-1])))
+                .view(new ImageView(imageMap.get(backgrounds[(int) data.get("Position") - 1])))
                 .type(EntityType.BACKGROUND)
                 .build();
     }
 
 
-    @Spawns("WORKSTATION")
     public Entity newWorkstation(SpawnData data) {
         var workstations = new String[]{"reparieren","markt","recycle"};
         return FXGL.entityBuilder(data)
@@ -109,7 +123,6 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
                 .zIndex(10)
                 .build();
     }
-
 
 
 }
