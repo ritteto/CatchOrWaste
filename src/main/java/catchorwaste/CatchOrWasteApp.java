@@ -2,8 +2,10 @@ package catchorwaste;
 
 import catchorwaste.controller.GPIOController;
 import catchorwaste.controller.TimerController;
+import catchorwaste.model.PunktesystemModel;
 import catchorwaste.model.TimerModel;
 import catchorwaste.model.factories.EntityFactory;
+import catchorwaste.view.PunktesystemView;
 import catchorwaste.view.TimerView;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
@@ -24,11 +26,11 @@ import static catchorwaste.controller.PlayerController.boundaries;
 import static catchorwaste.controller.PlayerController.catchObject;
 import static catchorwaste.controller.PlayerController.movePlayer;
 import static catchorwaste.model.CartModel.setGate;
+import static catchorwaste.model.constants.Constants.HOUSE_Y;
 import static catchorwaste.model.constants.Constants.HOUSE1_X;
 import static catchorwaste.model.constants.Constants.HOUSE2_X;
 import static catchorwaste.model.constants.Constants.HOUSE3_X;
 import static catchorwaste.model.constants.Constants.HOUSE4_X;
-import static catchorwaste.model.constants.Constants.HOUSE_Y;
 import static catchorwaste.view.FallingObjectView.spawnObjects;
 import static catchorwaste.view.PlayerView.isAtStreetEnd;
 import static com.almasb.fxgl.dsl.FXGL.getAppHeight;
@@ -81,7 +83,6 @@ public class CatchOrWasteApp extends GameApplication {
         }
 
 
-
         onKey(KeyCode.RIGHT, "Move Right", () -> movePlayer(true, getGameWorld()));
         onKey(KeyCode.LEFT, "Move Left", () -> movePlayer(false, getGameWorld()));
         onKey(KeyCode.DIGIT1, "1", () -> setGate(true));
@@ -105,8 +106,8 @@ public class CatchOrWasteApp extends GameApplication {
         loadImages();
         getGameWorld().addEntityFactory(new EntityFactory());
 
-        Entity background1 = spawn("BACKGROUND", new SpawnData(0,0).put("Position",1));
-        Entity background2 = spawn("BACKGROUND", new SpawnData(0,0).put("Position",2));
+        Entity background1 = spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 1));
+        Entity background2 = spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 2));
         setBackground(background1);
         setBackground(background2);
 
@@ -125,6 +126,12 @@ public class CatchOrWasteApp extends GameApplication {
         //spawn the player from the factory
         spawn("PLAYER", 100, getAppHeight() * 0.73);
 
+        PunktesystemModel scoreModel = new PunktesystemModel();
+        PunktesystemView scoreView = new PunktesystemView();
+        // add score system to the game
+        getGameScene().addUINode(scoreView);
+        scoreView.updateScore(scoreModel.getScore());
+
     }
 
     @Override
@@ -135,7 +142,7 @@ public class CatchOrWasteApp extends GameApplication {
     }
 
     public void setBackground(Entity entity) {
-        ImageView imageView =  entity.getViewComponent().getChild(0, ImageView.class);
+        ImageView imageView = entity.getViewComponent().getChild(0, ImageView.class);
         imageView.setFitWidth(getAppWidth());
         imageView.setFitHeight(getAppHeight());
         entity.getViewComponent().clearChildren();
@@ -147,7 +154,7 @@ public class CatchOrWasteApp extends GameApplication {
         System.out.println("Time's up!");
     }
 
-    public void loadImages(){
+    public void loadImages() {
 
         var backroundsImgs = new String[]{"background_bad", "streets"};
 
@@ -181,9 +188,9 @@ public class CatchOrWasteApp extends GameApplication {
 
     }
 
-    public void addToMap(String dir, String[] names){
+    public void addToMap(String dir, String[] names) {
         for (String s : names) {
-            imageMap.put(s,getAssetLoader().loadImage(dir+"/"+s+".png"));
+            imageMap.put(s, getAssetLoader().loadImage(dir + "/" + s + ".png"));
         }
     }
 
