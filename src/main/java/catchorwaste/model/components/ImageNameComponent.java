@@ -1,4 +1,4 @@
-package catchOrWaste.model.components;
+package catchorwaste.model.components;
 
 import com.almasb.fxgl.entity.component.Component;
 

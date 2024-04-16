@@ -1,13 +1,13 @@
-package catchOrWaste.controller;
+package catchorwaste.controller;
 
-import catchOrWaste.model.components.CargoComponent;
-import catchOrWaste.model.components.IsCatchedComponent;
-import catchOrWaste.model.components.PlayerDirectionComponent;
-import catchOrWaste.model.enums.EntityType;
+import catchorwaste.model.components.CargoComponent;
+import catchorwaste.model.components.IsCatchedComponent;
+import catchorwaste.model.components.PlayerDirectionComponent;
+import catchorwaste.model.enums.EntityType;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 
-import static catchOrWaste.model.constants.Constants.PLAYERSIZE;
+import static catchorwaste.model.constants.Constants.PLAYERSIZE;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppHeight;
 
 public class FallingObjectController {

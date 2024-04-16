@@ -1,11 +1,11 @@
-package catchOrWaste.controller;
+package catchorwaste.controller;
 
-import catchOrWaste.CatchOrWasteApp;
-import catchOrWaste.model.TimerModel;
-import catchOrWaste.view.TimerView;
+import catchorwaste.CatchOrWasteApp;
+import catchorwaste.model.TimerModel;
+import catchorwaste.view.TimerView;
 import com.almasb.fxgl.dsl.FXGL;
 import javafx.animation.AnimationTimer;
-import static catchOrWaste.model.constants.Constants.TOTAL_TIME_LIMIT_SECONDS;
+import static catchorwaste.model.constants.Constants.TOTAL_TIME_LIMIT_SECONDS;
 public class TimerController {
 
 

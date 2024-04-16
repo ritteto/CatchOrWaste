@@ -1,18 +1,18 @@
-package catchOrWaste.controller;
+package catchorwaste.controller;
 
-import catchOrWaste.model.components.CargoComponent;
-import catchOrWaste.model.components.IsCatchedComponent;
-import catchOrWaste.model.components.PlayerDirectionComponent;
-import catchOrWaste.model.enums.EntityType;
+import catchorwaste.model.components.CargoComponent;
+import catchorwaste.model.components.IsCatchedComponent;
+import catchorwaste.model.components.PlayerDirectionComponent;
+import catchorwaste.model.enums.EntityType;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
-import static catchOrWaste.model.constants.Constants.PLAYERSIZE;
-import static catchOrWaste.model.constants.Constants.STREET_RIGHT_END;
-import static catchOrWaste.model.constants.Constants.STREET_LEFT_END;
-import static catchOrWaste.model.FallingObjectModel.amount_FO;
-import static catchOrWaste.model.PlayerModel.playerSpeed;
-import static catchOrWaste.view.PlayerView.changePlayerImage;
+import static catchorwaste.model.constants.Constants.PLAYERSIZE;
+import static catchorwaste.model.constants.Constants.STREET_RIGHT_END;
+import static catchorwaste.model.constants.Constants.STREET_LEFT_END;
+import static catchorwaste.model.FallingObjectModel.amount_FO;
+import static catchorwaste.model.PlayerModel.playerSpeed;
+import static catchorwaste.view.PlayerView.changePlayerImage;
 
 public class PlayerController {
 

@@ -1,4 +1,4 @@
-package catchOrWaste.view;
+package catchorwaste.view;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
