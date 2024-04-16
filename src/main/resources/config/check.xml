@@ -1,3 +1,7 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+        "-//Puppy Crawl//DTD Check Configuration 1.3//EN"
+        "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
 <module name="Checker">
     <!-- Grundlegende Kodierungs- und Lokalisierungseinstellungen -->
     <property name="charset" value="UTF-8"/>
@@ -6,7 +10,7 @@
 
     <!-- Erlaubt die Definition von Filtern zur Unterdrückung bestimmter Warnungen -->
     <module name="SuppressionFilter">
-        <property name="file" value="src/config/suppressions.xml"/>
+        <property name="file" value="src/main/resources/config/suppressions.xml"/>
         <property name="optional" value="false"/>
     </module>
 
@@ -91,3 +95,5 @@
     <!-- Ermittelt die Verwendung von Tabulatorzeichen in Dateien -->
     <module name="FileTabCharacter"/>
 </module>
+
+
