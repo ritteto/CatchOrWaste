@@ -6,6 +6,7 @@ import catchorwaste.model.components.PlayerDirectionComponent;
 import catchorwaste.model.enums.EntityType;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
+import javafx.event.EventHandler;
 
 import static catchorwaste.model.constants.Constants.PLAYERSIZE;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppHeight;
@@ -17,6 +18,14 @@ public class FallingObjectController {
         var entities = gameWorld.getEntitiesByType(EntityType.OBJECT);
         if (!entities.isEmpty()) {
             for (Entity entity : entities) {
+                if (entity.getY() >= getAppHeight()) {
+                    entity.removeFromWorld();
+                }
+            }
+        }
+        var testObjects = gameWorld.getEntitiesByType(EntityType.TEST);
+        if (!testObjects.isEmpty()) {
+            for (Entity entity : testObjects) {
                 if (entity.getY() >= getAppHeight()) {
                     entity.removeFromWorld();
                 }
@@ -34,20 +43,20 @@ public class FallingObjectController {
                         && isCatched) {
                     player.getComponent(CargoComponent.class).setCatchedEntity(object);
                     if (player.getComponent(PlayerDirectionComponent.class).getDirection()) {
-                        object.setX(player.getX() + PLAYERSIZE * 1.05);
-                        object.setY(player.getY() * 1.1);
+                        object.setX(player.getX()); //PLAYERSIZE * 1.05
+                        object.setY(player.getY()); //* 1.1
                     } else {
-                        object.setX(player.getX() + PLAYERSIZE * 0.45);
-                        object.setY(player.getY() * 1.1);
+                        object.setX(player.getX() + player.getBoundingBoxComponent().getWidth()); //PLAYERSIZE * 0.45
+                        object.setY(player.getY());// * 1.1
                     }
                 } else if (player.getComponent(CargoComponent.class).isFull()
                         && isCatched && player.getComponent(CargoComponent.class).getCatchedEntity().equals(object)) {
                     if (player.getComponent(PlayerDirectionComponent.class).getDirection()) {
-                        object.setX(player.getX() + PLAYERSIZE * 1.05);
-                        object.setY(player.getY() * 1.1);
+                        object.setX(player.getX()); //PLAYERSIZE * 1.05
+                        object.setY(player.getY()); //* 1.1
                     } else {
-                        object.setX(player.getX() + PLAYERSIZE * 0.45);
-                        object.setY(player.getY() * 1.1);
+                        object.setX(player.getX() + player.getBoundingBoxComponent().getWidth()); //PLAYERSIZE * 0.45
+                        object.setY(player.getY());// * 1.1
                     }
                 }
             }

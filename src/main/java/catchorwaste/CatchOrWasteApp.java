@@ -4,14 +4,21 @@ import catchorwaste.controller.GPIOController;
 import catchorwaste.controller.TimerController;
 import catchorwaste.model.PunktesystemModel;
 import catchorwaste.model.TimerModel;
+import catchorwaste.model.enums.EntityType;
 import catchorwaste.model.factories.EntityFactory;
 import catchorwaste.view.PunktesystemView;
 import catchorwaste.view.TimerView;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 import com.almasb.fxgl.entity.SpawnData;
+import com.almasb.fxgl.entity.components.BoundingBoxComponent;
+import com.almasb.fxgl.entity.components.TransformComponent;
+import com.almasb.fxgl.physics.BoundingShape;
+import com.almasb.fxgl.physics.CollisionHandler;
+import com.almasb.fxgl.physics.HitBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -33,12 +40,7 @@ import static catchorwaste.model.constants.Constants.HOUSE3_X;
 import static catchorwaste.model.constants.Constants.HOUSE4_X;
 import static catchorwaste.view.FallingObjectView.spawnObjects;
 import static catchorwaste.view.PlayerView.isAtStreetEnd;
-import static com.almasb.fxgl.dsl.FXGL.getAppHeight;
-import static com.almasb.fxgl.dsl.FXGL.getAppWidth;
-import static com.almasb.fxgl.dsl.FXGL.getAssetLoader;
-import static com.almasb.fxgl.dsl.FXGL.getGameScene;
-import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
-import static com.almasb.fxgl.dsl.FXGL.onKey;
+import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 
@@ -68,8 +70,11 @@ public class CatchOrWasteApp extends GameApplication {
 
     @Override
     protected void initSettings(GameSettings settings) {
-        settings.setFullScreenAllowed(true);
-        settings.setFullScreenFromStart(true);
+        //settings.setFullScreenAllowed(true);
+        //settings.setFullScreenFromStart(true);
+        //settings.setWidth(400);
+        //settings.setWidth(200);
+        settings.setManualResizeEnabled(true);
         settings.setTicksPerSecond(60);
     }
 
@@ -118,13 +123,15 @@ public class CatchOrWasteApp extends GameApplication {
         spawn("HOUSE", new SpawnData(HOUSE4_X, HOUSE_Y).put("Position", 2));
 
 
+
         // spawn market, repaicenter & recycling
         spawn("WORKSTATION", new SpawnData(getAppWidth() * 0.837, getAppHeight() * 0.1).put("Position", 1));
         spawn("WORKSTATION", new SpawnData(getAppWidth() * 0.73, getAppHeight() * 0.1).put("Position", 2));
         spawn("WORKSTATION", new SpawnData(getAppWidth() * -0.0185, getAppHeight() * 0.48).put("Position", 3));
 
         //spawn the player from the factory
-        spawn("PLAYER", 100, getAppHeight() * 0.73);
+        Entity player = spawn("PLAYER", 100, getAppHeight() * 0.73);
+        spawn("BOX", new SpawnData(100, getAppHeight() * 0.73).put("width",player.getBoundingBoxComponent().getHeight()).put("height",player.getBoundingBoxComponent().getHeight()));
 
         PunktesystemModel scoreModel = new PunktesystemModel();
         PunktesystemView scoreView = new PunktesystemView();
@@ -133,6 +140,7 @@ public class CatchOrWasteApp extends GameApplication {
         scoreView.updateScore(scoreModel.getScore());
 
     }
+
 
     @Override
     protected void onUpdate(double tpf) {
@@ -193,5 +201,6 @@ public class CatchOrWasteApp extends GameApplication {
             imageMap.put(s, getAssetLoader().loadImage(dir + "/" + s + ".png"));
         }
     }
+
 
 }
