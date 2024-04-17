@@ -27,6 +27,7 @@ public class PlayerController {
                 player.getComponent(CargoComponent.class).setCatchedEntity(object);
                 object.getComponent(IsCatchedComponent.class).setCatched(true);
                 object.removeComponent(ProjectileComponent.class);
+                System.out.println("sout");
             }
         });
         /*
