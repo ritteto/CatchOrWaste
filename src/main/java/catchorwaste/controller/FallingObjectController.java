@@ -1,11 +1,17 @@
 package catchorwaste.controller;
 
+import catchorwaste.model.components.ImageNameComponent;
 import catchorwaste.model.components.IsCatchedComponent;
 import catchorwaste.model.components.CargoComponent;
 import catchorwaste.model.components.PlayerDirectionComponent;
 import catchorwaste.model.enums.EntityType;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
+
+import java.util.Arrays;
+
+import static catchorwaste.model.PunktesystemModel.pointsMap;
+import static catchorwaste.model.PunktesystemModel.subtractPoints;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppHeight;
 
 public class FallingObjectController {
@@ -16,6 +22,8 @@ public class FallingObjectController {
         if (!entities.isEmpty()) {
             for (Entity entity : entities) {
                 if (entity.getY() >= getAppHeight()) {
+                    var stringSplit = entity.getComponent(ImageNameComponent.class).getImageName().split("_");
+                    subtractPoints(pointsMap.get("default").get(stringSplit[0]).get(stringSplit[1]));
                     entity.removeFromWorld();
                 }
             }

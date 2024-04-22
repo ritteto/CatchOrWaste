@@ -50,6 +50,6 @@ public class PunktesystemController {
             case LAMP -> scoreModel.addPoints(LAMP_SCORE * percentage);
             case DRESS -> scoreModel.addPoints(DRESS_SCORE * percentage);
         }
-        scoreView.updateScore(scoreModel.getScore());
+        PunktesystemView.updateScore(PunktesystemModel.getScore());
     }
 }

@@ -2,10 +2,11 @@ package catchorwaste.view;
 
 import catchorwaste.model.components.CargoComponent;
 import catchorwaste.model.enums.EntityType;
-import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 import static catchorwaste.CatchOrWasteApp.imageMap;
 import static catchorwaste.model.constants.Constants.*;

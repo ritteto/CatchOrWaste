@@ -4,11 +4,15 @@ import catchorwaste.model.PunktesystemModel;
 import catchorwaste.model.components.CartDirectionComponent;
 import catchorwaste.model.components.ImageNameComponent;
 import catchorwaste.model.enums.EntityType;
+import catchorwaste.view.PunktesystemView;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 
+import static catchorwaste.model.PunktesystemModel.addPoints;
+import static catchorwaste.model.PunktesystemModel.pointsMap;
 import static catchorwaste.model.constants.Constants.*;
+import static catchorwaste.view.PunktesystemView.displayUpdate;
 import static com.almasb.fxgl.dsl.FXGL.getAppHeight;
 
 
@@ -91,7 +95,13 @@ public class CartController {
                 if (entity.getX() > CURVE_BR && entity.getX() < GATE_RIGHT_END) {
                     entity.translateX(getCartSpeed());
                 }
-                if (entity.getX() <= GATE_LEFT_END || entity.getX() >= GATE_RIGHT_END) {
+                if (entity.getX() <= GATE_LEFT_END){
+                    entity.setX(GATE_LEFT_END);
+                    changeCartImage(entity);
+                    entity.translateY(-1);
+                }
+                if (entity.getX() >= GATE_RIGHT_END) {
+                    entity.setX(GATE_RIGHT_END);
                     changeCartImage(entity);
                     entity.translateY(-1);
                 }
@@ -129,14 +139,38 @@ public class CartController {
     }
 
     public static void onWorkstationCollision(){
-        FXGL.onCollisionBegin(EntityType.CART, EntityType.WORKSTATION, (cart, workstation) ->{
-            System.out.println(cart.getX()+"/"+GATE_LEFT_END);
-            if (cart.getX()==GATE_LEFT_END){
-                System.out.println("left");
+        FXGL.onCollision(EntityType.CART, EntityType.WORKSTATION, (cart, workstation) ->{
+            if(cart.getY()== workstation.getY()+ workstation.getHeight()*0.75) {
+                if (cart.getX() == GATE_LEFT_END &&
+                        workstation.getComponent(ImageNameComponent.class).getImageName().contains("markt")) {
+                    var points = calculatePoints(workstation, cart);
+                    addPoints(points);
+                    displayUpdate(points, cart.getX(), cart.getY()+cart.getHeight()*0.3);
+                } else if (cart.getX() == GATE_RIGHT_END &&
+                        workstation.getComponent(ImageNameComponent.class).getImageName().contains("reparieren")) {
+                    var points = calculatePoints(workstation, cart);
+                    addPoints(points);
+                    displayUpdate(points, cart.getX(), cart.getY()+cart.getHeight()*0.3);
+                } else if (cart.getX() == CURVE_BL) {
+                    var points = calculatePoints(workstation, cart);
+                    addPoints(points);
+                    displayUpdate(points, cart.getX(), cart.getY()+cart.getHeight()*0.3);
+                }
+
             }
-            PunktesystemModel.addPoints(10);
         });
     }
+
+
+    private static double calculatePoints(Entity station, Entity cart){
+        var cargoNameSplit = cart.getComponent(ImageNameComponent.class).getImageName().split("_");
+        var state = cargoNameSplit[1];
+        var cargo = cargoNameSplit[0];
+        var workstation = station.getComponent(ImageNameComponent.class).getImageName().split("_")[0];
+        return pointsMap.get(workstation).get(cargo).get(state);
+    }
+
+
 
 
 }

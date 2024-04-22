@@ -11,6 +11,7 @@ import catchorwaste.model.components.ItemTypeComponent;
 import catchorwaste.model.enums.EntityType;
 import catchorwaste.model.enums.ItemStatus;
 import catchorwaste.model.enums.ItemType;
+import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
 import com.almasb.fxgl.entity.Entity;
@@ -68,23 +69,6 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
                 "lampe_d", "lampe_f", "lampe_r"};
         int zufallszahl = random.nextInt(zufall.length);
         String name = names[zufallszahl];
-        ItemStatus itemStatus;
-        ItemType itemType = null;
-        // Bestimme den ItemType basierend auf dem Namen des Objekts
-        if (name.startsWith("iphone")) {
-            itemType = ItemType.IPHONE;
-        } else if (name.startsWith("kleid")) {
-            itemType = ItemType.DRESS;
-        } else if (name.startsWith("lampe")) {
-            itemType = ItemType.LAMP;
-        }
-        if (name.endsWith("_d")) {
-            itemStatus = ItemStatus.DEFECT;
-        } else if ((name.endsWith("_f"))) {
-            itemStatus = ItemStatus.FUNCTIONAL;
-        } else {
-            itemStatus = ItemStatus.REPAIRABLE;
-        }
         Entity entity = FXGL.entityBuilder(data)
                 .viewWithBBox(new ImageView(zufall[zufallszahl]))
                 .type(EntityType.OBJECT)
@@ -92,10 +76,7 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
                 .with(new ProjectileComponent(new Point2D(0, 1), 100))
                 .with(new ImageNameComponent(name))
                 .with(new IsCatchedComponent(false))
-                .with(new ItemTypeComponent(itemType))
-                .with(new ItemStatusComponent(itemStatus))
                 .with(new CollidableComponent(true))
-                .with(new BoundingBoxComponent())
                 .build();
 
 
@@ -144,13 +125,31 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
     @Spawns("WORKSTATION")
     public Entity newWorkstation(SpawnData data) {
         var workstations = new String[]{"reparieren", "markt", "recycle"};
-        return FXGL.entityBuilder(data)
+        Entity entity = FXGL.entityBuilder(data)
                 .viewWithBBox(new ImageView(imageMap.get(workstations[(int) data.get("Position") - 1])))
+                .with(new ImageNameComponent(workstations[(int) data.get("Position") - 1]))
                 .with(new CollidableComponent(true))
                 .type(EntityType.WORKSTATION)
                 .scale(1.45, 1.45)
                 .zIndex(10)
                 .build();
+
+        var rec = new Rectangle();
+        rec.setFill(null);
+        rec.setStroke(Color.BLACK);
+        rec.setWidth(entity.getBoundingBoxComponent().getWidth());
+        rec.setHeight(entity.getBoundingBoxComponent().getHeight());
+
+        var rec2 = new Rectangle();
+        rec2.setFill(null);
+        rec2.setStroke(Color.BLACK);
+        rec2.setWidth(entity.getBoundingBoxComponent().getWidth()*0.5);
+        rec2.setHeight(entity.getBoundingBoxComponent().getHeight()*0.75);
+
+        entity.getViewComponent().addChild(rec2);
+        entity.getViewComponent().addChild(rec);
+
+        return entity;
     }
 
 

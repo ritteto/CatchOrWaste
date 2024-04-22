@@ -2,23 +2,15 @@ package catchorwaste;
 
 import catchorwaste.controller.GPIOController;
 import catchorwaste.controller.TimerController;
-import catchorwaste.model.PunktesystemModel;
 import catchorwaste.model.TimerModel;
-import catchorwaste.model.enums.EntityType;
 import catchorwaste.model.factories.EntityFactory;
 import catchorwaste.view.PunktesystemView;
 import catchorwaste.view.TimerView;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
-import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 import com.almasb.fxgl.entity.SpawnData;
-import com.almasb.fxgl.entity.components.BoundingBoxComponent;
-import com.almasb.fxgl.entity.components.TransformComponent;
-import com.almasb.fxgl.physics.BoundingShape;
-import com.almasb.fxgl.physics.CollisionHandler;
-import com.almasb.fxgl.physics.HitBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -34,9 +26,12 @@ import static catchorwaste.controller.PlayerController.boundaries;
 import static catchorwaste.controller.PlayerController.catchObject;
 import static catchorwaste.controller.PlayerController.movePlayer;
 import static catchorwaste.model.CartModel.setGate;
+import static catchorwaste.model.PunktesystemModel.*;
 import static catchorwaste.model.constants.Constants.*;
 import static catchorwaste.view.FallingObjectView.spawnObjects;
 import static catchorwaste.view.PlayerView.isAtStreetEnd;
+import static catchorwaste.view.PunktesystemView.initPunkteSystemView;
+import static catchorwaste.view.PunktesystemView.updateScore;
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
@@ -130,14 +125,10 @@ public class CatchOrWasteApp extends GameApplication {
         //spawn the player from the factory
         spawn("PLAYER", (double) getAppWidth() /2, STREET_HEIGHT);
 
-        PunktesystemModel scoreModel = new PunktesystemModel();
-        PunktesystemView scoreView = new PunktesystemView();
-        // add score system to the game
-        getGameScene().addUINode(scoreView);
-        scoreView.updateScore(scoreModel.getScore());
 
-        onWorkstationCollision();
+        initPunktesystem();
 
+        System.out.println(pointsMap.get("recycle").get("iphone").get("f"));
     }
 
 
@@ -199,6 +190,12 @@ public class CatchOrWasteApp extends GameApplication {
         for (String s : names) {
             imageMap.put(s, getAssetLoader().loadImage(dir + "/" + s + ".png"));
         }
+    }
+
+    public void initPunktesystem(){
+        initPunkteSystemView();
+        initPointsMap();
+        onWorkstationCollision();
     }
 
 
