@@ -10,10 +10,8 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 import com.almasb.fxgl.entity.components.BoundingBoxComponent;
 
-import static catchorwaste.model.constants.Constants.PLAYERSIZE;
 import static catchorwaste.model.constants.Constants.STREET_RIGHT_END;
 import static catchorwaste.model.constants.Constants.STREET_LEFT_END;
-import static catchorwaste.model.FallingObjectModel.amount_FO;
 import static catchorwaste.model.PlayerModel.playerSpeed;
 import static catchorwaste.view.PlayerView.changePlayerImage;
 
@@ -23,11 +21,9 @@ public class PlayerController {
 
         FXGL.onCollision(EntityType.PLAYER, EntityType.OBJECT, (player,object)->{
             if(!player.getComponent(CargoComponent.class).isFull()){
-                System.out.println(player.getComponent(BoundingBoxComponent.class));
                 player.getComponent(CargoComponent.class).setCatchedEntity(object);
                 object.getComponent(IsCatchedComponent.class).setCatched(true);
                 object.removeComponent(ProjectileComponent.class);
-                System.out.println("sout");
             }
         });
         /*

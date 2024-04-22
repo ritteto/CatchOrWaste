@@ -6,9 +6,6 @@ import catchorwaste.model.components.PlayerDirectionComponent;
 import catchorwaste.model.enums.EntityType;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
-import javafx.event.EventHandler;
-
-import static catchorwaste.model.constants.Constants.PLAYERSIZE;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppHeight;
 
 public class FallingObjectController {
@@ -23,14 +20,7 @@ public class FallingObjectController {
                 }
             }
         }
-        var testObjects = gameWorld.getEntitiesByType(EntityType.TEST);
-        if (!testObjects.isEmpty()) {
-            for (Entity entity : testObjects) {
-                if (entity.getY() >= getAppHeight()) {
-                    entity.removeFromWorld();
-                }
-            }
-        }
+
     }
 
     public static void stickToPlayer(GameWorld gameWorld) {
@@ -42,24 +32,24 @@ public class FallingObjectController {
                 if (!player.getComponent(CargoComponent.class).isFull()
                         && isCatched) {
                     player.getComponent(CargoComponent.class).setCatchedEntity(object);
-                    if (player.getComponent(PlayerDirectionComponent.class).getDirection()) {
-                        object.setX(player.getX()); //PLAYERSIZE * 1.05
-                        object.setY(player.getY()); //* 1.1
-                    } else {
-                        object.setX(player.getX() + player.getBoundingBoxComponent().getWidth()); //PLAYERSIZE * 0.45
-                        object.setY(player.getY());// * 1.1
-                    }
+                        visuals(player, object);
                 } else if (player.getComponent(CargoComponent.class).isFull()
                         && isCatched && player.getComponent(CargoComponent.class).getCatchedEntity().equals(object)) {
-                    if (player.getComponent(PlayerDirectionComponent.class).getDirection()) {
-                        object.setX(player.getX()); //PLAYERSIZE * 1.05
-                        object.setY(player.getY()); //* 1.1
-                    } else {
-                        object.setX(player.getX() + player.getBoundingBoxComponent().getWidth()); //PLAYERSIZE * 0.45
-                        object.setY(player.getY());// * 1.1
-                    }
+                        visuals(player, object);
                 }
             }
         }
     }
+
+    private static void visuals(Entity player, Entity object){
+        var width = player.getBoundingBoxComponent().getWidth();
+        if (player.getComponent(PlayerDirectionComponent.class).getDirection()) {
+            object.setX(player.getX()+width*0.5);
+            object.setY(player.getY());
+        } else {
+            object.setX(player.getX() - width*0.5);
+            object.setY(player.getY());
+        }
+    }
+
 }

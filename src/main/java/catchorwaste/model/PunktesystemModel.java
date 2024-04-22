@@ -1,7 +1,7 @@
 package catchorwaste.model;
 
 public class PunktesystemModel {
-    private double score;
+    private static double score;
 
     public PunktesystemModel() {
         this.score = 0;
@@ -11,7 +11,7 @@ public class PunktesystemModel {
         return score;
     }
 
-    public void addPoints(double points) {
+    public static void addPoints(double points) {
         score += points;
     }
 

@@ -27,17 +27,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static catchorwaste.controller.CartController.cartMovement;
+import static catchorwaste.controller.CartController.onWorkstationCollision;
 import static catchorwaste.controller.FallingObjectController.dropObjects;
 import static catchorwaste.controller.FallingObjectController.stickToPlayer;
 import static catchorwaste.controller.PlayerController.boundaries;
 import static catchorwaste.controller.PlayerController.catchObject;
 import static catchorwaste.controller.PlayerController.movePlayer;
 import static catchorwaste.model.CartModel.setGate;
-import static catchorwaste.model.constants.Constants.HOUSE_Y;
-import static catchorwaste.model.constants.Constants.HOUSE1_X;
-import static catchorwaste.model.constants.Constants.HOUSE2_X;
-import static catchorwaste.model.constants.Constants.HOUSE3_X;
-import static catchorwaste.model.constants.Constants.HOUSE4_X;
+import static catchorwaste.model.constants.Constants.*;
 import static catchorwaste.view.FallingObjectView.spawnObjects;
 import static catchorwaste.view.PlayerView.isAtStreetEnd;
 import static com.almasb.fxgl.dsl.FXGL.*;
@@ -60,6 +57,7 @@ public class CatchOrWasteApp extends GameApplication {
 
     public static void cartOnUpdate(GameWorld gameWorld) {
         cartMovement(gameWorld);
+        //onWorkstationCollision();
     }
 
     public static void playerOnUpdate(GameWorld gameWorld) {
@@ -72,8 +70,8 @@ public class CatchOrWasteApp extends GameApplication {
     protected void initSettings(GameSettings settings) {
         //settings.setFullScreenAllowed(true);
         //settings.setFullScreenFromStart(true);
-        //settings.setWidth(400);
-        //settings.setWidth(200);
+        settings.setWidth(800);
+        settings.setHeight(600);
         settings.setManualResizeEnabled(true);
         settings.setTicksPerSecond(60);
     }
@@ -125,19 +123,20 @@ public class CatchOrWasteApp extends GameApplication {
 
 
         // spawn market, repaicenter & recycling
-        spawn("WORKSTATION", new SpawnData(getAppWidth() * 0.837, getAppHeight() * 0.1).put("Position", 1));
-        spawn("WORKSTATION", new SpawnData(getAppWidth() * 0.73, getAppHeight() * 0.1).put("Position", 2));
-        spawn("WORKSTATION", new SpawnData(getAppWidth() * -0.0185, getAppHeight() * 0.48).put("Position", 3));
+        spawn("WORKSTATION", new SpawnData(REPARIEREN_X, WORKSTATION_RIGHT_Y).put("Position", 1));
+        spawn("WORKSTATION", new SpawnData(MARKT_X, WORKSTATION_RIGHT_Y).put("Position", 2));
+        spawn("WORKSTATION", new SpawnData(RECYCLE_X, getAppHeight() * 0.48).put("Position", 3));
 
         //spawn the player from the factory
-        Entity player = spawn("PLAYER", 100, getAppHeight() * 0.73);
-        spawn("BOX", new SpawnData(100, getAppHeight() * 0.73).put("width",player.getBoundingBoxComponent().getHeight()).put("height",player.getBoundingBoxComponent().getHeight()));
+        spawn("PLAYER", (double) getAppWidth() /2, STREET_HEIGHT);
 
         PunktesystemModel scoreModel = new PunktesystemModel();
         PunktesystemView scoreView = new PunktesystemView();
         // add score system to the game
         getGameScene().addUINode(scoreView);
         scoreView.updateScore(scoreModel.getScore());
+
+        onWorkstationCollision();
 
     }
 

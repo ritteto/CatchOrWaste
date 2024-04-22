@@ -19,22 +19,21 @@ import com.almasb.fxgl.entity.Spawns;
 import com.almasb.fxgl.entity.components.BoundingBoxComponent;
 import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.entity.components.TransformComponent;
+
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
-import com.almasb.fxgl.physics.PhysicsComponent;
-import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+
 
 import java.util.Random;
 
 import static catchorwaste.CatchOrWasteApp.imageMap;
-import static catchorwaste.model.constants.Constants.PLAYERSIZE;
-import static com.almasb.fxgl.dsl.FXGL.getAppHeight;
-import static com.almasb.fxgl.dsl.FXGL.image;
+
 
 
 public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
@@ -51,17 +50,10 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
                 .type(EntityType.PLAYER)
                 .build();
 
-        return entity;
-    }
-
-    @Spawns("BOX")
-    public Entity newBox(SpawnData data) {
-        Entity entity = FXGL.entityBuilder(data)
-                .viewWithBBox(new Rectangle(data.get("width"),data.get("height")))
-                .build();
 
         return entity;
     }
+
 
     @Spawns("OBJECT")
     public Entity newObject(SpawnData data) {
@@ -93,7 +85,7 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
         } else {
             itemStatus = ItemStatus.REPAIRABLE;
         }
-        return FXGL.entityBuilder(data)
+        Entity entity = FXGL.entityBuilder(data)
                 .viewWithBBox(new ImageView(zufall[zufallszahl]))
                 .type(EntityType.OBJECT)
                 .scale(1, 1)
@@ -105,6 +97,11 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
                 .with(new CollidableComponent(true))
                 .with(new BoundingBoxComponent())
                 .build();
+
+
+        entity.getComponent(TransformComponent.class).rotateBy(270);
+
+        return entity;
     }
 
 
@@ -143,12 +140,14 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
     }
 
 
+
     @Spawns("WORKSTATION")
     public Entity newWorkstation(SpawnData data) {
         var workstations = new String[]{"reparieren", "markt", "recycle"};
         return FXGL.entityBuilder(data)
                 .viewWithBBox(new ImageView(imageMap.get(workstations[(int) data.get("Position") - 1])))
                 .with(new CollidableComponent(true))
+                .type(EntityType.WORKSTATION)
                 .scale(1.45, 1.45)
                 .zIndex(10)
                 .build();

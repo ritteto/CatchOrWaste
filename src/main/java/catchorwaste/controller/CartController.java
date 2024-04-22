@@ -1,22 +1,19 @@
 package catchorwaste.controller;
 
+import catchorwaste.model.PunktesystemModel;
+import catchorwaste.model.components.CartDirectionComponent;
+import catchorwaste.model.components.ImageNameComponent;
 import catchorwaste.model.enums.EntityType;
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
+
+import static catchorwaste.model.constants.Constants.*;
+import static com.almasb.fxgl.dsl.FXGL.getAppHeight;
 
 
 import static catchorwaste.model.CartModel.getCartSpeed;
 import static catchorwaste.model.CartModel.isGate;
-import static catchorwaste.model.constants.Constants.CURVE_BL;
-import static catchorwaste.model.constants.Constants.STREET_LEFT_END;
-import static catchorwaste.model.constants.Constants.STREET_RIGHT_END;
-import static catchorwaste.model.constants.Constants.STREET_HEIGHT;
-import static catchorwaste.model.constants.Constants.GATE_HEIGHT;
-import static catchorwaste.model.constants.Constants.GATE_LEFT_END;
-import static catchorwaste.model.constants.Constants.GATE_RIGHT_END;
-import static catchorwaste.model.constants.Constants.RECYCLE_HEIGHT;
-import static catchorwaste.model.constants.Constants.CURVE_BR;
-import static catchorwaste.model.constants.Constants.CURVE_TR;
 import static catchorwaste.view.CartView.changeCartImage;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppWidth;
 
@@ -29,20 +26,20 @@ public class CartController {
             //Left Path
 
             //horizontal movement between Street end and bottom left curve
-            if(entity.getX() >= CURVE_BL && entity.getX() <= STREET_LEFT_END  && entity.getY() >= STREET_HEIGHT){
+            if(entity.getX() >= CURVE_BL && entity.getX() <= STREET_LEFT_END  && entity.getY() >= CART_HEIGHT_AT_STREET){
                 entity.translateX(-getCartSpeed());
 
             }
 
             //switch cart direction at bottom left curve
-            if(entity.getX() <= CURVE_BL && entity.getY() >= STREET_HEIGHT){
+            if(entity.getX() <= CURVE_BL && entity.getY() >= CART_HEIGHT_AT_STREET){
                 changeCartImage(entity);
                 entity.setX(CURVE_BL);
                 entity.translateY(-1);
             }
 
             // vertical movement between bottom left curve and recycling station
-            if(entity.getX()< STREET_LEFT_END && entity.getY() < STREET_HEIGHT){
+            if(entity.getX()< STREET_LEFT_END && entity.getY() < CART_HEIGHT_AT_STREET){
                 entity.translateY(-getCartSpeed());
             }
 
@@ -53,12 +50,12 @@ public class CartController {
 
             //Right Path
             //horizontal movement to bottom right curve
-            if(entity.getX() < CURVE_BR && entity.getX() >= STREET_RIGHT_END && entity.getY()>=STREET_HEIGHT){
+            if(entity.getX() < CURVE_BR && entity.getX() >= STREET_RIGHT_END && entity.getY()>=CART_HEIGHT_AT_STREET){
                 entity.translateX(getCartSpeed());
             }
 
             //switch cart direction at bottom right curve
-            if(entity.getX()>= CURVE_BR && entity.getY()>= STREET_HEIGHT){
+            if(entity.getX()>= CURVE_BR && entity.getY()>= CART_HEIGHT_AT_STREET){
                 changeCartImage(entity);
                 entity.setX(CURVE_BR);
                 entity.translateY(-1);
@@ -66,25 +63,27 @@ public class CartController {
 
 
             //vertical movement between bottom right curve and gate
-            if(entity.getX() >= STREET_RIGHT_END && entity.getY() < STREET_HEIGHT && entity.getY() >= GATE_HEIGHT){
+            if(entity.getX() >= STREET_RIGHT_END && entity.getY() < CART_HEIGHT_AT_STREET && entity.getY() >= GATE_HEIGHT){
                 entity.translateY(-getCartSpeed());
             }
 
             //turn at gate
             if(entity.getX() > STREET_RIGHT_END && entity.getY() == GATE_HEIGHT) {
                 changeCartImage(entity);
+                entity.setX(CURVE_BR);
                 entity.setY(GATE_HEIGHT-1);
 
             }
 
             //horizontal movement at gate
-            if(entity.getX()>STREET_RIGHT_END && entity.getY()==GATE_HEIGHT-1){
+            if(entity.getX()>getAppWidth()*0.5 && entity.getY()==GATE_HEIGHT-1){
 
-                if (isGate()) {
+                if (entity.getX() == CURVE_BR && isGate()) {
                     entity.translateX(-1);
-                } else {
+                } else if(entity.getX() == CURVE_BR && !isGate()){
                     entity.translateX(+1);
                 }
+
 
                 if (entity.getX() < CURVE_BR && entity.getX() > GATE_LEFT_END) {
                     entity.translateX(-getCartSpeed());
@@ -101,18 +100,22 @@ public class CartController {
 
 
             //vertical movement between gate and upper rail
-            if (entity.getX() > STREET_RIGHT_END && entity.getY() <= GATE_HEIGHT-2 && entity.getY() > CURVE_TR) {
+            if (entity.getX() > getAppWidth()*0.5 && entity.getY() <= GATE_HEIGHT-2 && entity.getY() > CURVE_TR) {
                 entity.translateY(-getCartSpeed());
             }
 
             //change cart direction at top right curve
-            if (entity.getX() > STREET_RIGHT_END && entity.getY() == CURVE_TR) {
+            if (entity.getX() > getAppWidth()*0.5 && entity.getY() <= CURVE_TR
+                    && !entity.getComponent(CartDirectionComponent.class).getDirection()) {
                 changeCartImage(entity);
                 entity.setY(CURVE_TR-1);
             }
 
+
+
             //horizontal movement between top right curve and houses
-            if (entity.getX() > getAppWidth()*0.7 && entity.getY() <= CURVE_TR) {
+            if (entity.getX() > getAppWidth()*0.7 && entity.getY() <= CURVE_TR
+                    && entity.getComponent(CartDirectionComponent.class).getDirection()) {
                 entity.translateX(-getCartSpeed());
             }
 
@@ -123,6 +126,16 @@ public class CartController {
 
 
         }
+    }
+
+    public static void onWorkstationCollision(){
+        FXGL.onCollisionBegin(EntityType.CART, EntityType.WORKSTATION, (cart, workstation) ->{
+            System.out.println(cart.getX()+"/"+GATE_LEFT_END);
+            if (cart.getX()==GATE_LEFT_END){
+                System.out.println("left");
+            }
+            PunktesystemModel.addPoints(10);
+        });
     }
 
 
