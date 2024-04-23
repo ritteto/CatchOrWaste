@@ -25,7 +25,7 @@ public class FallingObjectController {
                     var stringSplit = entity.getComponent(ImageNameComponent.class).getImageName().split("_");
                     var points = pointsMap.get("default").get(stringSplit[0]).get(stringSplit[1]);
                     subtractPoints(points);
-                    displayUpdate(-points, entity.getX(), entity.getY()-entity.getHeight()*0.5);
+                    displayUpdate(-points, entity.getX(), getAppHeight()-50);
                     entity.removeFromWorld();
                 }
             }
