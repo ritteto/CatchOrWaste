@@ -17,7 +17,6 @@ import com.almasb.fxgl.entity.Spawns;
 import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.entity.components.TransformComponent;
 
-;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -35,7 +34,7 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
 
     @Spawns("PLAYER")
     public Entity newPlayer(SpawnData data) {
-        Entity entity = FXGL.entityBuilder(data)
+        return FXGL.entityBuilder(data)
                 .viewWithBBox(new ImageView(imageMap.get("wegwerfpolizist_r_resized")))
                 .with(new CargoComponent(null))
                 .with(new PlayerDirectionComponent(true))
@@ -43,9 +42,6 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
                 .scale(2, 2)
                 .type(EntityType.PLAYER)
                 .build();
-
-
-        return entity;
     }
 
 

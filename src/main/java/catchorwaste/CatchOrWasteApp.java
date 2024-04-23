@@ -4,7 +4,6 @@ import catchorwaste.controller.GPIOController;
 import catchorwaste.controller.TimerController;
 import catchorwaste.model.TimerModel;
 import catchorwaste.model.factories.EntityFactory;
-import catchorwaste.view.PunktesystemView;
 import catchorwaste.view.TimerView;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
