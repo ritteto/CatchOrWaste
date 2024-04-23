@@ -8,7 +8,6 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
-import com.almasb.fxgl.entity.components.BoundingBoxComponent;
 
 import static catchorwaste.model.constants.Constants.STREET_RIGHT_END;
 import static catchorwaste.model.constants.Constants.STREET_LEFT_END;
@@ -17,7 +16,7 @@ import static catchorwaste.view.PlayerView.changePlayerImage;
 
 public class PlayerController {
 
-    public static void catchObject(GameWorld gameWorld){
+    public static void catchObject(){
 
         FXGL.onCollision(EntityType.PLAYER, EntityType.OBJECT, (player,object)->{
             if(!player.getComponent(CargoComponent.class).isFull()){
@@ -26,25 +25,6 @@ public class PlayerController {
                 object.removeComponent(ProjectileComponent.class);
             }
         });
-        /*
-        for (Entity player : gameWorld.getEntitiesByType(EntityType.PLAYER)) {
-            if(!player.getComponent(CargoComponent.class).isFull()){
-                for (Entity fallingObject: gameWorld.getEntitiesByType(EntityType.OBJECT)) {
-                    if(!fallingObject.getComponent(IsCatchedComponent.class).isCatched()
-                            && fallingObject.getY() + 60 > player.getY()
-                            && fallingObject.getY() < player.getY() + PLAYERSIZE
-                            && fallingObject.getX()-30 > player.getX()
-                            && fallingObject.getX()-30 < player.getX() + PLAYERSIZE){
-                        fallingObject.getComponent(IsCatchedComponent.class).setCatched(true);
-                        fallingObject.removeComponent(ProjectileComponent.class);
-                        amount_FO++;
-                    }
-
-                }
-            }
-        }
-
-         */
     }
 
     public static void boundaries(GameWorld gameWorld){

@@ -2,7 +2,9 @@ package catchorwaste.model;
 
 import catchorwaste.view.PunktesystemView;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static catchorwaste.model.constants.Constants.IPHONE_SCORE;
@@ -13,7 +15,6 @@ import static catchorwaste.view.PunktesystemView.updateScore;
 public class PunktesystemModel {
 
     private static double score = 0;
-    private static PunktesystemView view;
     public static Map<String,Map<String,Map<String, Double>>> pointsMap;
 
 
@@ -26,9 +27,6 @@ public class PunktesystemModel {
         updateScore(score);
     }
 
-    public static Map<String,Map<String,Map<String, Double>>> getPointsMap() {
-        return pointsMap;
-    }
 
     public static void subtractPoints(double points) {
         score -= points;
@@ -73,17 +71,22 @@ public class PunktesystemModel {
         });
 
 
-
+        initPointsMap = new LinkedHashMap<>();
         for (int i = 0; i < workstations.length; i++) {
-            var map1 = new HashMap<String, Double>();
-            var map2 = new HashMap<String , Map<String, Double>>();
+            var map2 = new LinkedHashMap<String , Map<String, Double>>();
             for (int j = 0; j < objects.length; j++) {
+                var map1 = new LinkedHashMap<String, Double>();
                 for (int k = 0; k < states.length; k++) {
                     map1.put(states[k], objectValues.get(workstations[i])[j][k]);
+                    System.out.println("i,j,k: "+i+"/"+j+"/"+k);
+                    System.out.println("workstations: "+ Arrays.deepToString(objectValues.get(workstations[i])));
+                    System.out.println("Map1: "+map1);
                 }
                 map2.put(objects[j], map1);
+                System.out.println("Map2: "+map2);
             }
             initPointsMap.put(workstations[i], map2);
+            System.out.println("Map3: "+initPointsMap);
         }
 
         pointsMap =  initPointsMap;

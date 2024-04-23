@@ -9,6 +9,8 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 
 
+import java.util.Arrays;
+
 import static catchorwaste.model.PunktesystemModel.pointsMap;
 import static catchorwaste.model.PunktesystemModel.subtractPoints;
 import static catchorwaste.view.PunktesystemView.displayUpdate;
@@ -23,9 +25,11 @@ public class FallingObjectController {
             for (Entity entity : entities) {
                 if (entity.getY() >= getAppHeight()) {
                     var stringSplit = entity.getComponent(ImageNameComponent.class).getImageName().split("_");
+                    System.out.println("StringSplit: "+Arrays.toString(stringSplit));
+                    System.out.println("pointsmap: "+pointsMap.get("default").get(stringSplit[0]).get(stringSplit[1]));
                     var points = pointsMap.get("default").get(stringSplit[0]).get(stringSplit[1]);
                     subtractPoints(points);
-                    displayUpdate(-points, entity.getX(), entity.getY()-entity.getHeight()*0.5);
+                    displayUpdate(-points, entity.getX(), getAppHeight()-50);
                     entity.removeFromWorld();
                 }
             }

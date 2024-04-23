@@ -5,11 +5,12 @@ import catchorwaste.model.enums.EntityType;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+
 
 import static catchorwaste.CatchOrWasteApp.imageMap;
-import static catchorwaste.model.constants.Constants.*;
+import static catchorwaste.model.constants.Constants.STREET_RIGHT_END;
+import static catchorwaste.model.constants.Constants.STREET_LEFT_END;
+import static catchorwaste.model.constants.Constants.CART_HEIGHT_AT_STREET;
 import static catchorwaste.view.CartView.spawnCart;
 public class PlayerView {
 
@@ -27,7 +28,8 @@ public class PlayerView {
             if (player.getX() == STREET_LEFT_END) {
                 changePlayerImage("Down_Left", gameWorld);
                 if(player.getComponent(CargoComponent.class).isFull()){
-                    spawnCart(gameWorld, STREET_LEFT_END-player.getBoundingBoxComponent().getWidth()*0.2, CART_HEIGHT_AT_STREET,
+                    spawnCart(gameWorld,
+                            STREET_LEFT_END-player.getBoundingBoxComponent().getWidth()*0.2, CART_HEIGHT_AT_STREET,
                             player.getComponent(CargoComponent.class).getCatchedEntity());
                     player.getComponent(CargoComponent.class).getCatchedEntity().removeFromWorld();
                     player.getComponent(CargoComponent.class).setCatchedEntity(null);

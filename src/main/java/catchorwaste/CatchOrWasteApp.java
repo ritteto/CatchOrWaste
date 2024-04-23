@@ -25,14 +25,28 @@ import static catchorwaste.controller.PlayerController.boundaries;
 import static catchorwaste.controller.PlayerController.catchObject;
 import static catchorwaste.controller.PlayerController.movePlayer;
 import static catchorwaste.model.CartModel.setGate;
-import static catchorwaste.model.PunktesystemModel.*;
-import static catchorwaste.model.constants.Constants.*;
+import static catchorwaste.model.PunktesystemModel.initPointsMap;
+import static catchorwaste.model.constants.Constants.HOUSE1_X;
+import static catchorwaste.model.constants.Constants.HOUSE2_X;
+import static catchorwaste.model.constants.Constants.HOUSE3_X;
+import static catchorwaste.model.constants.Constants.HOUSE4_X;
+import static catchorwaste.model.constants.Constants.HOUSE_Y;
+import static catchorwaste.model.constants.Constants.REPARIEREN_X;
+import static catchorwaste.model.constants.Constants.RECYCLE_X;
+import static catchorwaste.model.constants.Constants.WORKSTATION_RIGHT_Y;
+import static catchorwaste.model.constants.Constants.MARKT_X;
+import static catchorwaste.model.constants.Constants.STREET_HEIGHT;
 import static catchorwaste.view.FallingObjectView.spawnObjects;
 import static catchorwaste.view.PlayerView.isAtStreetEnd;
 import static catchorwaste.view.PunktesystemView.initPunkteSystemView;
 import static catchorwaste.view.PunktesystemView.updateScore;
-import static com.almasb.fxgl.dsl.FXGL.*;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.onKey;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppWidth;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppHeight;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAssetLoader;
 
 
 public class CatchOrWasteApp extends GameApplication {
@@ -55,18 +69,15 @@ public class CatchOrWasteApp extends GameApplication {
     }
 
     public static void playerOnUpdate(GameWorld gameWorld) {
-        catchObject(gameWorld);
+        catchObject();
         boundaries(gameWorld);
         isAtStreetEnd(gameWorld);
     }
 
     @Override
     protected void initSettings(GameSettings settings) {
-        //settings.setFullScreenAllowed(true);
-        //settings.setFullScreenFromStart(true);
-        settings.setWidth(800);
-        settings.setHeight(600);
-        settings.setManualResizeEnabled(true);
+        settings.setFullScreenAllowed(true);
+        settings.setFullScreenFromStart(true);
         settings.setTicksPerSecond(60);
     }
 
@@ -80,10 +91,24 @@ public class CatchOrWasteApp extends GameApplication {
         }
 
 
-        onKey(KeyCode.RIGHT, "Move Right", () -> movePlayer(true, getGameWorld()));
-        onKey(KeyCode.LEFT, "Move Left", () -> movePlayer(false, getGameWorld()));
-        onKey(KeyCode.DIGIT1, "1", () -> setGate(true));
-        onKey(KeyCode.DIGIT2, "2", () -> setGate(false));
+
+        onKey(KeyCode.RIGHT, "Move Right", () -> {
+            movePlayer(true, getGameWorld());
+            return null;
+        });
+        onKey(KeyCode.LEFT, "Move Left", () -> {
+            movePlayer(false, getGameWorld());
+            return  null;
+        });
+        onKey(KeyCode.DIGIT1, "1", () -> {
+            setGate(true);
+            return null;
+        });
+        onKey(KeyCode.DIGIT2, "2", () -> {
+            setGate(false);
+            return null;
+        });
+
 
 
     }
@@ -96,6 +121,7 @@ public class CatchOrWasteApp extends GameApplication {
         TimerController timerController = new TimerController(timerModel, timerView);
 
         // add timer to the game
+
         getGameScene().addUINode(timerView);
         timerController.startTimer();
 

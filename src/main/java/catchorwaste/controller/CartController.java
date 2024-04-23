@@ -1,19 +1,25 @@
 package catchorwaste.controller;
 
-import catchorwaste.model.PunktesystemModel;
 import catchorwaste.model.components.CartDirectionComponent;
 import catchorwaste.model.components.ImageNameComponent;
 import catchorwaste.model.enums.EntityType;
-import catchorwaste.view.PunktesystemView;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 
 import static catchorwaste.model.PunktesystemModel.addPoints;
 import static catchorwaste.model.PunktesystemModel.pointsMap;
-import static catchorwaste.model.constants.Constants.*;
+import static catchorwaste.model.constants.Constants.CURVE_BL;
+import static catchorwaste.model.constants.Constants.CURVE_BR;
+import static catchorwaste.model.constants.Constants.CURVE_TR;
+import static catchorwaste.model.constants.Constants.STREET_LEFT_END;
+import static catchorwaste.model.constants.Constants.STREET_RIGHT_END;
+import static catchorwaste.model.constants.Constants.CART_HEIGHT_AT_STREET;
+import static catchorwaste.model.constants.Constants.RECYCLE_HEIGHT;
+import static catchorwaste.model.constants.Constants.GATE_HEIGHT;
+import static catchorwaste.model.constants.Constants.GATE_LEFT_END;
+import static catchorwaste.model.constants.Constants.GATE_RIGHT_END;
 import static catchorwaste.view.PunktesystemView.displayUpdate;
-import static com.almasb.fxgl.dsl.FXGL.getAppHeight;
 
 
 import static catchorwaste.model.CartModel.getCartSpeed;
@@ -30,7 +36,8 @@ public class CartController {
             //Left Path
 
             //horizontal movement between Street end and bottom left curve
-            if(entity.getX() >= CURVE_BL && entity.getX() <= STREET_LEFT_END  && entity.getY() >= CART_HEIGHT_AT_STREET){
+            if(entity.getX() >= CURVE_BL &&
+                    entity.getX() <= STREET_LEFT_END  && entity.getY() >= CART_HEIGHT_AT_STREET){
                 entity.translateX(-getCartSpeed());
 
             }
@@ -67,7 +74,8 @@ public class CartController {
 
 
             //vertical movement between bottom right curve and gate
-            if(entity.getX() >= STREET_RIGHT_END && entity.getY() < CART_HEIGHT_AT_STREET && entity.getY() >= GATE_HEIGHT){
+            if(entity.getX() >= STREET_RIGHT_END &&
+                    entity.getY() < CART_HEIGHT_AT_STREET && entity.getY() >= GATE_HEIGHT){
                 entity.translateY(-getCartSpeed());
             }
 

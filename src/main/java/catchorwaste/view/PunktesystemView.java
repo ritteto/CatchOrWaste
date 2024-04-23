@@ -9,7 +9,7 @@ import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import static catchorwaste.model.constants.Constants.FONT_SIZE;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
 import static javafx.scene.text.FontWeight.BOLD;
 
 
