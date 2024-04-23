@@ -29,26 +29,30 @@ public class PunktesystemView extends StackPane {
         scoreLabel = new Label();
         scoreLabel.setStyle(FONT_SIZE);
 
-        StackPane.setMargin(scoreLabel, new Insets(80, 0, 0, 20)); // up: 80, left: 20
+        scoreLabel.setLayoutX(20);
+        scoreLabel.setLayoutY(80);
+        updateScore(0);
 
         getGameScene().addChild(scoreLabel);
     }
 
     public static void updateScore(double score) {
-        scoreLabel.setText(score +" Punkte");
+        scoreLabel.setText((int) score +" Punkte");
     }
 
     public static void displayUpdate(double change, double x, double y){
         Label label = new Label();
         label.setFont(Font.font("Comic Sans", BOLD, 30));
+        change = (int) change;
 
         if(change > 0){
-            label.setTextFill(Color.GREEN);
-            label.setText("+"+change);
+            Color color = Color.rgb(28, 232, 35);
+            label.setTextFill(color);
+            label.setText("+"+(int)change);
 
         }else if(change < 0){
             label.setTextFill(Color.RED);
-            label.setText("-"+change);
+            label.setText(String.valueOf((int)change));
         }
 
         label.setLayoutX(x);
@@ -57,7 +61,7 @@ public class PunktesystemView extends StackPane {
         getGameScene().addChild(label);
         FXGL.getGameTimer().runOnceAfter(()->{
             getGameScene().removeChild(label);
-        }, Duration.millis(200));
+        }, Duration.millis(350));
 
     }
 

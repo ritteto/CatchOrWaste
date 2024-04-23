@@ -128,7 +128,6 @@ public class CatchOrWasteApp extends GameApplication {
 
         initPunktesystem();
 
-        System.out.println(pointsMap.get("recycle").get("iphone").get("f"));
     }
 
 
@@ -194,6 +193,7 @@ public class CatchOrWasteApp extends GameApplication {
 
     public void initPunktesystem(){
         initPunkteSystemView();
+        updateScore(0);
         initPointsMap();
         onWorkstationCollision();
     }

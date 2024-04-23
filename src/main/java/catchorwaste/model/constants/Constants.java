@@ -20,7 +20,7 @@ public final class Constants {
     public static final double GATE_HEIGHT = getAppHeight() * 0.665;
     public static final double GATE_LEFT_END = getAppWidth() * 0.785;
     public static final double GATE_RIGHT_END = getAppWidth() * 0.891;
-    public static final double HOUSE_Y = getAppHeight() * 0.1;
+    public static final double HOUSE_Y = getAppHeight() * 0.02;
     public static final double HOUSE1_X = getAppWidth() * 0.20;
     public static final double HOUSE2_X = getAppWidth() * 0.34;
     public static final double HOUSE3_X = getAppWidth() * 0.48;

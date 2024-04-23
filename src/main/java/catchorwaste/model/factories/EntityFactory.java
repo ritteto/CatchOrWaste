@@ -5,30 +5,23 @@ import catchorwaste.model.components.PlayerDirectionComponent;
 import catchorwaste.model.components.ImageNameComponent;
 import catchorwaste.model.components.IsCatchedComponent;
 import catchorwaste.model.components.CartDirectionComponent;
-import catchorwaste.model.components.ItemStatusComponent;
-import catchorwaste.model.components.ItemTypeComponent;
+
 
 import catchorwaste.model.enums.EntityType;
-import catchorwaste.model.enums.ItemStatus;
-import catchorwaste.model.enums.ItemType;
-import com.almasb.fxgl.app.scene.MenuType;
+
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.Spawns;
-import com.almasb.fxgl.entity.components.BoundingBoxComponent;
 import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.entity.components.TransformComponent;
 
-import com.almasb.fxgl.physics.BoundingShape;
-import com.almasb.fxgl.physics.HitBox;
-import javafx.geometry.BoundingBox;
+;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+
 
 
 import java.util.Random;
@@ -104,10 +97,11 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
     public Entity newHouse(SpawnData data) {
         var houses = new String[]{"haus1", "haus2"};
         return FXGL.entityBuilder(data)
-                .view(new ImageView(imageMap.get(houses[(int) data.get("Position") - 1])))
+                .viewWithBBox(new ImageView(imageMap.get(houses[(int) data.get("Position") - 1])))
                 .type(EntityType.HOUSE)
                 .scale(1.2, 1.2)
                 .build();
+
     }
 
 
@@ -125,7 +119,7 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
     @Spawns("WORKSTATION")
     public Entity newWorkstation(SpawnData data) {
         var workstations = new String[]{"reparieren", "markt", "recycle"};
-        Entity entity = FXGL.entityBuilder(data)
+        return FXGL.entityBuilder(data)
                 .viewWithBBox(new ImageView(imageMap.get(workstations[(int) data.get("Position") - 1])))
                 .with(new ImageNameComponent(workstations[(int) data.get("Position") - 1]))
                 .with(new CollidableComponent(true))
@@ -133,23 +127,6 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
                 .scale(1.45, 1.45)
                 .zIndex(10)
                 .build();
-
-        var rec = new Rectangle();
-        rec.setFill(null);
-        rec.setStroke(Color.BLACK);
-        rec.setWidth(entity.getBoundingBoxComponent().getWidth());
-        rec.setHeight(entity.getBoundingBoxComponent().getHeight());
-
-        var rec2 = new Rectangle();
-        rec2.setFill(null);
-        rec2.setStroke(Color.BLACK);
-        rec2.setWidth(entity.getBoundingBoxComponent().getWidth()*0.5);
-        rec2.setHeight(entity.getBoundingBoxComponent().getHeight()*0.75);
-
-        entity.getViewComponent().addChild(rec2);
-        entity.getViewComponent().addChild(rec);
-
-        return entity;
     }
 
 
