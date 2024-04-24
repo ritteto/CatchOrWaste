@@ -1,6 +1,5 @@
 package catchorwaste.model;
 
-import catchorwaste.view.PunktesystemView;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -78,15 +77,10 @@ public class PunktesystemModel {
                 var map1 = new LinkedHashMap<String, Double>();
                 for (int k = 0; k < states.length; k++) {
                     map1.put(states[k], objectValues.get(workstations[i])[j][k]);
-                    System.out.println("i,j,k: "+i+"/"+j+"/"+k);
-                    System.out.println("workstations: "+ Arrays.deepToString(objectValues.get(workstations[i])));
-                    System.out.println("Map1: "+map1);
                 }
                 map2.put(objects[j], map1);
-                System.out.println("Map2: "+map2);
             }
             initPointsMap.put(workstations[i], map2);
-            System.out.println("Map3: "+initPointsMap);
         }
 
         pointsMap =  initPointsMap;
