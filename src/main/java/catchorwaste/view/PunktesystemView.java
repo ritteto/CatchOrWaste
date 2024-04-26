@@ -19,13 +19,12 @@ public class PunktesystemView extends StackPane {
     public PunktesystemView() {
         scoreLabel = new Label();
         scoreLabel.setStyle(FONT_SIZE);
-
-        StackPane.setMargin(scoreLabel, new Insets(80, 0, 0, 20)); // up: 80, left: 20
+        StackPane.setMargin(scoreLabel, new Insets(80, 0, 0, 80));
 
         getChildren().add(scoreLabel);
     }
 
-    public static void initPunkteSystemView(){
+    public static void initPunkteSystemView() {
         scoreLabel = new Label();
         scoreLabel.setStyle(FONT_SIZE);
 
@@ -37,29 +36,28 @@ public class PunktesystemView extends StackPane {
     }
 
     public static void updateScore(double score) {
-        scoreLabel.setText((int) score +" Punkte");
+        scoreLabel.setText((int) score + " Punkte");
     }
 
-    public static void displayUpdate(double change, double x, double y){
+    public static void displayUpdate(int change, double x, double y) {
         Label label = new Label();
         label.setFont(Font.font("Comic Sans", BOLD, 30));
-        change = (int) change;
 
-        if(change > 0){
+        if (change > 0) {
             Color color = Color.rgb(28, 232, 35);
             label.setTextFill(color);
-            label.setText("+"+(int)change);
+            label.setText("+" + change);
 
-        }else if(change < 0){
+        } else if (change < 0) {
             label.setTextFill(Color.RED);
-            label.setText(String.valueOf((int)change));
+            label.setText(String.valueOf( change));
         }
 
         label.setLayoutX(x);
         label.setLayoutY(y);
 
         getGameScene().addChild(label);
-        FXGL.getGameTimer().runOnceAfter(()-> getGameScene().removeChild(label), Duration.millis(350));
+        FXGL.getGameTimer().runOnceAfter(() -> getGameScene().removeChild(label), Duration.millis(350));
 
     }
 

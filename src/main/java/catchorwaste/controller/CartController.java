@@ -170,7 +170,7 @@ public class CartController {
     }
 
 
-    private static double calculatePoints(Entity station, Entity cart){
+    private static int calculatePoints(Entity station, Entity cart){
         var cargoNameSplit = cart.getComponent(ImageNameComponent.class).getImageName().split("_");
         var state = cargoNameSplit[1];
         var cargo = cargoNameSplit[0];
