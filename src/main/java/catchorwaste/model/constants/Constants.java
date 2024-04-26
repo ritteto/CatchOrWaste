@@ -37,7 +37,7 @@ public final class Constants {
     public static final double WORKSTATION_RIGHT_Y = getAppHeight()*0.4;
 
     public static final int IPHONE_SCORE = 50;
-    public static final int LAMP_SCORE = 25;
+    public static final int LAMP_SCORE = 20;
     public static final int DRESS_SCORE = 10;
     public static final String FONT_SIZE = "-fx-font-size: 30px;";
 }
