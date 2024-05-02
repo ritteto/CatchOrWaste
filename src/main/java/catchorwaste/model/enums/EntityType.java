@@ -1,5 +1,5 @@
 package catchorwaste.model.enums;
 
 public enum EntityType {
-    PLAYER, OBJECT,CART, BACKGROUND, HOUSE
+    PLAYER, OBJECT,CART, BACKGROUND, HOUSE, WORKSTATION
 }

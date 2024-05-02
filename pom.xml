@@ -21,7 +21,7 @@
 
 
         <pi.hostname>pi4j</pi.hostname>
-        <pi.ipnumber>192.168.80.120</pi.ipnumber>  <!-- change to concrete ip-number if hostname is not unique in wlan -->
+        <pi.ipnumber>192.168.228.19</pi.ipnumber>  <!-- change to concrete ip-number if hostname is not unique in wlan -->
         <pi.port>22</pi.port>
         <pi.username>pi4j</pi.username>
         <pi.password>pi4j</pi.password>

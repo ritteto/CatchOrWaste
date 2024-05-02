@@ -6,11 +6,11 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 import javafx.scene.image.ImageView;
 
+
 import static catchorwaste.CatchOrWasteApp.imageMap;
 import static catchorwaste.model.constants.Constants.STREET_RIGHT_END;
 import static catchorwaste.model.constants.Constants.STREET_LEFT_END;
-import static catchorwaste.model.constants.Constants.STREET_HEIGHT;
-import static catchorwaste.model.FallingObjectModel.amount_FO;
+import static catchorwaste.model.constants.Constants.CART_HEIGHT_AT_STREET;
 import static catchorwaste.view.CartView.spawnCart;
 public class PlayerView {
 
@@ -19,21 +19,20 @@ public class PlayerView {
             if (player.getX() == STREET_RIGHT_END) {
                 changePlayerImage("Down_Right", gameWorld);
                 if(player.getComponent(CargoComponent.class).isFull()){
-                    spawnCart(gameWorld,STREET_RIGHT_END+50, STREET_HEIGHT,
+                    spawnCart(gameWorld,STREET_RIGHT_END+50, CART_HEIGHT_AT_STREET,
                             player.getComponent(CargoComponent.class).getCatchedEntity());
                     player.getComponent(CargoComponent.class).getCatchedEntity().removeFromWorld();
                     player.getComponent(CargoComponent.class).setCatchedEntity(null);
-                    amount_FO--;
                 }
             }
             if (player.getX() == STREET_LEFT_END) {
                 changePlayerImage("Down_Left", gameWorld);
                 if(player.getComponent(CargoComponent.class).isFull()){
-                    spawnCart(gameWorld, STREET_LEFT_END-30, STREET_HEIGHT,
+                    spawnCart(gameWorld,
+                            STREET_LEFT_END-player.getBoundingBoxComponent().getWidth()*0.2, CART_HEIGHT_AT_STREET,
                             player.getComponent(CargoComponent.class).getCatchedEntity());
                     player.getComponent(CargoComponent.class).getCatchedEntity().removeFromWorld();
                     player.getComponent(CargoComponent.class).setCatchedEntity(null);
-                    amount_FO--;
                 }
             }
         }
