@@ -156,6 +156,7 @@
                             <target>
                                 <copy todir="${project.build.directory}/distribution" overwrite="true" flatten="true">
                                     <fileset dir="src/main/resources/scripts" includes="**/*.sh, **/*.service"/>
+                                    <fileset dir="src/main/resources/sounds"/>
                                 </copy>
                                 <chmod dir="${project.build.directory}/distribution" perm="ugo+rx"
                                        includes="**/*.sh, **/*.service"/>

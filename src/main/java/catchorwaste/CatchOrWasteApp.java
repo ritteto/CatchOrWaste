@@ -13,6 +13,10 @@ import com.almasb.fxgl.entity.SpawnData;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
+import java.io.File;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -89,15 +93,13 @@ public class CatchOrWasteApp extends GameApplication {
             GPIOController controller = new GPIOController(); // Funktioniert nur bei ARM Prozessoren (Raspberry Pi)
         }
 
-
-
         onKey(KeyCode.RIGHT, "Move Right", () -> {
             movePlayer(true, getGameWorld());
             return null;
         });
         onKey(KeyCode.LEFT, "Move Left", () -> {
             movePlayer(false, getGameWorld());
-            return  null;
+            return null;
         });
         onKey(KeyCode.DIGIT1, "1", () -> {
             setGate(true);
@@ -119,10 +121,8 @@ public class CatchOrWasteApp extends GameApplication {
         TimerController timerController = new TimerController(timerModel, timerView);
 
         // add timer to the game
-
         getGameScene().addUINode(timerView);
         timerController.startTimer();
-
         imageMap = new HashMap<>();
         loadImages();
         getGameWorld().addEntityFactory(new EntityFactory());
@@ -138,21 +138,29 @@ public class CatchOrWasteApp extends GameApplication {
         spawn("HOUSE", new SpawnData(HOUSE3_X, HOUSE_Y).put("Position", 1));
         spawn("HOUSE", new SpawnData(HOUSE4_X, HOUSE_Y).put("Position", 2));
 
-
-
         // spawn market, repaicenter & recycling
         spawn("WORKSTATION", new SpawnData(REPARIEREN_X, WORKSTATION_RIGHT_Y).put("Position", 1));
         spawn("WORKSTATION", new SpawnData(MARKT_X, WORKSTATION_RIGHT_Y).put("Position", 2));
         spawn("WORKSTATION", new SpawnData(RECYCLE_X, getAppHeight() * 0.48).put("Position", 3));
 
         //spawn the player from the factory
-        spawn("PLAYER", (double) getAppWidth() /2, STREET_HEIGHT);
-
+        spawn("PLAYER", (double) getAppWidth() / 2, STREET_HEIGHT);
 
         initPunktesystem();
-
+        playBackgroundMusic("/home/pi4j/deploy/music.mp3");
     }
 
+    private void playBackgroundMusic(String musicFile) {
+        try {
+            Media media = new Media(new File(musicFile).toURI().toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.setVolume(0.5); // Lautstärke setzen, Bereich von 0.0 bis 1.0
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Musik endlos wiederholen
+            mediaPlayer.play();
+        } catch (Exception e) {
+            System.out.println("Fehler beim Laden der Musikdatei: " + e.getMessage());
+        }
+    }
 
     @Override
     protected void onUpdate(double tpf) {
@@ -204,8 +212,6 @@ public class CatchOrWasteApp extends GameApplication {
         addToMap("fallingObjects", fallingObjectsImgs);
         addToMap("player", playerImgs);
         addToMap("structures", structuresImgs);
-
-
     }
 
     public void addToMap(String dir, String[] names) {
@@ -214,12 +220,10 @@ public class CatchOrWasteApp extends GameApplication {
         }
     }
 
-    public void initPunktesystem(){
+    public void initPunktesystem() {
         initPunkteSystemView();
         updateScore(0);
         initPointsMap();
         onWorkstationCollision();
     }
-
-
 }
