@@ -150,14 +150,14 @@
                 <version>1.8</version>
                 <executions>
                     <execution>
-                        <id>copy</id>
+                        <id>copy-scripts</id>
                         <phase>package</phase>
                         <configuration>
                             <target>
                                 <copy todir="${project.build.directory}/distribution" overwrite="true" flatten="true">
-                                    <fileset dir="assets" includes="*.sh"></fileset>
+                                    <fileset dir="src/main/resources/scripts" includes="**/*.sh, **/*.service"/>
                                 </copy>
-                                <chmod dir="${project.build.directory}/distribution" perm="ugo+rx" includes="**/*.sh"/>
+                                <chmod dir="${project.build.directory}/distribution" perm="ugo+rx" includes="**/*.sh, **/*.service"/>
                             </target>
                         </configuration>
                         <goals>
@@ -242,7 +242,7 @@
                                         <!-- Ensure target directory exists on RaspPi -->
                                         <sshexec host="${pi.ipnumber}" port="${pi.port}"
                                                  username="${pi.username}" password="${pi.password}"
-                                                 trust="true" command="mkdir --parents ${pi.deploydirectory}; rm -f ${pi.deploydirectory}/*"/>
+                                                 trust="true" command="mkdir --parents ${pi.deploydirectory}; sudo rm -f -r ${pi.deploydirectory}/*"/>
 
                                         <!-- Transfer distribution folder to RaspPi via SCP -->
                                         <scp trust="true"
@@ -252,6 +252,18 @@
                                                 <exclude name="javafx*.jar"/>/>
                                             </fileset>
                                         </scp>
+
+                                        <!-- Modify permissions -->
+                                        <sshexec host="${pi.ipnumber}" port="${pi.port}"
+                                                 username="${pi.username}" password="${pi.password}" trust="true"
+                                                 failonerror="false" usepty="true" useSystemIn="true"
+                                                 command="sudo chmod +x /home/pi4j/deploy/start-app.sh ; sudo chmod +x /home/pi4j/deploy/install-service.sh"/>
+
+                                        <!-- Install Service on Pi -->
+                                        <sshexec host="${pi.ipnumber}" port="${pi.port}"
+                                                 username="${pi.username}" password="${pi.password}" trust="true"
+                                                 failonerror="false" usepty="true" useSystemIn="true"
+                                                 command="cd /home/pi4j/deploy ; ./install-service.sh"/>
 
                                         <!-- Run JFX application on Raspberry Pi -->
                                         <sshexec host="${pi.ipnumber}" port="${pi.port}"

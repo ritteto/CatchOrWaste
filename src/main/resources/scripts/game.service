@@ -1,0 +1,13 @@
+[Unit]
+Description=Automatically start game application on Raspberry Pi
+After=network.target
+
+[Service]
+Type=simple
+User=pi4j
+ExecStart=/home/pi4j/deploy/start-app.sh
+Restart=on-failure
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target
