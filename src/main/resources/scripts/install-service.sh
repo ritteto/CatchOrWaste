@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 dos2unix "$0"
+
 # Definiere den Pfad für den Service und das Skript
 SERVICE_PATH="/etc/systemd/system/game.service"
 SERVICE_SCRIPT="/home/pi4j/deploy/game.service"

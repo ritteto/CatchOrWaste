@@ -115,6 +115,8 @@ public class CatchOrWasteApp extends GameApplication {
 
     @Override
     protected void initGame() {
+        getGameScene().setCursorInvisible();
+
         //generate timer
         TimerModel timerModel = new TimerModel();
         TimerView timerView = new TimerView();

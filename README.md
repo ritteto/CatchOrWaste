@@ -1,11 +1,17 @@
-Pi4J V2 :: Java I/O Library for Raspberry Pi :: Example game application with FXGL
-===================================================================================
+
+CatchOrWaste :: Java Game Application for Raspberry Pi using FXGL
+=======
 
 [![Build Status](https://github.com/pi4j/pi4j-example-fxgl/workflows/Maven/badge.svg)](https://github.com/Pi4J/pi4j-example-fxgl/actions/workflows/maven.yml)
 
-This project contains an example application which uses the Pi4J (V2) library and uses an Arcade button and joystick kit
-to control a JavaFX FXGL game. Full description is available on
-[the Pi4J website](https://v2.pi4j.com/getting-started/game-development-with-fxgl/)
+## Table of Contents
+
+- [Project Overview](#project-overview)
+- [Runntime Dependencies](#runtime-dependencies)
+- [Build Dependencies & Instructions](#build-dependencies--instructions)
+- [Hardware](#hardware)
+- [Features](#features)
+- [Licence](#license)
 
 ## PROJECT OVERVIEW
 
@@ -14,15 +20,6 @@ buttons.
 
 The full description is available on
 [Game development with FXGL](https://v2.pi4j.com/getting-started/game-development-with-fxgl/).
-
-## COMPONENTS
-
-![Arcade kit components](assets/arcade_parts_kit.jpg)
-![Picade Hat](assets/picade_hat.jpg)
-
-Connections as documented on [pinout.xyz](https://pinout.xyz/pinout/picade_hat):
-
-![Picade Hat pin numbers](assets/picade_hat_pin_numbers.png)
 
 ## RUNTIME DEPENDENCIES
 
@@ -39,24 +36,23 @@ on ["User interface with JavaFX](https://v2.pi4j.com/getting-started/user-interf
 
 ## BUILD DEPENDENCIES & INSTRUCTIONS
 
+### First Installation
+
+Install the game by following these steps:
+
+- Make sure JavaFX & Java is installed on the RaspberryPi
+- Make sure the Raspberry Pi is connected to the same network as your local machine
+- Change the IP-address in the pom.xml file (See Debian Desktop Wallpaper)
+- Run the Application with the specified run configuration (in the .run directory)
+- Now you're all set and the Application will automatically start everytime you boot / reboot the Raspberry Pi
+
+
 This project can be built with [Apache Maven](https://maven.apache.org/) 3.6
 (or later) and Java 11 OpenJDK (or later). These prerequisites must be installed prior to building this project. The
 following command can be used to download all project dependencies and compile the Java module. You can build this
 project directly on a Raspberry Pi with Java 11+.
 
-```
-mvn clean package
-```
-
 ### Compiled application to run on the Raspberry Pi
-
-Once the build is complete and was successful, you can find the compiled artifacts in the `target` (Maven) or `build` (
-Gradle) folder. Specifically all dependency modules (JARs) and a simple `run.sh` bash script will be located in the
-`target/distribution` (Maven) or `build/distribution` (Gradle) folder.
-
-These are all the required files needed to distribute (copy) to your Raspberry Pi to run this project. If you are using
-the native bindings running locally on the Raspberry Pi, then you make have to run the program using `sudo`
-to gain the necessary access permissions to the hardware I/O.
 
 This is the list of files created by the build process of this example application:
 
@@ -67,13 +63,25 @@ This is the list of files created by the build process of this example applicati
 * pi4j-plugin-raspberrypi
 * slf4j-api
 * slf4j-simple
-* run.sh --> this is the actual start file which will run pi4j-example-fxgl
-
-Make the run script executable and start it like this:
+* game.service -> this is a service, that will automatically start the game application on boot / reboot
+* install-service.sh -> this script will automatically setup the autostart feature
+* start-app.sh --> this is the actual start file which will run pi4j-example-fxgl
 
 ```
-sudo ./run.sh
+sudo ./start-app.sh
 ```
+
+To manually setup the service for autostart run:
+
+```
+sudo ./install-service.sh
+```
+
+## HARDWARE
+
+
+## FEATURES
+
 
 ## LICENSE
 
