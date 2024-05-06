@@ -17,4 +17,3 @@ sudo -E java -XX:+UseZGC -Xmx1G \
   --add-modules javafx.controls \
   -Dglass.platform=gtk \
   --module com.pi4j.example/catchorwaste.CatchOrWasteApp
-
