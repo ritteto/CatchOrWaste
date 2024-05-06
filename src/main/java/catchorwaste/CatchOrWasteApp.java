@@ -4,6 +4,7 @@ import catchorwaste.controller.GPIOController;
 import catchorwaste.controller.TimerController;
 import catchorwaste.model.TimerModel;
 import catchorwaste.model.factories.EntityFactory;
+import catchorwaste.view.StartScreenView;
 import catchorwaste.view.TimerView;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
@@ -52,6 +53,8 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getAssetLoader;
 public class CatchOrWasteApp extends GameApplication {
 
     public static Map<String, Image> imageMap;
+    public boolean gameStarted = false;
+    StartScreenView startScreenView;
 
     public static void main(String[] args) {
         launch(args);
@@ -88,8 +91,12 @@ public class CatchOrWasteApp extends GameApplication {
         if (osArch.contains("arm") || osArch.contains("aarch64")) {
             GPIOController controller = new GPIOController(); // Funktioniert nur bei ARM Prozessoren (Raspberry Pi)
         }
-
-
+        onKey(KeyCode.SPACE, "Start Game", () -> {
+            if (!gameStarted) {
+                startGame();
+            }
+            return null;
+        });
 
         onKey(KeyCode.RIGHT, "Move Right", () -> {
             movePlayer(true, getGameWorld());
@@ -97,7 +104,7 @@ public class CatchOrWasteApp extends GameApplication {
         });
         onKey(KeyCode.LEFT, "Move Left", () -> {
             movePlayer(false, getGameWorld());
-            return  null;
+            return null;
         });
         onKey(KeyCode.DIGIT1, "1", () -> {
             setGate(true);
@@ -107,21 +114,30 @@ public class CatchOrWasteApp extends GameApplication {
             setGate(false);
             return null;
         });
+    }
 
+    public void startGame() {
+        gameStarted = true;
+        getGameScene().removeUINode(startScreenView);
+
+        //generate timer
+        TimerModel timerModel = new TimerModel();
+        TimerView timerView = new TimerView();
+        TimerController timerController = new TimerController(timerModel, timerView);
+        // add timer to the game
+        getGameScene().addUINode(timerView);
+        timerController.startTimer();
+
+        //add score system
+        initPunktesystem();
 
     }
 
     @Override
     protected void initGame() {
-        //generate timer
-        TimerModel timerModel = new TimerModel();
-        TimerView timerView = new TimerView();
-        TimerController timerController = new TimerController(timerModel, timerView);
 
-        // add timer to the game
-
-        getGameScene().addUINode(timerView);
-        timerController.startTimer();
+        startScreenView = new StartScreenView();
+        getGameScene().addUINode(startScreenView);
 
         imageMap = new HashMap<>();
         loadImages();
@@ -139,17 +155,13 @@ public class CatchOrWasteApp extends GameApplication {
         spawn("HOUSE", new SpawnData(HOUSE4_X, HOUSE_Y).put("Position", 2));
 
 
-
-        // spawn market, repaicenter & recycling
+        // spawn market, repair center & recycling
         spawn("WORKSTATION", new SpawnData(REPARIEREN_X, WORKSTATION_RIGHT_Y).put("Position", 1));
         spawn("WORKSTATION", new SpawnData(MARKT_X, WORKSTATION_RIGHT_Y).put("Position", 2));
         spawn("WORKSTATION", new SpawnData(RECYCLE_X, getAppHeight() * 0.48).put("Position", 3));
 
         //spawn the player from the factory
-        spawn("PLAYER", (double) getAppWidth() /2, STREET_HEIGHT);
-
-
-        initPunktesystem();
+        spawn("PLAYER", (double) getAppWidth() / 2, STREET_HEIGHT);
 
     }
 
@@ -214,7 +226,7 @@ public class CatchOrWasteApp extends GameApplication {
         }
     }
 
-    public void initPunktesystem(){
+    public void initPunktesystem() {
         initPunkteSystemView();
         updateScore(0);
         initPointsMap();
