@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 dos2unix "$0"
 
 # Definiere den Pfad für den Service und das Skript

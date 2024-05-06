@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 dos2unix "$0"
 
 # Java und JavaFX Konfiguration
