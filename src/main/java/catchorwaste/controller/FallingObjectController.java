@@ -8,9 +8,6 @@ import catchorwaste.model.enums.EntityType;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 
-
-import java.util.Arrays;
-
 import static catchorwaste.model.PunktesystemModel.pointsMap;
 import static catchorwaste.model.PunktesystemModel.subtractPoints;
 import static catchorwaste.view.PunktesystemView.displayUpdate;
