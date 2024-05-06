@@ -78,13 +78,12 @@ public class CatchOrWasteApp extends GameApplication {
     protected void initSettings(GameSettings settings) {
         settings.setFullScreenAllowed(true);
         settings.setFullScreenFromStart(true);
-        settings.setTicksPerSecond(60);
+        settings.setTicksPerSecond(30);
     }
 
     @Override
     protected void initInput() {
         String osArch = System.getProperty("os.arch").toLowerCase();
-
 
         if (osArch.contains("arm") || osArch.contains("aarch64")) {
             GPIOController controller = new GPIOController(); // Funktioniert nur bei ARM Prozessoren (Raspberry Pi)
@@ -108,7 +107,6 @@ public class CatchOrWasteApp extends GameApplication {
             setGate(false);
             return null;
         });
-
 
 
     }
