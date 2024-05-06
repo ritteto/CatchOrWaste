@@ -2,10 +2,8 @@ package catchorwaste;
 
 import catchorwaste.controller.GPIOController;
 import catchorwaste.controller.TimerController;
-import catchorwaste.model.PunktesystemModel;
 import catchorwaste.model.TimerModel;
 import catchorwaste.model.factories.EntityFactory;
-import catchorwaste.view.PunktesystemView;
 import catchorwaste.view.TimerView;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
@@ -20,26 +18,35 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static catchorwaste.controller.CartController.cartMovement;
+import static catchorwaste.controller.CartController.onWorkstationCollision;
 import static catchorwaste.controller.FallingObjectController.dropObjects;
 import static catchorwaste.controller.FallingObjectController.stickToPlayer;
 import static catchorwaste.controller.PlayerController.boundaries;
 import static catchorwaste.controller.PlayerController.catchObject;
 import static catchorwaste.controller.PlayerController.movePlayer;
 import static catchorwaste.model.CartModel.setGate;
-import static catchorwaste.model.constants.Constants.HOUSE_Y;
+import static catchorwaste.model.PunktesystemModel.initPointsMap;
 import static catchorwaste.model.constants.Constants.HOUSE1_X;
 import static catchorwaste.model.constants.Constants.HOUSE2_X;
 import static catchorwaste.model.constants.Constants.HOUSE3_X;
 import static catchorwaste.model.constants.Constants.HOUSE4_X;
+import static catchorwaste.model.constants.Constants.HOUSE_Y;
+import static catchorwaste.model.constants.Constants.REPARIEREN_X;
+import static catchorwaste.model.constants.Constants.RECYCLE_X;
+import static catchorwaste.model.constants.Constants.WORKSTATION_RIGHT_Y;
+import static catchorwaste.model.constants.Constants.MARKT_X;
+import static catchorwaste.model.constants.Constants.STREET_HEIGHT;
 import static catchorwaste.view.FallingObjectView.spawnObjects;
 import static catchorwaste.view.PlayerView.isAtStreetEnd;
-import static com.almasb.fxgl.dsl.FXGL.getAppHeight;
-import static com.almasb.fxgl.dsl.FXGL.getAppWidth;
-import static com.almasb.fxgl.dsl.FXGL.getAssetLoader;
-import static com.almasb.fxgl.dsl.FXGL.getGameScene;
-import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
-import static com.almasb.fxgl.dsl.FXGL.onKey;
+import static catchorwaste.view.PunktesystemView.initPunkteSystemView;
+import static catchorwaste.view.PunktesystemView.updateScore;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.onKey;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppWidth;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppHeight;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAssetLoader;
 
 
 public class CatchOrWasteApp extends GameApplication {
@@ -58,10 +65,11 @@ public class CatchOrWasteApp extends GameApplication {
 
     public static void cartOnUpdate(GameWorld gameWorld) {
         cartMovement(gameWorld);
+        //onWorkstationCollision();
     }
 
     public static void playerOnUpdate(GameWorld gameWorld) {
-        catchObject(gameWorld);
+        catchObject();
         boundaries(gameWorld);
         isAtStreetEnd(gameWorld);
     }
@@ -81,10 +89,25 @@ public class CatchOrWasteApp extends GameApplication {
             GPIOController controller = new GPIOController(); // Funktioniert nur bei ARM Prozessoren (Raspberry Pi)
         }
 
-        onKey(KeyCode.RIGHT, "Move Right", () -> movePlayer(true, getGameWorld()));
-        onKey(KeyCode.LEFT, "Move Left", () -> movePlayer(false, getGameWorld()));
-        onKey(KeyCode.DIGIT1, "1", () -> setGate(true));
-        onKey(KeyCode.DIGIT2, "2", () -> setGate(false));
+
+
+        onKey(KeyCode.RIGHT, "Move Right", () -> {
+            movePlayer(true, getGameWorld());
+            return null;
+        });
+        onKey(KeyCode.LEFT, "Move Left", () -> {
+            movePlayer(false, getGameWorld());
+            return  null;
+        });
+        onKey(KeyCode.DIGIT1, "1", () -> {
+            setGate(true);
+            return null;
+        });
+        onKey(KeyCode.DIGIT2, "2", () -> {
+            setGate(false);
+            return null;
+        });
+
 
     }
 
@@ -96,6 +119,7 @@ public class CatchOrWasteApp extends GameApplication {
         TimerController timerController = new TimerController(timerModel, timerView);
 
         // add timer to the game
+
         getGameScene().addUINode(timerView);
         timerController.startTimer();
 
@@ -115,21 +139,20 @@ public class CatchOrWasteApp extends GameApplication {
         spawn("HOUSE", new SpawnData(HOUSE4_X, HOUSE_Y).put("Position", 2));
 
 
+
         // spawn market, repaicenter & recycling
-        spawn("WORKSTATION", new SpawnData(getAppWidth() * 0.837, getAppHeight() * 0.1).put("Position", 1));
-        spawn("WORKSTATION", new SpawnData(getAppWidth() * 0.73, getAppHeight() * 0.1).put("Position", 2));
-        spawn("WORKSTATION", new SpawnData(getAppWidth() * -0.0185, getAppHeight() * 0.48).put("Position", 3));
+        spawn("WORKSTATION", new SpawnData(REPARIEREN_X, WORKSTATION_RIGHT_Y).put("Position", 1));
+        spawn("WORKSTATION", new SpawnData(MARKT_X, WORKSTATION_RIGHT_Y).put("Position", 2));
+        spawn("WORKSTATION", new SpawnData(RECYCLE_X, getAppHeight() * 0.48).put("Position", 3));
 
         //spawn the player from the factory
-        spawn("PLAYER", 100, getAppHeight() * 0.73);
+        spawn("PLAYER", (double) getAppWidth() /2, STREET_HEIGHT);
 
-        PunktesystemModel scoreModel = new PunktesystemModel();
-        PunktesystemView scoreView = new PunktesystemView();
-        // add score system to the game
-        getGameScene().addUINode(scoreView);
-        scoreView.updateScore(scoreModel.getScore());
+
+        initPunktesystem();
 
     }
+
 
     @Override
     protected void onUpdate(double tpf) {
@@ -190,5 +213,13 @@ public class CatchOrWasteApp extends GameApplication {
             imageMap.put(s, getAssetLoader().loadImage(dir + "/" + s + ".png"));
         }
     }
+
+    public void initPunktesystem(){
+        initPunkteSystemView();
+        updateScore(0);
+        initPointsMap();
+        onWorkstationCollision();
+    }
+
 
 }
