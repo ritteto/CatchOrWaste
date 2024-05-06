@@ -9,84 +9,95 @@ import javafx.application.Platform;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static catchorwaste.controller.PlayerController.movePlayer;
+import static catchorwaste.model.CartModel.setGate;
 import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
+import static catchorwaste.controller.PlayerController.movePlayer;
 
 public class GPIOController {
 
     private static Context pi4j;
     private DigitalInput joystickRight;
     private DigitalInput joystickLeft;
+    private DigitalInput buttonLeft;
+    private DigitalInput buttonRight;
     private final AtomicBoolean movingLeft = new AtomicBoolean(false);
     private final AtomicBoolean movingRight = new AtomicBoolean(false);
+    private Thread movementThread;
 
-    public GPIOController(){
+    public GPIOController() {
         pi4j = Pi4J.newAutoContext();
         setupGPIO();
     }
 
     private void setupGPIO() {
+        buttonLeft = pi4j.create(DigitalInput.newConfigBuilder(pi4j)
+                .id("BUTTON_Left")
+                .address(5)  // GPIO 5 for the left button
+                .pull(PullResistance.PULL_UP)
+                .provider("pigpio-digital-input"));
+
+        buttonRight = pi4j.create(DigitalInput.newConfigBuilder(pi4j)
+                .id("BUTTON_Right")
+                .address(6)  // GPIO 6 for the right button
+                .pull(PullResistance.PULL_UP)
+                .provider("pigpio-digital-input"));
+
+        buttonLeft.addListener(e -> {
+            if (e.state() == DigitalState.LOW) {
+                Platform.runLater(() -> setGate(true));
+            }
+        });
+
+        buttonRight.addListener(e -> {
+            if (e.state() == DigitalState.LOW) {
+                Platform.runLater(() -> setGate(false));
+            }
+        });
+
         joystickRight = pi4j.create(DigitalInput.newConfigBuilder(pi4j)
-            .id("JOYSTICK_Right")
-            .address(13)
-            .pull(PullResistance.PULL_UP)
-            .provider("pigpio-digital-input"));
+                .id("JOYSTICK_Right")
+                .address(19)
+                .pull(PullResistance.PULL_UP)
+                .provider("pigpio-digital-input"));
 
         joystickLeft = pi4j.create(DigitalInput.newConfigBuilder(pi4j)
-            .id("JOYSTICK_Left")
-            .address(19)
-            .pull(PullResistance.PULL_UP)
-            .provider("pigpio-digital-input"));
+                .id("JOYSTICK_Left")
+                .address(13)
+                .pull(PullResistance.PULL_UP)
+                .provider("pigpio-digital-input"));
 
-        // Register event listeners for the joystick
-        joystickRight.addListener(e -> {
-            if (e.state() == DigitalState.LOW) {
-                movingRight.set(true);
-                startMovingRight();
-            } else {
-                movingRight.set(false);
-            }
-        });
+        handleMovement(joystickRight, movingRight, true);
+        handleMovement(joystickLeft, movingLeft, false);
+    }
 
-        joystickLeft.addListener(e -> {
-            if (e.state() == DigitalState.LOW) {
-                movingLeft.set(true);
-                startMovingLeft();
-            } else {
-                movingLeft.set(false);
+    private void handleMovement(DigitalInput joystick, AtomicBoolean moving, boolean direction) {
+        joystick.addListener(e -> {
+            if (e.state() == DigitalState.LOW && moving.compareAndSet(false, true)) {
+                startMoving(direction);
+            } else if (e.state() != DigitalState.LOW && moving.compareAndSet(true, false)) {
+                stopMoving(direction);
             }
         });
     }
 
-    private void startMovingRight() {
-        new Thread(() -> {
-            while (movingRight.get()) {
-                Platform.runLater(() -> {
-                    System.out.println("Joystick Right - Moving Player Right");
-                    movePlayer(true, getGameWorld());
-                });
+    private void startMoving(boolean direction) {
+        movementThread = new Thread(() -> {
+            while (movingRight.get() || movingLeft.get()) {
+                Platform.runLater(() -> movePlayer(direction, getGameWorld()));
                 try {
-                    Thread.sleep(20);  // adjust the speed of movement by changing the sleep duration
+                    Thread.sleep(20); // Bewegungsgeschwindigkeit, kann angepasst werden
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
+                    return;
                 }
             }
-        }).start();
+        });
+        movementThread.start();
     }
 
-    private void startMovingLeft() {
-        new Thread(() -> {
-            while (movingLeft.get()) {
-                Platform.runLater(() -> {
-                    System.out.println("Joystick Left - Moving Player Left");
-                    movePlayer(false, getGameWorld());
-                });
-                try {
-                    Thread.sleep(20);  // adjust the speed of movement by changing the sleep duration
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-            }
-        }).start();
+    private void stopMoving(boolean direction) {
+        if (movementThread != null) {
+            movementThread.interrupt();
+        }
     }
 }

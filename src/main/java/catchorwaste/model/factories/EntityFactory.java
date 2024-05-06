@@ -5,7 +5,6 @@ import catchorwaste.model.components.PlayerDirectionComponent;
 import catchorwaste.model.components.ImageNameComponent;
 import catchorwaste.model.components.IsCatchedComponent;
 import catchorwaste.model.components.CartDirectionComponent;
-import catchorwaste.model.components.ItemStatusComponent;
 import catchorwaste.model.components.ItemTypeComponent;
 
 import catchorwaste.model.enums.EntityType;
@@ -69,13 +68,6 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
         } else if (name.startsWith("lampe")) {
             itemType = ItemType.LAMP;
         }
-        if (name.endsWith("_d")) {
-            itemStatus = ItemStatus.DEFECT;
-        } else if ((name.endsWith("_f"))) {
-            itemStatus = ItemStatus.FUNCTIONAL;
-        } else {
-            itemStatus = ItemStatus.REPAIRABLE;
-        }
         return FXGL.entityBuilder(data)
                 .view(new ImageView(zufall[zufallszahl]))
                 .type(EntityType.OBJECT)
@@ -84,7 +76,6 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
                 .with(new ImageNameComponent(name))
                 .with(new IsCatchedComponent(false))
                 .with(new ItemTypeComponent(itemType))
-                .with(new ItemStatusComponent(itemStatus))
                 .build();
     }
 
