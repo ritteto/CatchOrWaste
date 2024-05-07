@@ -172,9 +172,11 @@ public class CatchOrWasteApp extends GameApplication {
 
     @Override
     protected void onUpdate(double tpf) {
-        playerOnUpdate(getGameWorld());
-        cartOnUpdate(getGameWorld());
-        fallingObjectOnUpdate(getGameWorld());
+        if (updateEnabled) {
+            playerOnUpdate(getGameWorld());
+            cartOnUpdate(getGameWorld());
+            fallingObjectOnUpdate(getGameWorld());
+        }
     }
 
     public void setBackground(Entity entity) {
@@ -230,7 +232,7 @@ public class CatchOrWasteApp extends GameApplication {
         var structuresImgs = new String[]{
                 "haus1", "haus2", "markt", "recycle", "reparieren"};
 
-        var endScreensImgs = new String[] {
+        var endScreensImgs = new String[]{
                 "endScreen_1"
         };
 

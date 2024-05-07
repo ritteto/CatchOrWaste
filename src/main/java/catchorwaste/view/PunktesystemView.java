@@ -31,20 +31,6 @@ public class PunktesystemView extends StackPane {
         scoreLabel.setText((int) score + " Punkte");
     }
 
-    public Node scoreEndscreen() {
-        int score = PunktesystemModel.getPoints();
-        scoreLabel = new Label();
-        //scoreLabel.setStyle(FONT_SIZE);
-
-        Font font = Font.loadFont(getClass().getResourceAsStream(FONT), 20);
-        scoreLabel.setFont(font);
-        scoreLabel.setLayoutX(60);
-        scoreLabel.setLayoutY(170);
-        scoreLabel.setText("Du hast " + score + " Punkte erreicht sehr gut!");
-        getChildren().add(scoreLabel);
-        return scoreLabel;
-    }
-
     public static void displayUpdate(int change, double x, double y) {
         Label label = new Label();
         label.setFont(Font.font("Comic Sans", BOLD, 30));
