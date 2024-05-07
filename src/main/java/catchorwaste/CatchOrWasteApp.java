@@ -168,9 +168,11 @@ public class CatchOrWasteApp extends GameApplication {
 
     @Override
     protected void onUpdate(double tpf) {
-        playerOnUpdate(getGameWorld());
-        cartOnUpdate(getGameWorld());
-        fallingObjectOnUpdate(getGameWorld());
+        if (gameStarted) {
+            playerOnUpdate(getGameWorld());
+            cartOnUpdate(getGameWorld());
+            fallingObjectOnUpdate(getGameWorld());
+        }
     }
 
     public void setBackground(Entity entity) {
