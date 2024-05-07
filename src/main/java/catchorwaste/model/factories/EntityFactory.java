@@ -44,6 +44,14 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
                 .build();
     }
 
+    @Spawns("ENDSCREEN")
+    public Entity newEndScreen(SpawnData data) {
+        var endScreens = new String[]{"endScreen_1"};
+        return FXGL.entityBuilder(data)
+                .view(new ImageView(imageMap.get(endScreens[(int) data.get("Position") - 1])))
+                .type(EntityType.ENDSCREEN)
+                .build();
+    }
 
     @Spawns("OBJECT")
     public Entity newObject(SpawnData data) {

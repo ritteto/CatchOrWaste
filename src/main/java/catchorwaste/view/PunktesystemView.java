@@ -1,6 +1,8 @@
 package catchorwaste.view;
 
+import catchorwaste.model.PunktesystemModel;
 import com.almasb.fxgl.dsl.FXGL;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.geometry.Insets;
@@ -8,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
+import static catchorwaste.model.constants.Constants.FONT;
 import static catchorwaste.model.constants.Constants.FONT_SIZE;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
 import static javafx.scene.text.FontWeight.BOLD;
@@ -19,24 +22,27 @@ public class PunktesystemView extends StackPane {
     public PunktesystemView() {
         scoreLabel = new Label();
         scoreLabel.setStyle(FONT_SIZE);
-        StackPane.setMargin(scoreLabel, new Insets(80, 0, 0, 80));
+        StackPane.setMargin(scoreLabel, new Insets(80, 0, 0, 20));
 
         getChildren().add(scoreLabel);
     }
 
-    public static void initPunkteSystemView() {
-        scoreLabel = new Label();
-        scoreLabel.setStyle(FONT_SIZE);
-
-        scoreLabel.setLayoutX(20);
-        scoreLabel.setLayoutY(80);
-        updateScore(0);
-
-        getGameScene().addChild(scoreLabel);
-    }
-
     public static void updateScore(double score) {
         scoreLabel.setText((int) score + " Punkte");
+    }
+
+    public Node scoreEndscreen() {
+        int score = PunktesystemModel.getPoints();
+        scoreLabel = new Label();
+        //scoreLabel.setStyle(FONT_SIZE);
+
+        Font font = Font.loadFont(getClass().getResourceAsStream(FONT), 20);
+        scoreLabel.setFont(font);
+        scoreLabel.setLayoutX(60);
+        scoreLabel.setLayoutY(170);
+        scoreLabel.setText("Du hast " + score + " Punkte erreicht sehr gut!");
+        getChildren().add(scoreLabel);
+        return scoreLabel;
     }
 
     public static void displayUpdate(int change, double x, double y) {
@@ -60,6 +66,5 @@ public class PunktesystemView extends StackPane {
         FXGL.getGameTimer().runOnceAfter(() -> getGameScene().removeChild(label), Duration.millis(350));
 
     }
-
 
 }

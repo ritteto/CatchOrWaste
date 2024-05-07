@@ -2,23 +2,24 @@ package catchorwaste.controller;
 
 import catchorwaste.CatchOrWasteApp;
 import catchorwaste.model.TimerModel;
+import catchorwaste.view.PunktesystemView;
 import catchorwaste.view.TimerView;
 import com.almasb.fxgl.dsl.FXGL;
 import javafx.animation.AnimationTimer;
 import static catchorwaste.model.constants.Constants.TOTAL_TIME_LIMIT_SECONDS;
 public class TimerController {
-
-
     private final TimerModel timerModel;
     private final TimerView timerView;
+    private final PunktesystemView punktesystemView;
 
     private final AnimationTimer animationTimer;
 
     private long startTimeNano; // time of start
 
-    public TimerController(TimerModel model, TimerView view) {
+    public TimerController(TimerModel model, TimerView view, PunktesystemView punktesystemView) {
         this.timerModel = model;
         this.timerView = view;
+        this.punktesystemView = punktesystemView;
 
         // creates animation timer to update timer
         animationTimer = new AnimationTimer() {
@@ -51,7 +52,7 @@ public class TimerController {
         if (remainingTimeSeconds == 0) {
             stopTimer();
             //calls method from the main class
-            ((CatchOrWasteApp) FXGL.getApp()).timeIsUp();
+            ((CatchOrWasteApp) FXGL.getApp()).timeIsUp(timerView, punktesystemView);
         }
     }
 
@@ -60,5 +61,4 @@ public class TimerController {
         animationTimer.stop();
     }
 }
-
 
