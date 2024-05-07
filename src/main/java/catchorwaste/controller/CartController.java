@@ -182,7 +182,7 @@ public class CartController {
     public static boolean cartDistance(boolean left){
         boolean return_bol = true;
         for (Entity en : getGameWorld().getEntitiesByType(EntityType.CART)) {
-            if(en.getY()== CART_HEIGHT_AT_STREET ){
+            if(en.getY()== CART_HEIGHT_AT_STREET){
                 if(left && en.getX() <= STREET_LEFT_END-13-en.getWidth()){
                     return_bol = true;
                 }else if (!left && en.getX() >= STREET_RIGHT_END+50+en.getWidth()){
