@@ -118,11 +118,20 @@ public class CatchOrWasteApp extends GameApplication {
             setGate(false);
             return null;
         });
-
     }
     public void startGame() {
         gameStarted = true;
         getGameScene().removeUINode(startScreenView);
+
+        //generate timer
+        TimerModel timerModel = new TimerModel();
+        TimerView timerView = new TimerView();
+        TimerController timerController = new TimerController(timerModel, timerView);
+        // add timer to the game
+        getGameScene().addUINode(timerView);
+        timerController.startTimer();
+
+        initPunktesystem();
 
     }
 
@@ -130,25 +139,13 @@ public class CatchOrWasteApp extends GameApplication {
     protected void initGame() {
         getGameScene().setCursorInvisible();
 
-        //generate timer
-        TimerModel timerModel = new TimerModel();
-        TimerView timerView = new TimerView();
-        TimerController timerController = new TimerController(timerModel, timerView);
-
-        // add timer to the game
-
-        getGameScene().addUINode(timerView);
-        timerController.startTimer();
-
-        //add score system
-        initPunktesystem();
-
         startScreenView = new StartScreenView();
         getGameScene().addUINode(startScreenView);
 
         imageMap = new HashMap<>();
         loadImages();
         getGameWorld().addEntityFactory(new EntityFactory());
+
 
         Entity background1 = spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 1).put("Name", "background_bad"));
         Entity background2 = spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 2).put("Name", "streets"));
@@ -168,8 +165,6 @@ public class CatchOrWasteApp extends GameApplication {
 
         //spawn the player from the factory
         spawn("PLAYER", (double) getAppWidth() / 2, STREET_HEIGHT);
-
-        initPunktesystem();
         playBackgroundMusic("/home/pi4j/deploy/music.mp3");
     }
 
