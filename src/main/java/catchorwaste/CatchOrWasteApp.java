@@ -14,6 +14,10 @@ import com.almasb.fxgl.entity.SpawnData;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
+import java.io.File;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -68,7 +72,6 @@ public class CatchOrWasteApp extends GameApplication {
 
     public static void cartOnUpdate(GameWorld gameWorld) {
         cartMovement(gameWorld);
-        //onWorkstationCollision();
     }
 
     public static void playerOnUpdate(GameWorld gameWorld) {
@@ -81,7 +84,7 @@ public class CatchOrWasteApp extends GameApplication {
     protected void initSettings(GameSettings settings) {
         settings.setFullScreenAllowed(true);
         settings.setFullScreenFromStart(true);
-        settings.setTicksPerSecond(30);
+        settings.setTicksPerSecond(60);
     }
 
     @Override
@@ -89,7 +92,8 @@ public class CatchOrWasteApp extends GameApplication {
         String osArch = System.getProperty("os.arch").toLowerCase();
 
         if (osArch.contains("arm") || osArch.contains("aarch64")) {
-            GPIOController controller = new GPIOController(); // Funktioniert nur bei ARM Prozessoren (Raspberry Pi)
+            GPIOController controller = new GPIOController();
+            controller.init();
         }
         onKey(KeyCode.SPACE, "Start Game", () -> {
             if (!gameStarted) {
@@ -114,26 +118,30 @@ public class CatchOrWasteApp extends GameApplication {
             setGate(false);
             return null;
         });
-    }
 
+    }
     public void startGame() {
         gameStarted = true;
         getGameScene().removeUINode(startScreenView);
+
+    }
+
+    @Override
+    protected void initGame() {
+        getGameScene().setCursorInvisible();
 
         //generate timer
         TimerModel timerModel = new TimerModel();
         TimerView timerView = new TimerView();
         TimerController timerController = new TimerController(timerModel, timerView);
+
         // add timer to the game
+
         getGameScene().addUINode(timerView);
         timerController.startTimer();
 
         //add score system
         initPunktesystem();
-    }
-
-    @Override
-    protected void initGame() {
 
         startScreenView = new StartScreenView();
         getGameScene().addUINode(startScreenView);
@@ -142,8 +150,8 @@ public class CatchOrWasteApp extends GameApplication {
         loadImages();
         getGameWorld().addEntityFactory(new EntityFactory());
 
-        Entity background1 = spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 1));
-        Entity background2 = spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 2));
+        Entity background1 = spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 1).put("Name", "background_bad"));
+        Entity background2 = spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 2).put("Name", "streets"));
         setBackground(background1);
         setBackground(background2);
 
@@ -153,8 +161,7 @@ public class CatchOrWasteApp extends GameApplication {
         spawn("HOUSE", new SpawnData(HOUSE3_X, HOUSE_Y).put("Position", 1));
         spawn("HOUSE", new SpawnData(HOUSE4_X, HOUSE_Y).put("Position", 2));
 
-
-        // spawn market, repair center & recycling
+        // spawn market, repaicenter & recycling
         spawn("WORKSTATION", new SpawnData(REPARIEREN_X, WORKSTATION_RIGHT_Y).put("Position", 1));
         spawn("WORKSTATION", new SpawnData(MARKT_X, WORKSTATION_RIGHT_Y).put("Position", 2));
         spawn("WORKSTATION", new SpawnData(RECYCLE_X, getAppHeight() * 0.48).put("Position", 3));
@@ -162,6 +169,20 @@ public class CatchOrWasteApp extends GameApplication {
         //spawn the player from the factory
         spawn("PLAYER", (double) getAppWidth() / 2, STREET_HEIGHT);
 
+        initPunktesystem();
+        playBackgroundMusic("/home/pi4j/deploy/music.mp3");
+    }
+
+    private void playBackgroundMusic(String musicFile) {
+        try {
+            Media media = new Media(new File(musicFile).toURI().toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.setVolume(0.5); // Lautstärke setzen, Bereich von 0.0 bis 1.0
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Musik endlos wiederholen
+            mediaPlayer.play();
+        } catch (Exception e) {
+            System.out.println("Fehler beim Laden der Musikdatei: " + e.getMessage());
+        }
     }
 
 
@@ -189,7 +210,7 @@ public class CatchOrWasteApp extends GameApplication {
 
     public void loadImages() {
 
-        var backroundsImgs = new String[]{"background_bad", "streets"};
+        var backroundsImgs = new String[]{"background_bad", "streets_left", "streets_right"};
 
         var cartsImgs = new String[]{
                 "cart_horizontal", "cart_vertical",
@@ -212,12 +233,10 @@ public class CatchOrWasteApp extends GameApplication {
         var structuresImgs = new String[]{
                 "haus1", "haus2", "markt", "recycle", "reparieren"};
 
-        var startScreenImg = new String[]{"Startscreen"};
         addToMap("backgrounds", backroundsImgs);
         addToMap("carts", cartsImgs);
         addToMap("fallingObjects", fallingObjectsImgs);
         addToMap("player", playerImgs);
-        addToMap("startScreen", startScreenImg);
         addToMap("structures", structuresImgs);
 
 

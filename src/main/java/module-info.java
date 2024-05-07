@@ -38,6 +38,7 @@ open module com.pi4j.example {
     requires org.slf4j.simple;
     requires com.almasb.fxgl.all;
     requires java.datatransfer;
+    requires javafx.media;
 
     uses com.pi4j.extension.Extension;
     uses com.pi4j.provider.Provider;

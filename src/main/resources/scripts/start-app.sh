@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
+dos2unix "$0"
+
 # Java und JavaFX Konfiguration
-JAVA_HOME=/usr/lib/jvm/java-17-openjdk-arm64  # Angepasster Pfad zur Java-Installation
+JAVA_HOME=/usr/lib/jvm/java-17-openjdk-arm64      # Angepasster Pfad zur Java-Installation
 JAVAFX_SDK=/opt/javafx-sdk-20.0.2/lib             # Pfad zum JavaFX SDK
 
 # Starte das Spiel mit den richtigen JavaFX-Modulen und Eigenschaften
