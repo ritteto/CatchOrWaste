@@ -87,6 +87,11 @@
         <property name="max" value="120"/>
     </module>
 
+    <!-- Überprüft, ob Dateien mit einem Zeilenumbruch enden -->
+    <module name="NewlineAtEndOfFile">
+        <property name="lineSeparator" value="crlf"/>
+    </module>
+
     <!-- Ermittelt die Verwendung von Tabulatorzeichen in Dateien -->
     <module name="FileTabCharacter"/>
 </module>
