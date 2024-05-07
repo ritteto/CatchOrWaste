@@ -103,9 +103,10 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
 
     @Spawns("BACKGROUND")
     public Entity newBackground(SpawnData data) {
-        var backgrounds = new String[]{"background_bad", "streets"};
+        var backgrounds = new String[]{"background_bad", "streets_left"};
         return FXGL.entityBuilder(data)
                 .view(new ImageView(imageMap.get(backgrounds[(int) data.get("Position") - 1])))
+                .with(new ImageNameComponent(data.get("Name")))
                 .type(EntityType.BACKGROUND)
                 .build();
     }
