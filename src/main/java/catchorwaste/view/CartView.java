@@ -2,7 +2,6 @@ package catchorwaste.view;
 
 import catchorwaste.model.CartModel;
 import catchorwaste.model.components.CartDirectionComponent;
-import catchorwaste.model.enums.EntityType;
 import catchorwaste.model.components.ImageNameComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
@@ -11,8 +10,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import static catchorwaste.CatchOrWasteApp.imageMap;
-import static com.almasb.fxgl.dsl.FXGL.getAppWidth;
-import static com.almasb.fxgl.dsl.FXGL.getAppHeight;
 
 
 public class CartView {
