@@ -5,8 +5,8 @@ import com.pi4j.context.Context;
 import com.pi4j.io.gpio.digital.DigitalInput;
 import com.pi4j.io.gpio.digital.DigitalState;
 import com.pi4j.io.gpio.digital.PullResistance;
+import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
-
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static catchorwaste.model.CartModel.setGate;
@@ -22,14 +22,16 @@ public class GPIOController {
     private DigitalInput buttonRight;
     private final AtomicBoolean movingLeft = new AtomicBoolean(false);
     private final AtomicBoolean movingRight = new AtomicBoolean(false);
-    private Thread movementThread;
+    private AnimationTimer movementTimer;
 
-    public GPIOController() {
+
+    public void init(){
         pi4j = Pi4J.newAutoContext();
         setupGPIO();
+        setupMovementTimer();
     }
 
-    private void setupGPIO() {
+   private void setupGPIO() {
         buttonLeft = pi4j.create(DigitalInput.newConfigBuilder(pi4j)
                 .id("BUTTON_Left")
                 .address(5)  // GPIO 5 for the left button
@@ -72,32 +74,22 @@ public class GPIOController {
 
     private void handleMovement(DigitalInput joystick, AtomicBoolean moving, boolean direction) {
         joystick.addListener(e -> {
-            if (e.state() == DigitalState.LOW && moving.compareAndSet(false, true)) {
-                startMoving(direction);
-            } else if (e.state() != DigitalState.LOW && moving.compareAndSet(true, false)) {
-                stopMoving(direction);
-            }
+            moving.set(e.state() == DigitalState.LOW);
         });
     }
 
-    private void startMoving(boolean direction) {
-        movementThread = new Thread(() -> {
-            while (movingRight.get() || movingLeft.get()) {
-                Platform.runLater(() -> movePlayer(direction, getGameWorld()));
-                try {
-                    Thread.sleep(20); // Bewegungsgeschwindigkeit, kann angepasst werden
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    return;
+    private void setupMovementTimer() {
+        movementTimer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                if (movingRight.get()) {
+                    movePlayer(true, getGameWorld());
+                }
+                if (movingLeft.get()) {
+                    movePlayer(false, getGameWorld());
                 }
             }
-        });
-        movementThread.start();
-    }
-
-    private void stopMoving(boolean direction) {
-        if (movementThread != null) {
-            movementThread.interrupt();
-        }
+        };
+        movementTimer.start();
     }
 }
