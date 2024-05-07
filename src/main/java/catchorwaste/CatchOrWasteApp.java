@@ -69,7 +69,6 @@ public class CatchOrWasteApp extends GameApplication {
 
     public static void cartOnUpdate(GameWorld gameWorld) {
         cartMovement(gameWorld);
-        //onWorkstationCollision();
     }
 
     public static void playerOnUpdate(GameWorld gameWorld) {
@@ -129,8 +128,8 @@ public class CatchOrWasteApp extends GameApplication {
         loadImages();
         getGameWorld().addEntityFactory(new EntityFactory());
 
-        Entity background1 = spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 1));
-        Entity background2 = spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 2));
+        Entity background1 = spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 1).put("Name", "background_bad"));
+        Entity background2 = spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 2).put("Name", "streets"));
         setBackground(background1);
         setBackground(background2);
 
@@ -186,7 +185,7 @@ public class CatchOrWasteApp extends GameApplication {
 
     public void loadImages() {
 
-        var backroundsImgs = new String[]{"background_bad", "streets"};
+        var backroundsImgs = new String[]{"background_bad", "streets_left", "streets_right"};
 
         var cartsImgs = new String[]{
                 "cart_horizontal", "cart_vertical",

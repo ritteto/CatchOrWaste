@@ -1,5 +1,7 @@
 package catchorwaste.model;
 
+import static catchorwaste.view.BackgroundView.setStreetImage;
+
 public class CartModel {
 
     private static int cartSpeed = 1;
@@ -21,5 +23,6 @@ public class CartModel {
 
     public static void setGate(boolean gate) {
         CartModel.gate = gate;
+        setStreetImage(gate);
     }
 }
