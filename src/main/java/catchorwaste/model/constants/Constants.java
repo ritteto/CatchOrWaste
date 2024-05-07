@@ -40,4 +40,5 @@ public final class Constants {
     public static final int LAMP_SCORE = 20;
     public static final int DRESS_SCORE = 10;
     public static final String FONT_SIZE = "-fx-font-size: 30px;";
+    public static final String START_SCREEN_IMG = "assets/textures/backgrounds/background_bad.png";
 }

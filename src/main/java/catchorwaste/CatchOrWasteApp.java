@@ -130,7 +130,6 @@ public class CatchOrWasteApp extends GameApplication {
 
         //add score system
         initPunktesystem();
-
     }
 
     @Override
@@ -213,10 +212,12 @@ public class CatchOrWasteApp extends GameApplication {
         var structuresImgs = new String[]{
                 "haus1", "haus2", "markt", "recycle", "reparieren"};
 
+        var startScreenImg = new String[]{"Startscreen"};
         addToMap("backgrounds", backroundsImgs);
         addToMap("carts", cartsImgs);
         addToMap("fallingObjects", fallingObjectsImgs);
         addToMap("player", playerImgs);
+        addToMap("startScreen", startScreenImg);
         addToMap("structures", structuresImgs);
 
 
