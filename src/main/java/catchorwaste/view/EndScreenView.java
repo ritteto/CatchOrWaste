@@ -29,13 +29,13 @@ public class EndScreenView extends StackPane {
     }
 
     public Node additionalText() {
-        Label additionalTextLabel = new Label("Deine Punkte: ");  // Text jetzt beim Erstellen des Labels setzen
+        Label additionalTextLabel = new Label("Deine Punkte: ");
         Font font = Font.loadFont(getClass().getResourceAsStream(FONT), 20);
         additionalTextLabel.setFont(font);
 
         // Erst nach dem Setzen des Texts die Breite abfragen
-        additionalTextLabel.applyCss();  // Stellt sicher, dass CSS-Eigenschaften, inklusive der Schriftart, angewandt werden
-        additionalTextLabel.layout();    // Führt ein Layout-Update durch, um sicherzustellen, dass Größen berechnet werden
+        additionalTextLabel.applyCss();
+        additionalTextLabel.layout();
 
         additionalTextLabel.setLayoutX(277);  // Zentriere den Text
         additionalTextLabel.setLayoutY(150); // Y-Position anpassen
@@ -48,7 +48,7 @@ public class EndScreenView extends StackPane {
         Random random = new Random();
         int randomMessage = random.nextInt(3);
 
-        Label learningMessageLabel = new Label(LEARNING_MESSAGES[randomMessage]);  // Text jetzt beim Erstellen des Labels setzen
+        Label learningMessageLabel = new Label(LEARNING_MESSAGES[randomMessage]);
         Font font = Font.loadFont(getClass().getResourceAsStream(FONT), 16);
         learningMessageLabel.setFont(font);
 

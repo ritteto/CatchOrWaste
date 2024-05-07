@@ -119,8 +119,6 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
                 .build();
     }
 
-
-
     @Spawns("WORKSTATION")
     public Entity newWorkstation(SpawnData data) {
         var workstations = new String[]{"reparieren", "markt", "recycle"};

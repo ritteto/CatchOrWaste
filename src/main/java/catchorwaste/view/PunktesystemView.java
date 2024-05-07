@@ -1,8 +1,6 @@
 package catchorwaste.view;
 
-import catchorwaste.model.PunktesystemModel;
 import com.almasb.fxgl.dsl.FXGL;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.geometry.Insets;
@@ -10,7 +8,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
-import static catchorwaste.model.constants.Constants.FONT;
 import static catchorwaste.model.constants.Constants.FONT_SIZE;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
 import static javafx.scene.text.FontWeight.BOLD;
