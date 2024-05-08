@@ -16,9 +16,7 @@ import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.Spawns;
 import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.entity.components.TransformComponent;
-
 import javafx.geometry.Point2D;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 
@@ -48,18 +46,14 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
     @Spawns("OBJECT")
     public Entity newObject(SpawnData data) {
         Random random = new Random();
-        Image[] zufall = {
-                imageMap.get("iphone_d"), imageMap.get("iphone_f"), imageMap.get("iphone_r"),
-                imageMap.get("kleid_d"), imageMap.get("kleid_f"), imageMap.get("kleid_r"),
-                imageMap.get("lampe_d"), imageMap.get("lampe_f"), imageMap.get("lampe_r")};
         String[] names = {
                 "iphone_d", "iphone_f", "iphone_r",
                 "kleid_d", "kleid_f", "kleid_r",
                 "lampe_d", "lampe_f", "lampe_r"};
-        int zufallszahl = random.nextInt(zufall.length);
+        int zufallszahl = random.nextInt(names.length);
         String name = names[zufallszahl];
         Entity entity = FXGL.entityBuilder(data)
-                .viewWithBBox(new ImageView(zufall[zufallszahl]))
+                .viewWithBBox(new ImageView(imageMap.get(names[zufallszahl])))
                 .type(EntityType.OBJECT)
                 .scale(1, 1)
                 .with(new ProjectileComponent(new Point2D(0, 1), 100))
