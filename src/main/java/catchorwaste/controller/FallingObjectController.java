@@ -20,7 +20,7 @@ public class FallingObjectController {
         var entities = gameWorld.getEntitiesByType(EntityType.OBJECT);
         if (!entities.isEmpty()) {
             for (Entity entity : entities) {
-                if (entity.getY() >= getAppHeight()) {
+                if (entity.getY() >= getAppHeight()*0.9) {
                     var stringSplit = entity.getComponent(ImageNameComponent.class).getImageName().split("_");
                     var points = pointsMap.get("default").get(stringSplit[0]).get(stringSplit[1]);
                     subtractPoints(points);
