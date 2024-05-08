@@ -241,7 +241,7 @@ public class CatchOrWasteApp extends GameApplication {
         addToMap("fallingObjects", fallingObjectsImgs);
         addToMap("player", playerImgs);
         addToMap("structures", structuresImgs);
-        addToMap("endscreens", endScreensImgs);
+        addToMap("endScreens", endScreensImgs);
     }
 
     public void addToMap(String dir, String[] names) {
