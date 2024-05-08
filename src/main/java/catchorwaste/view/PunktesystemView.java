@@ -19,20 +19,9 @@ public class PunktesystemView extends StackPane {
     public PunktesystemView() {
         scoreLabel = new Label();
         scoreLabel.setStyle(FONT_SIZE);
-        StackPane.setMargin(scoreLabel, new Insets(80, 0, 0, 80));
+        StackPane.setMargin(scoreLabel, new Insets(80, 0, 0, 20));
 
         getChildren().add(scoreLabel);
-    }
-
-    public static void initPunkteSystemView() {
-        scoreLabel = new Label();
-        scoreLabel.setStyle(FONT_SIZE);
-
-        scoreLabel.setLayoutX(20);
-        scoreLabel.setLayoutY(80);
-        updateScore(0);
-
-        getGameScene().addChild(scoreLabel);
     }
 
     public static void updateScore(double score) {
@@ -60,6 +49,5 @@ public class PunktesystemView extends StackPane {
         FXGL.getGameTimer().runOnceAfter(() -> getGameScene().removeChild(label), Duration.millis(350));
 
     }
-
 
 }

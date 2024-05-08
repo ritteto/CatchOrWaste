@@ -26,34 +26,37 @@ public class PunktesystemModel {
         updateScore(score);
     }
 
+    public static int getPoints() {
+        return score;
+    }
 
     public static void initPointsMap() {
         var initPointsMap = new HashMap<String, Map<String, Map<String, Integer>>>();
-        var workstations = new String[]{"recycle", "markt", "reparieren", "default"};
-        var objects = new String[]{"iphone", "kleid", "lampe"};
+        var workstations = new String[] {"recycle", "markt", "reparieren", "default"};
+        var objects = new String[] {"iphone", "kleid", "lampe"};
         var objectValues = new HashMap<String, int[][]>();
-        var states = new String[]{"f", "r", "d"};
+        var states = new String[] {"f", "r", "d"};
 
 
-        objectValues.put(workstations[0], new int[][]{
+        objectValues.put(workstations[0], new int[][] {
                 {0, 0, IPHONE_SCORE},
                 {0, 0, DRESS_SCORE},
                 {0, 0, LAMP_SCORE}
         });
 
-        objectValues.put(workstations[1], new int[][]{
-                {IPHONE_SCORE, IPHONE_SCORE/2, 0},
-                {DRESS_SCORE, DRESS_SCORE/2, 0},
-                {LAMP_SCORE, LAMP_SCORE/2, 0}
+        objectValues.put(workstations[1], new int[][] {
+                {IPHONE_SCORE, IPHONE_SCORE / 2, 0},
+                {DRESS_SCORE, DRESS_SCORE / 2, 0},
+                {LAMP_SCORE, LAMP_SCORE / 2, 0}
         });
 
-        objectValues.put(workstations[2], new int[][]{
-                {IPHONE_SCORE/2, IPHONE_SCORE, 0},
-                {DRESS_SCORE/2, DRESS_SCORE, 0},
-                {LAMP_SCORE/2, LAMP_SCORE, 0}
+        objectValues.put(workstations[2], new int[][] {
+                {IPHONE_SCORE / 2, IPHONE_SCORE, 0},
+                {DRESS_SCORE / 2, DRESS_SCORE, 0},
+                {LAMP_SCORE / 2, LAMP_SCORE, 0}
         });
 
-        objectValues.put(workstations[3], new int[][]{
+        objectValues.put(workstations[3], new int[][] {
                 {IPHONE_SCORE, IPHONE_SCORE, IPHONE_SCORE},
                 {DRESS_SCORE, DRESS_SCORE, DRESS_SCORE},
                 {LAMP_SCORE, LAMP_SCORE, LAMP_SCORE}

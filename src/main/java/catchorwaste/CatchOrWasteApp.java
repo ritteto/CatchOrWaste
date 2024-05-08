@@ -7,6 +7,8 @@ import catchorwaste.model.factories.EntityFactory;
 import catchorwaste.view.StartScreenView;
 import catchorwaste.view.TimerView;
 import com.almasb.fxgl.app.GameApplication;
+import catchorwaste.view.PunktesystemView;
+import catchorwaste.view.EndScreenView;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
@@ -57,6 +59,7 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getAssetLoader;
 public class CatchOrWasteApp extends GameApplication {
 
     public static Map<String, Image> imageMap;
+    private boolean updateEnabled = true;
     public boolean gameStarted = false;
     StartScreenView startScreenView;
 
@@ -127,21 +130,31 @@ public class CatchOrWasteApp extends GameApplication {
             setGate(false);
             return null;
         });
+
+
     }
 
     public void startGame() {
         gameStarted = true;
         getGameScene().removeUINode(startScreenView);
 
+        //generate score system
+        PunktesystemView punktesystemView = new PunktesystemView();
+        initPunktesystem(punktesystemView);
+
         //generate timer
         TimerModel timerModel = new TimerModel();
         TimerView timerView = new TimerView();
-        TimerController timerController = new TimerController(timerModel, timerView);
         // add timer to the game
+        TimerController timerController = new TimerController(timerModel, timerView, punktesystemView);
+
+        // add timer and score system to the game
         getGameScene().addUINode(timerView);
+        getGameScene().addUINode(punktesystemView);
         timerController.startTimer();
 
-        initPunktesystem();
+
+        initPunktesystem(punktesystemView);
 
     }
 
@@ -155,7 +168,6 @@ public class CatchOrWasteApp extends GameApplication {
         imageMap = new HashMap<>();
         loadImages();
         getGameWorld().addEntityFactory(new EntityFactory());
-
 
         Entity background1 = spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 1).put("Name", "background_bad"));
         Entity background2 = spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 2).put("Name", "streets"));
@@ -190,10 +202,9 @@ public class CatchOrWasteApp extends GameApplication {
         }
     }
 
-
     @Override
     protected void onUpdate(double tpf) {
-        if (gameStarted) {
+        if (gameStarted && updateEnabled) {
             playerOnUpdate(getGameWorld());
             cartOnUpdate(getGameWorld());
             fallingObjectOnUpdate(getGameWorld());
@@ -208,9 +219,24 @@ public class CatchOrWasteApp extends GameApplication {
         entity.getViewComponent().addChild(imageView);
     }
 
-    public void timeIsUp() {
-        //TODO: show end screen with results after time is up
-        System.out.println("Time's up!");
+    public void timeIsUp(TimerView timerView, PunktesystemView punktesystemView) {
+        //remove score and time from top left
+        getGameScene().removeUINode(timerView);
+        getGameScene().removeUINode(punktesystemView);
+        //remove entities that are not for the endScreen
+        getGameWorld().getEntitiesCopy().forEach(entity -> {
+            if (!entity.getType().equals("ENDSCREEN")) {
+                entity.removeFromWorld();
+            }
+        });
+        //spawn endScreen with message + add final score to the middle
+        EndScreenView endScreenView = new EndScreenView();
+        Entity endScreen = spawn("ENDSCREEN", new SpawnData(0, 0).put("Position", 1));
+        setBackground(endScreen);
+        getGameScene().addUINode(endScreenView.scoreEndscreen());
+        getGameScene().addUINode(endScreenView.additionalText());
+        getGameScene().addUINode(endScreenView.learningMessage());
+        updateEnabled = false;
     }
 
     public void loadImages() {
@@ -238,13 +264,16 @@ public class CatchOrWasteApp extends GameApplication {
         var structuresImgs = new String[]{
                 "haus1", "haus2", "markt", "recycle", "reparieren"};
 
+        var endScreensImgs = new String[]{
+                "endScreen_1"
+        };
+
         addToMap("backgrounds", backroundsImgs);
         addToMap("carts", cartsImgs);
         addToMap("fallingObjects", fallingObjectsImgs);
         addToMap("player", playerImgs);
         addToMap("structures", structuresImgs);
-
-
+        addToMap("endScreens", endScreensImgs);
     }
 
     public void addToMap(String dir, String[] names) {
@@ -253,12 +282,10 @@ public class CatchOrWasteApp extends GameApplication {
         }
     }
 
-    public void initPunktesystem() {
+    public void initPunktesystem(PunktesystemView punktesystemView) {
         initPunkteSystemView();
         updateScore(0);
         initPointsMap();
         onWorkstationCollision();
     }
-
-
 }
