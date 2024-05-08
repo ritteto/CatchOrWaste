@@ -41,6 +41,8 @@ public final class Constants {
     public static final int DRESS_SCORE = 10;
     public static final String FONT_SIZE = "-fx-font-size: 30px;";
     public static final String START_SCREEN_IMG = "assets/textures/backgrounds/background_bad.png";
+
+    public static final String TUTORIAL_SCREEN_IMG = "assets/textures/startScreen/tutorial-test-1.png";
     public static final String FONT = "/fonts/ArcadeFont.ttf";
 
     public static final String[] LEARNING_MESSAGES = {
