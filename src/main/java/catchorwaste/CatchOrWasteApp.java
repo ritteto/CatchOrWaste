@@ -3,6 +3,7 @@ package catchorwaste;
 import catchorwaste.controller.GPIOController;
 import catchorwaste.controller.TimerController;
 import catchorwaste.model.TimerModel;
+import catchorwaste.model.enums.EntityType;
 import catchorwaste.model.factories.EntityFactory;
 import catchorwaste.view.StartScreenView;
 import catchorwaste.view.TimerView;
@@ -13,6 +14,7 @@ import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 import com.almasb.fxgl.entity.SpawnData;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -45,15 +47,15 @@ import static catchorwaste.model.constants.Constants.MARKT_X;
 import static catchorwaste.model.constants.Constants.STREET_HEIGHT;
 import static catchorwaste.view.FallingObjectView.spawnObjects;
 import static catchorwaste.view.PlayerView.isAtStreetEnd;
-import static catchorwaste.view.PunktesystemView.initPunkteSystemView;
 import static catchorwaste.view.PunktesystemView.updateScore;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.onKey;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppWidth;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppHeight;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppWidth;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getAssetLoader;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.onKey;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
+
 
 
 public class CatchOrWasteApp extends GameApplication {
@@ -62,6 +64,8 @@ public class CatchOrWasteApp extends GameApplication {
     private boolean updateEnabled = true;
     public boolean gameStarted = false;
     StartScreenView startScreenView;
+    EntityFactory factory;
+    EndScreenView endScreenView;
 
     public static void main(String[] args) {
         launch(args);
@@ -100,6 +104,8 @@ public class CatchOrWasteApp extends GameApplication {
             controller.onAcceptButton(() -> {
                 if (!gameStarted) {
                     startGame();
+                } else if (!getGameWorld().getEntitiesByType(EntityType.ENDSCREEN).isEmpty()){
+
                 }
             });
         }
@@ -136,6 +142,8 @@ public class CatchOrWasteApp extends GameApplication {
 
     public void startGame() {
         gameStarted = true;
+
+
         getGameScene().removeUINode(startScreenView);
 
         //generate score system
@@ -167,7 +175,8 @@ public class CatchOrWasteApp extends GameApplication {
 
         imageMap = new HashMap<>();
         loadImages();
-        getGameWorld().addEntityFactory(new EntityFactory());
+        factory = new EntityFactory();
+        getGameWorld().addEntityFactory(factory);
 
         Entity background1 = spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 1).put("Name", "background_bad"));
         Entity background2 = spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 2).put("Name", "streets"));
@@ -230,7 +239,7 @@ public class CatchOrWasteApp extends GameApplication {
             }
         });
         //spawn endScreen with message + add final score to the middle
-        EndScreenView endScreenView = new EndScreenView();
+        endScreenView = new EndScreenView();
         Entity endScreen = spawn("ENDSCREEN", new SpawnData(0, 0).put("Position", 1));
         setBackground(endScreen);
         getGameScene().addUINode(endScreenView.scoreEndscreen());
@@ -283,7 +292,6 @@ public class CatchOrWasteApp extends GameApplication {
     }
 
     public void initPunktesystem(PunktesystemView punktesystemView) {
-        initPunkteSystemView();
         updateScore(0);
         initPointsMap();
         onWorkstationCollision();

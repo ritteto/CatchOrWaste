@@ -40,8 +40,6 @@ public class GPIOController {
                 .pull(PullResistance.PULL_UP)
                 .provider("pigpio-digital-input"));
 
-
-        
         buttonRight = pi4j.create(DigitalInput.newConfigBuilder(pi4j)
                 .id("BUTTON_Right")
                 .address(6)  // GPIO 6 for the right button
