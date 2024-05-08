@@ -20,6 +20,7 @@ public class GPIOController {
     private DigitalInput joystickLeft;
     private DigitalInput buttonLeft;
     private DigitalInput buttonRight;
+    private DigitalInput buttonAccept;
     private final AtomicBoolean movingLeft = new AtomicBoolean(false);
     private final AtomicBoolean movingRight = new AtomicBoolean(false);
     private AnimationTimer movementTimer;
@@ -43,6 +44,12 @@ public class GPIOController {
                 .address(6)  // GPIO 6 for the right button
                 .pull(PullResistance.PULL_UP)
                 .provider("pigpio-digital-input"));
+
+       buttonAccept = pi4j.create(DigitalInput.newConfigBuilder(pi4j)
+               .id("BUTTON_Accept")
+               .address(22)  // GPIO 22 for the accept button
+               .pull(PullResistance.PULL_UP)
+               .provider("pigpio-digital-input"));
 
         buttonLeft.addListener(e -> {
             if (e.state() == DigitalState.LOW) {
@@ -70,6 +77,14 @@ public class GPIOController {
 
         handleMovement(joystickRight, movingRight, true);
         handleMovement(joystickLeft, movingLeft, false);
+    }
+
+    public void onAcceptButton(Runnable r) {
+        buttonAccept.addListener(e -> {
+            if (e.state() == DigitalState.LOW) {
+                Platform.runLater(() -> r.run());
+            }
+        });
     }
 
     private void handleMovement(DigitalInput joystick, AtomicBoolean moving, boolean direction) {

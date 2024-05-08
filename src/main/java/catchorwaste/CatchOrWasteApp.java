@@ -94,7 +94,13 @@ public class CatchOrWasteApp extends GameApplication {
         if (osArch.contains("arm") || osArch.contains("aarch64")) {
             GPIOController controller = new GPIOController();
             controller.init();
+            controller.onAcceptButton(() -> {
+                if (!gameStarted) {
+                    startGame();
+                }
+            });
         }
+
         onKey(KeyCode.SPACE, "Start Game", () -> {
             if (!gameStarted) {
                 startGame();
@@ -106,19 +112,23 @@ public class CatchOrWasteApp extends GameApplication {
             movePlayer(true, getGameWorld());
             return null;
         });
+
         onKey(KeyCode.LEFT, "Move Left", () -> {
             movePlayer(false, getGameWorld());
             return null;
         });
+
         onKey(KeyCode.DIGIT1, "1", () -> {
             setGate(true);
             return null;
         });
+
         onKey(KeyCode.DIGIT2, "2", () -> {
             setGate(false);
             return null;
         });
     }
+
     public void startGame() {
         gameStarted = true;
         getGameScene().removeUINode(startScreenView);
