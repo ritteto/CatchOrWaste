@@ -8,6 +8,7 @@ import javafx.scene.text.Font;
 
 import java.util.Random;
 
+import static catchorwaste.CatchOrWasteApp.textMap;
 import static catchorwaste.model.constants.Constants.LEARNING_MESSAGES;
 import static catchorwaste.model.constants.Constants.FONT;
 public class EndScreenView extends StackPane {
@@ -29,7 +30,7 @@ public class EndScreenView extends StackPane {
     }
 
     public Node additionalText() {
-        Label additionalTextLabel = new Label("Deine Punkte: ");
+        Label additionalTextLabel = new Label(textMap.get("EndScreen").get(0));
         Font font = Font.loadFont(getClass().getResourceAsStream(FONT), 20);
         additionalTextLabel.setFont(font);
 
@@ -46,9 +47,10 @@ public class EndScreenView extends StackPane {
 
     public Node learningMessage() {
         Random random = new Random();
-        int randomMessage = random.nextInt(3);
+        int randomMessage = random.nextInt(2);
 
-        Label learningMessageLabel = new Label(LEARNING_MESSAGES[randomMessage]);
+        System.out.println(textMap.get("Learning messages")+"/"+randomMessage);
+        Label learningMessageLabel = new Label(textMap.get("Learning messages").get(randomMessage));
         Font font = Font.loadFont(getClass().getResourceAsStream(FONT), 16);
         learningMessageLabel.setFont(font);
 

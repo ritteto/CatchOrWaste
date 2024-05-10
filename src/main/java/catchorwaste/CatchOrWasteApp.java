@@ -21,10 +21,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
-import java.io.File;
+import java.io.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static catchorwaste.controller.CartController.cartMovement;
 import static catchorwaste.controller.CartController.onWorkstationCollision;
@@ -45,6 +44,7 @@ import static catchorwaste.model.constants.Constants.RECYCLE_X;
 import static catchorwaste.model.constants.Constants.WORKSTATION_RIGHT_Y;
 import static catchorwaste.model.constants.Constants.MARKT_X;
 import static catchorwaste.model.constants.Constants.STREET_HEIGHT;
+import static catchorwaste.view.FallingObjectView.setItemsPerSecond;
 import static catchorwaste.view.FallingObjectView.spawnObjects;
 import static catchorwaste.view.PlayerView.isAtStreetEnd;
 import static catchorwaste.view.PunktesystemView.updateScore;
@@ -61,6 +61,7 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 public class CatchOrWasteApp extends GameApplication {
 
     public static Map<String, Image> imageMap;
+    public static Map<String,ArrayList<String>> textMap;
     private boolean updateEnabled = true;
     public boolean gameStarted = false;
     StartScreenView startScreenView;
@@ -95,12 +96,50 @@ public class CatchOrWasteApp extends GameApplication {
     }
 
     @Override
+    protected void initGame() {
+
+        imageMap = loadImages();
+        textMap = loadText();
+
+        getGameScene().setCursorInvisible();
+
+        startScreenView = new StartScreenView();
+        getGameScene().addUINode(startScreenView);
+
+        factory = new EntityFactory();
+        getGameWorld().addEntityFactory(factory);
+
+        Entity background1 = spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 1).put("Name", "background_bad"));
+        Entity background2 = spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 2).put("Name", "streets"));
+        setBackground(background1);
+        setBackground(background2);
+
+        // spawn houses
+        spawn("HOUSE", new SpawnData(HOUSE1_X, HOUSE_Y).put("Position", 1));
+        spawn("HOUSE", new SpawnData(HOUSE2_X, HOUSE_Y).put("Position", 2));
+        spawn("HOUSE", new SpawnData(HOUSE3_X, HOUSE_Y).put("Position", 1));
+        spawn("HOUSE", new SpawnData(HOUSE4_X, HOUSE_Y).put("Position", 2));
+
+        // spawn market, repaicenter & recycling
+        spawn("WORKSTATION", new SpawnData(REPARIEREN_X, WORKSTATION_RIGHT_Y).put("Position", 1));
+        spawn("WORKSTATION", new SpawnData(MARKT_X, WORKSTATION_RIGHT_Y).put("Position", 2));
+        spawn("WORKSTATION", new SpawnData(RECYCLE_X, getAppHeight() * 0.48).put("Position", 3));
+
+        //spawn the player from the factory
+        spawn("PLAYER", (double) getAppWidth() / 2, STREET_HEIGHT);
+        playBackgroundMusic("/home/pi4j/deploy/music.mp3");
+    }
+
+    @Override
     protected void initInput() {
+
+
         String osArch = System.getProperty("os.arch").toLowerCase();
 
         if (osArch.contains("arm") || osArch.contains("aarch64")) {
             GPIOController controller = new GPIOController();
             controller.init();
+
             controller.onAcceptButton(() -> {
                 if (!gameStarted) {
                     startGame();
@@ -166,38 +205,6 @@ public class CatchOrWasteApp extends GameApplication {
 
     }
 
-    @Override
-    protected void initGame() {
-        getGameScene().setCursorInvisible();
-
-        startScreenView = new StartScreenView();
-        getGameScene().addUINode(startScreenView);
-
-        imageMap = new HashMap<>();
-        loadImages();
-        factory = new EntityFactory();
-        getGameWorld().addEntityFactory(factory);
-
-        Entity background1 = spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 1).put("Name", "background_bad"));
-        Entity background2 = spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 2).put("Name", "streets"));
-        setBackground(background1);
-        setBackground(background2);
-
-        // spawn houses
-        spawn("HOUSE", new SpawnData(HOUSE1_X, HOUSE_Y).put("Position", 1));
-        spawn("HOUSE", new SpawnData(HOUSE2_X, HOUSE_Y).put("Position", 2));
-        spawn("HOUSE", new SpawnData(HOUSE3_X, HOUSE_Y).put("Position", 1));
-        spawn("HOUSE", new SpawnData(HOUSE4_X, HOUSE_Y).put("Position", 2));
-
-        // spawn market, repaicenter & recycling
-        spawn("WORKSTATION", new SpawnData(REPARIEREN_X, WORKSTATION_RIGHT_Y).put("Position", 1));
-        spawn("WORKSTATION", new SpawnData(MARKT_X, WORKSTATION_RIGHT_Y).put("Position", 2));
-        spawn("WORKSTATION", new SpawnData(RECYCLE_X, getAppHeight() * 0.48).put("Position", 3));
-
-        //spawn the player from the factory
-        spawn("PLAYER", (double) getAppWidth() / 2, STREET_HEIGHT);
-        playBackgroundMusic("/home/pi4j/deploy/music.mp3");
-    }
 
     private void playBackgroundMusic(String musicFile) {
         try {
@@ -248,7 +255,9 @@ public class CatchOrWasteApp extends GameApplication {
         updateEnabled = false;
     }
 
-    public void loadImages() {
+    public Map<String, Image> loadImages() {
+
+        Map<String, Image> map = new HashMap<>();
 
         var backroundsImgs = new String[]{"background_bad", "streets_left", "streets_right"};
 
@@ -277,19 +286,72 @@ public class CatchOrWasteApp extends GameApplication {
                 "endScreen_1"
         };
 
-        addToMap("backgrounds", backroundsImgs);
-        addToMap("carts", cartsImgs);
-        addToMap("fallingObjects", fallingObjectsImgs);
-        addToMap("player", playerImgs);
-        addToMap("structures", structuresImgs);
-        addToMap("endScreens", endScreensImgs);
+        map = addToMap("backgrounds", backroundsImgs, map);
+        map = addToMap("carts", cartsImgs, map);
+        map = addToMap("fallingObjects", fallingObjectsImgs, map);
+        map = addToMap("player", playerImgs, map);
+        map = addToMap("structures", structuresImgs, map);
+        map = addToMap("endScreens", endScreensImgs, map);
+        return map;
     }
 
-    public void addToMap(String dir, String[] names) {
+    public Map<String, Image> addToMap(String dir, String[] names, Map<String, Image> map) {
         for (String s : names) {
-            imageMap.put(s, getAssetLoader().loadImage(dir + "/" + s + ".png"));
+            map.put(s, getAssetLoader().loadImage(dir + "/" + s + ".png"));
         }
+        return map;
     }
+
+    public Map<String,ArrayList<String>> loadText(){
+
+        String line;
+        String currentTitle="";
+        ArrayList<String> currentList = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+        Map<String,ArrayList<String>> map = new HashMap<>();
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/config/german.csv"));
+
+
+            while ((line = reader.readLine()) != null) {
+                if(!line.isEmpty()){
+                    if(line.contains("Title: ")){
+                        if(currentTitle.isEmpty()){
+                            currentTitle = line.substring(7, line.length()-1);
+                        }else{
+                            map.put(currentTitle, currentList);
+                            currentTitle = line.substring(7, line.length()-1);
+                            currentList = new ArrayList<>();
+                        }
+
+                    }else{
+                        sb.append(line);
+
+
+                        if (line.length() > 2 && line.charAt(line.length() - 2) == '\"'
+                                && line.charAt(line.length() - 1) == ',') {
+                            sb.setLength(sb.length() - 1);
+                            currentList.add(sb.toString());
+                            sb = new StringBuilder();
+                        }else if(line.length() > 2 && line.endsWith(",")){
+                            sb.setLength(sb.length() - 1);
+                            currentList.add(sb.toString());
+                            sb = new StringBuilder();
+                        }
+                    }
+                }
+            }
+            map.put(currentTitle, currentList);
+
+            reader.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+
 
     public void initPunktesystem(PunktesystemView punktesystemView) {
         updateScore(0);
