@@ -1,10 +1,14 @@
 package catchorwaste.view;
 
 import catchorwaste.model.PunktesystemModel;
+import com.almasb.fxgl.dsl.FXGL;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 
 import java.util.Random;
 
@@ -17,6 +21,7 @@ public class EndScreenView extends StackPane {
 
     public Node scoreEndscreen() {
         int score = PunktesystemModel.getPoints();
+        Label endLabel = new Label();
 
         Font font = Font.loadFont(getClass().getResourceAsStream(FONT), 20);
         endLabel.setFont(font);
@@ -47,19 +52,26 @@ public class EndScreenView extends StackPane {
 
     public Node learningMessage() {
         Random random = new Random();
-        int randomMessage = random.nextInt(2);
+        int randomIndex = random.nextInt(textMap.get("Learning messages").size());
 
-        System.out.println(textMap.get("Learning messages")+"/"+randomMessage);
-        Label learningMessageLabel = new Label(textMap.get("Learning messages").get(randomMessage));
-        Font font = Font.loadFont(getClass().getResourceAsStream(FONT), 16);
-        learningMessageLabel.setFont(font);
+        String[] keys = LEARNING_MESSAGES.keySet().toArray(new String[0]);
+        String randomTitle = keys[randomIndex];
+        String randomMessage = LEARNING_MESSAGES.get(randomTitle);
 
-        learningMessageLabel.setLayoutX(40);  // Zentriere den Text
-        learningMessageLabel.setLayoutY(250); // Y-Position anpassen
+        Label titleLabel = new Label(randomTitle);
+        titleLabel.setFont(Font.loadFont(getClass().getResourceAsStream(FONT), 25));
 
+        Label messageLabel = new Label(randomMessage);
+        messageLabel.setFont(Font.loadFont(getClass().getResourceAsStream(FONT), 16));
+        messageLabel.setWrapText(true); // Automatisches Umbruch des Textes aktivieren
+        messageLabel.setPrefWidth(FXGL.getAppWidth() - 50); // Breite des Labels einstellen, je nach Bedarf
 
-        getChildren().add(learningMessageLabel);
-        return learningMessageLabel;
+        VBox container = new VBox(10); // VBox für die Anordnung von Labels
+        container.getChildren().addAll(titleLabel, messageLabel);
+
+        container.setLayoutX(30);
+        container.setLayoutY(250);
+
+        return container;
     }
-
 }
