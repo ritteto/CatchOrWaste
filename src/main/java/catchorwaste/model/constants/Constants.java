@@ -58,4 +58,12 @@ public final class Constants {
                     "\netwas gebraucht kauft."
     };
 
+    public static final String[] TUTORIAL_MESSAGE = {
+            "Handys, Kleider und Lampen werden in verschiedenen Zuständen weggeworfen."+
+                    "\n Es liegt an dir, der Wegwerfpolizist, diese in die richtige Station zu bringen "+
+                    "\n unbeschädigte, reine Gegenstände werden weitergegeben."+
+                    "\n Leicht vergraute, leicht geschädigte Gegenstände werden repariert."+
+                    "\n ganz kaputte Gegenstände gehören zur Recyclingstation."
+    };
+
 }
