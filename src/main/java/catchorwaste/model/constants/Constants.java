@@ -2,11 +2,14 @@ package catchorwaste.model.constants;
 
 import com.almasb.fxgl.dsl.FXGL;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.almasb.fxgl.dsl.FXGL.getAppHeight;
 import static com.almasb.fxgl.dsl.FXGL.getAppWidth;
 
 public final class Constants {
-    public static final int TOTAL_TIME_LIMIT_SECONDS = 20;
+    public static final int TOTAL_TIME_LIMIT_SECONDS = 5;
     public static double itemsPerSecond = 0.5; // Objekte pro Sekunde
     public static long lastSpawnTime = System.currentTimeMillis();
     public static final double STREET_RIGHT_END = getAppWidth() * 0.76;
@@ -42,17 +45,20 @@ public final class Constants {
     public static final String FONT_SIZE = "-fx-font-size: 30px;";
     public static final String FONT = "/fonts/ArcadeFont.ttf";
 
-    public static final String[] LEARNING_MESSAGES = {
-            "Handys haben im Jahr 2020 die meisten " +
-                    "\nEmissionen verursacht. Das Problem dabei ist " +
-                    "\ndie Produktion, die 85% davon braucht." +
-                    "\nEs lohnt sich also, ein Handy so lange" +
-                    "\nwie es nur geht zu verwenden.",
-            "Wenn man Second Hand Kleider kauft kann man " +
-                    "\nbis zu 59% der Emissionen im vergleich \nzu einem Neukauf.",
-            "Auf Ricardo ist bei jedem Produkt ersichtlich " +
-                    "\nwie viel CO2 gesparrt wird wenn man " +
-                    "\netwas gebraucht kauft."
-    };
+    public static final Map<String, String> LEARNING_MESSAGES;
+    static {
+        LEARNING_MESSAGES = new HashMap<>();
+        LEARNING_MESSAGES.put("Recycliere mich", "Recycling verringert die Notwendigkeit, neue Rohstoffe abzubauen, und schont somit natürliche Ressourcen wie Waelder, Mineralien und Wasser.");
+        LEARNING_MESSAGES.put("Recycliere mich", "Durch Recycling wird weniger Muell produziert und die Belastung von Deponien reduziert, was zur Vermeidung von Umweltverschmutzung beitraegt.");
+        LEARNING_MESSAGES.put("Recycliere mich", "Die Herstellung von Produkten aus recycelten Materialien erfordert oft weniger Energie als die Herstellung aus neuen Rohstoffen, was zu einer Verringerung der Treibhausgasemissionen fuehrt.");
+        LEARNING_MESSAGES.put("Recycliere mich", "Recycling traegt zur Reduzierung von Treibhausgasemissionen bei, indem es die Menge an Abfall verbrennt oder deponiert, die sonst zur Freisetzung von Methan fuehren wuerde.");
+        LEARNING_MESSAGES.put("Recycliere mich", "Recycling foerdert eine nachhaltige Wirtschaft, indem es Materialien zurueck in den Produktionskreislauf fuehrt und den Verbrauch von neuen Ressourcen reduziert.");
 
+        LEARNING_MESSAGES.put("Kaufe second Hand!!", "Der Kauf gebrauchter Artikel verhindert, dass Gegenstaende auf Deponien landen, was zur Abfallvermeidung beiträgt und die Lebensdauer von Produkten verlaengert.");
+        LEARNING_MESSAGES.put("Kaufe second Hand!!", "Second-Hand-Produkte sind oft guenstiger als neue Artikel, was es Verbrauchern ermoeglicht, Geld zu sparen, ohne auf Qualitaet zu verzichten.");
+        LEARNING_MESSAGES.put("Kaufe second Hand!!", "Second-Hand-Einkäufe bieten oft einzigartige und seltene Gegenstände, die nicht mehr hergestellt werden, was zu individuellem Stil und Ausdruck führt.");
+        LEARNING_MESSAGES.put("Kaufe second Hand!!", "Durch den Kauf gebrauchter Artikel werden weniger neue Produkte hergestellt, was dazu beitraegt, natuerliche Ressourcen zu schonen und den oekologischen Fussabdruck zu reduzieren.");
+        LEARNING_MESSAGES.put("Kaufe second Hand!!", "Der Kauf bei Second-Hand-Laeden oder Flohmaerkten unterstuetzt oft lokale Geschaefte und gemeinnuetzige Organisationen, was zur Staerkung der Gemeinschaft beitraegt.");
+
+    }
 }
