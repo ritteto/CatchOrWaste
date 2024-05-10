@@ -7,13 +7,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
 
 import java.util.Random;
 
 import static catchorwaste.CatchOrWasteApp.textMap;
-import static catchorwaste.model.constants.Constants.LEARNING_MESSAGES;
 import static catchorwaste.model.constants.Constants.FONT;
 public class EndScreenView extends StackPane {
 
@@ -52,11 +49,15 @@ public class EndScreenView extends StackPane {
 
     public Node learningMessage() {
         Random random = new Random();
-        int randomIndex = random.nextInt(textMap.get("Learning messages").size());
+        int randomIndex = random.nextInt(2, textMap.get("Learning messages").size());
+        String randomTitle;
+        if(randomIndex <= 6){
+            randomTitle = textMap.get("Learning messages").get(0);
+        }else{
+            randomTitle = textMap.get("Learning messages").get(1);
+        }
 
-        String[] keys = LEARNING_MESSAGES.keySet().toArray(new String[0]);
-        String randomTitle = keys[randomIndex];
-        String randomMessage = LEARNING_MESSAGES.get(randomTitle);
+        String randomMessage = textMap.get("Learning messages").get(randomIndex);
 
         Label titleLabel = new Label(randomTitle);
         titleLabel.setFont(Font.loadFont(getClass().getResourceAsStream(FONT), 25));

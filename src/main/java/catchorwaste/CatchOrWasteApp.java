@@ -44,7 +44,6 @@ import static catchorwaste.model.constants.Constants.RECYCLE_X;
 import static catchorwaste.model.constants.Constants.WORKSTATION_RIGHT_Y;
 import static catchorwaste.model.constants.Constants.MARKT_X;
 import static catchorwaste.model.constants.Constants.STREET_HEIGHT;
-import static catchorwaste.view.FallingObjectView.setItemsPerSecond;
 import static catchorwaste.view.FallingObjectView.spawnObjects;
 import static catchorwaste.view.PlayerView.isAtStreetEnd;
 import static catchorwaste.view.PunktesystemView.updateScore;
@@ -338,16 +337,20 @@ public class CatchOrWasteApp extends GameApplication {
                             currentList.add(sb.toString());
                             sb = new StringBuilder();
                         }
+                        else if(line.length() > 2 && line.endsWith("\"")){
+                            currentList.add(sb.toString());
+                            sb = new StringBuilder();
+                        }
                     }
                 }
             }
-            map.put(currentTitle, currentList);
 
             reader.close();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+        map.put(currentTitle, currentList);
         return map;
     }
 
