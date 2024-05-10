@@ -12,10 +12,10 @@ import static catchorwaste.model.constants.Constants.LEARNING_MESSAGES;
 import static catchorwaste.model.constants.Constants.FONT;
 public class EndScreenView extends StackPane {
 
+    Label endLabel = new Label();
 
     public Node scoreEndscreen() {
         int score = PunktesystemModel.getPoints();
-        Label endLabel = new Label();
 
         Font font = Font.loadFont(getClass().getResourceAsStream(FONT), 20);
         endLabel.setFont(font);
@@ -59,4 +59,5 @@ public class EndScreenView extends StackPane {
         getChildren().add(learningMessageLabel);
         return learningMessageLabel;
     }
+
 }
