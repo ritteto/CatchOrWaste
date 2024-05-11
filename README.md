@@ -73,25 +73,48 @@ sudo ./install-service.sh
 
 ## Game modifications
 
+tbd.
 
 ## Hardware
 
 ### Components
 
-| Component                                   | Count | Info                                                                                      |
+| Component                                   | Count | Technical Sheet                                                                           |
 |---------------------------------------------|-------|-------------------------------------------------------------------------------------------|
 | Arcade Joystick, 8 Ways, 65,3mm hight, red  | 1     | [Technical sheet](assets%2Fpdf%2FArcade-Joystick-8-Wege-65-3mm-Hoehe-rot.pdf)             |
 | Arcade Button, 30mm, LED 5V DC, transparent | 3     | [Technical sheet](assets%2Fpdf%2FArcade-Button-30mm-beleuchtet-LED-5V-DC-transparent.pdf) |
 | EIZO FlexScan 19” (48cm)                    | 1     | [Technical sheet](assets%2Fpdf%2Feizo_l768_datenblatt.pdf)                                |
 | Raspberry Pi                                | 1     | [Technical sheet](assets%2Fpdf%2Fraspberry-pi-4-reduced-schematics.pdf)                   |
-| USB Hub                                     | 1     | 4x USB 3.1                                                                                |
-| Speakers                                    | 1     | Old Speakers integrated (see img)                                                         |
 
-
-### Hardware Modifications
-Ensure the box is unplugged before making any changes to the hardware. To access the internal components, simply remove the three screws at the back of the box.
 
 ### Wiring
+
+#### Monitor
+- Removed from original housing and integrated to box
+- Settingsbar attached inside the box
+- Connected via HDMI to Raspberry Pi
+- Power supply connected from main power supply
+
+<img src="assets/img/monitor_wiring.png" alt="monitor-wiring" width="300"/>
+
+#### Speakers
+- Removed from original housing and integrated to box
+- Connected via stereo audio aux 3.5 mm to Raspberry Pi
+- Power supply connected to Raspberry Pi (USB 3.1)
+
+  <img src="assets/img/speakers_wiring.png" alt="speaker-wiring" width="300"/>
+
+#### Joystick & Buttons (input)
+- Are connected via perforated circuit board to Raspberry Pi
+- 10 kOhm resistance between each GPIO input and 3.3V+ 
+- Perforated circuit board connected to Raspberry Pi with flat multi cable
+
+<img src="assets/img/input_wiring.png" alt="input-wiring" width="300"/>
+
+#### Overview diagram
+
+<img src="assets/img/overview-diagram.jpg" alt="overview-diagram" width="1000"/>
+
 
 
 ## Features
