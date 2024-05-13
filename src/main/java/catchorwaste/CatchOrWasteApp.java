@@ -92,6 +92,8 @@ public class CatchOrWasteApp extends GameApplication {
         settings.setFullScreenAllowed(true);
         settings.setFullScreenFromStart(true);
         settings.setTicksPerSecond(60);
+        settings.setTitle("CatchOrWaste");
+
     }
 
     @Override

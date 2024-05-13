@@ -262,17 +262,13 @@
                                                  failonerror="false" usepty="true" useSystemIn="true"
                                                  command="sudo chmod +x /home/pi4j/deploy/start-app.sh ; sudo chmod +x /home/pi4j/deploy/install-service.sh"/>
 
+
                                         <!-- Install Service on Pi -->
                                         <sshexec host="${pi.ipnumber}" port="${pi.port}"
                                                  username="${pi.username}" password="${pi.password}" trust="true"
                                                  failonerror="false" usepty="true" useSystemIn="true"
                                                  command="cd /home/pi4j/deploy ; ./install-service.sh"/>
 
-                                        <!-- Run JFX application on Raspberry Pi -->
-                                        <sshexec host="${pi.ipnumber}" port="${pi.port}"
-                                                 username="${pi.username}" password="${pi.password}" trust="true"
-                                                 failonerror="false" usepty="true" useSystemIn="true"
-                                                 command="DISPLAY=:0 XAUTHORITY=/home/pi4j/.Xauthority sudo -E java -XX:+UseZGC -Xmx1G  ${pi.jvmOptions} --module-path /opt/javafx-sdk/lib:${pi.deploydirectory} --add-modules javafx.controls -Dglass.platform=gtk --module ${launcher.class}"/>
                                     </target>
                                 </configuration>
                             </execution>
