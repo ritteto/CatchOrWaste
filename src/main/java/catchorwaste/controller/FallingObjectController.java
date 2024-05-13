@@ -41,16 +41,16 @@ public class FallingObjectController {
                 if (!player.getComponent(CargoComponent.class).isFull()
                         && isCatched) {
                     player.getComponent(CargoComponent.class).setCatchedEntity(object);
-                        visuals(player, object);
+                        setPosition(player, object);
                 } else if (player.getComponent(CargoComponent.class).isFull()
                         && isCatched && player.getComponent(CargoComponent.class).getCatchedEntity().equals(object)) {
-                        visuals(player, object);
+                        setPosition(player, object);
                 }
             }
         }
     }
 
-    private static void visuals(Entity player, Entity object){
+    private static void setPosition(Entity player, Entity object){
         var width = player.getBoundingBoxComponent().getWidth();
         if (player.getComponent(PlayerDirectionComponent.class).getDirection()) {
             object.setX(player.getX()+width*0.5);
