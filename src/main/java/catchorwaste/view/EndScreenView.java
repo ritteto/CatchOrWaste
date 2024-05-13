@@ -1,17 +1,20 @@
 package catchorwaste.view;
 
 import catchorwaste.model.PunktesystemModel;
+import com.almasb.fxgl.dsl.FXGL;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 import java.util.Random;
 
-import static catchorwaste.model.constants.Constants.LEARNING_MESSAGES;
+import static catchorwaste.CatchOrWasteApp.textMap;
 import static catchorwaste.model.constants.Constants.FONT;
 public class EndScreenView extends StackPane {
 
+    Label endLabel = new Label();
 
     public Node scoreEndscreen() {
         int score = PunktesystemModel.getPoints();
@@ -29,7 +32,7 @@ public class EndScreenView extends StackPane {
     }
 
     public Node additionalText() {
-        Label additionalTextLabel = new Label("Deine Punkte: ");
+        Label additionalTextLabel = new Label(textMap.get("EndScreen").get(0));
         Font font = Font.loadFont(getClass().getResourceAsStream(FONT), 20);
         additionalTextLabel.setFont(font);
 
@@ -46,17 +49,30 @@ public class EndScreenView extends StackPane {
 
     public Node learningMessage() {
         Random random = new Random();
-        int randomMessage = random.nextInt(3);
+        int randomIndex = random.nextInt(2, textMap.get("Learning messages").size());
+        String randomTitle;
+        if(randomIndex <= 6){
+            randomTitle = textMap.get("Learning messages").get(0);
+        }else{
+            randomTitle = textMap.get("Learning messages").get(1);
+        }
 
-        Label learningMessageLabel = new Label(LEARNING_MESSAGES[randomMessage]);
-        Font font = Font.loadFont(getClass().getResourceAsStream(FONT), 16);
-        learningMessageLabel.setFont(font);
+        String randomMessage = textMap.get("Learning messages").get(randomIndex);
 
-        learningMessageLabel.setLayoutX(40);  // Zentriere den Text
-        learningMessageLabel.setLayoutY(250); // Y-Position anpassen
+        Label titleLabel = new Label(randomTitle);
+        titleLabel.setFont(Font.loadFont(getClass().getResourceAsStream(FONT), 25));
 
+        Label messageLabel = new Label(randomMessage);
+        messageLabel.setFont(Font.loadFont(getClass().getResourceAsStream(FONT), 16));
+        messageLabel.setWrapText(true); // Automatisches Umbruch des Textes aktivieren
+        messageLabel.setPrefWidth(FXGL.getAppWidth() - 50); // Breite des Labels einstellen, je nach Bedarf
 
-        getChildren().add(learningMessageLabel);
-        return learningMessageLabel;
+        VBox container = new VBox(10); // VBox für die Anordnung von Labels
+        container.getChildren().addAll(titleLabel, messageLabel);
+
+        container.setLayoutX(30);
+        container.setLayoutY(250);
+
+        return container;
     }
 }

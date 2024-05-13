@@ -3,7 +3,9 @@ package catchorwaste;
 import catchorwaste.controller.GPIOController;
 import catchorwaste.controller.TimerController;
 import catchorwaste.model.TimerModel;
+import catchorwaste.model.enums.EntityType;
 import catchorwaste.model.factories.EntityFactory;
+import catchorwaste.view.StartScreenView;
 import catchorwaste.view.TimerView;
 import com.almasb.fxgl.app.GameApplication;
 import catchorwaste.view.PunktesystemView;
@@ -12,16 +14,16 @@ import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 import com.almasb.fxgl.entity.SpawnData;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
-import java.io.File;
+import java.io.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static catchorwaste.controller.CartController.cartMovement;
 import static catchorwaste.controller.CartController.onWorkstationCollision;
@@ -54,10 +56,16 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.onKey;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 
+
 public class CatchOrWasteApp extends GameApplication {
 
     public static Map<String, Image> imageMap;
+    public static Map<String,ArrayList<String>> textMap;
     private boolean updateEnabled = true;
+    public boolean gameStarted = false;
+    StartScreenView startScreenView;
+    EntityFactory factory;
+    EndScreenView endScreenView;
 
     public static void main(String[] args) {
         launch(args);
@@ -89,55 +97,18 @@ public class CatchOrWasteApp extends GameApplication {
     }
 
     @Override
-    protected void initInput() {
-        String osArch = System.getProperty("os.arch").toLowerCase();
-
-        if (osArch.contains("arm") || osArch.contains("aarch64")) {
-            GPIOController controller = new GPIOController();
-            controller.init();
-        }
-
-        onKey(KeyCode.RIGHT, "Move Right", () -> {
-            movePlayer(true, getGameWorld());
-            return null;
-        });
-        onKey(KeyCode.LEFT, "Move Left", () -> {
-            movePlayer(false, getGameWorld());
-            return null;
-        });
-        onKey(KeyCode.DIGIT1, "1", () -> {
-            setGate(true);
-            return null;
-        });
-        onKey(KeyCode.DIGIT2, "2", () -> {
-            setGate(false);
-            return null;
-        });
-
-
-    }
-
-    @Override
     protected void initGame() {
+
+        imageMap = loadImages();
+        textMap = loadText();
+
         getGameScene().setCursorInvisible();
 
-        //generate score system
-        PunktesystemView punktesystemView = new PunktesystemView();
-        initPunktesystem(punktesystemView);
+        startScreenView = new StartScreenView();
+        getGameScene().addUINode(startScreenView);
 
-        //generate timer
-        TimerModel timerModel = new TimerModel();
-        TimerView timerView = new TimerView();
-        TimerController timerController = new TimerController(timerModel, timerView, punktesystemView);
-
-        // add timer and score system to the game
-        getGameScene().addUINode(timerView);
-        getGameScene().addUINode(punktesystemView);
-        timerController.startTimer();
-
-        imageMap = new HashMap<>();
-        loadImages();
-        getGameWorld().addEntityFactory(new EntityFactory());
+        factory = new EntityFactory();
+        getGameWorld().addEntityFactory(factory);
 
         Entity background1 = spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 1).put("Name", "background_bad"));
         Entity background2 = spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 2).put("Name", "streets"));
@@ -160,6 +131,82 @@ public class CatchOrWasteApp extends GameApplication {
         playBackgroundMusic("/home/pi4j/deploy/music.mp3");
     }
 
+    @Override
+    protected void initInput() {
+
+
+        String osArch = System.getProperty("os.arch").toLowerCase();
+
+        if (osArch.contains("arm") || osArch.contains("aarch64")) {
+            GPIOController controller = new GPIOController();
+            controller.init();
+
+            controller.onAcceptButton(() -> {
+                if (!gameStarted) {
+                    startGame();
+                } else if (!getGameWorld().getEntitiesByType(EntityType.ENDSCREEN).isEmpty()){
+
+                }
+            });
+        }
+
+        onKey(KeyCode.SPACE, "Start Game", () -> {
+            if (!gameStarted) {
+                startGame();
+            }
+            return null;
+        });
+
+        onKey(KeyCode.RIGHT, "Move Right", () -> {
+            movePlayer(true, getGameWorld());
+            return null;
+        });
+
+        onKey(KeyCode.LEFT, "Move Left", () -> {
+            movePlayer(false, getGameWorld());
+            return null;
+        });
+
+        onKey(KeyCode.DIGIT1, "1", () -> {
+            setGate(true);
+            return null;
+        });
+
+        onKey(KeyCode.DIGIT2, "2", () -> {
+            setGate(false);
+            return null;
+        });
+
+
+    }
+
+    public void startGame() {
+        gameStarted = true;
+
+
+        getGameScene().removeUINode(startScreenView);
+
+        //generate score system
+        PunktesystemView punktesystemView = new PunktesystemView();
+        initPunktesystem(punktesystemView);
+
+        //generate timer
+        TimerModel timerModel = new TimerModel();
+        TimerView timerView = new TimerView();
+        // add timer to the game
+        TimerController timerController = new TimerController(timerModel, timerView, punktesystemView);
+
+        // add timer and score system to the game
+        getGameScene().addUINode(timerView);
+        getGameScene().addUINode(punktesystemView);
+        timerController.startTimer();
+
+
+        initPunktesystem(punktesystemView);
+
+    }
+
+
     private void playBackgroundMusic(String musicFile) {
         try {
             Media media = new Media(new File(musicFile).toURI().toString());
@@ -174,7 +221,7 @@ public class CatchOrWasteApp extends GameApplication {
 
     @Override
     protected void onUpdate(double tpf) {
-        if (updateEnabled) {
+        if (gameStarted && updateEnabled) {
             playerOnUpdate(getGameWorld());
             cartOnUpdate(getGameWorld());
             fallingObjectOnUpdate(getGameWorld());
@@ -200,7 +247,7 @@ public class CatchOrWasteApp extends GameApplication {
             }
         });
         //spawn endScreen with message + add final score to the middle
-        EndScreenView endScreenView = new EndScreenView();
+        endScreenView = new EndScreenView();
         Entity endScreen = spawn("ENDSCREEN", new SpawnData(0, 0).put("Position", 1));
         setBackground(endScreen);
         getGameScene().addUINode(endScreenView.scoreEndscreen());
@@ -209,7 +256,9 @@ public class CatchOrWasteApp extends GameApplication {
         updateEnabled = false;
     }
 
-    public void loadImages() {
+    public Map<String, Image> loadImages() {
+
+        Map<String, Image> map = new HashMap<>();
 
         var backroundsImgs = new String[]{"background_bad", "streets_left", "streets_right"};
 
@@ -238,19 +287,76 @@ public class CatchOrWasteApp extends GameApplication {
                 "endScreen_1"
         };
 
-        addToMap("backgrounds", backroundsImgs);
-        addToMap("carts", cartsImgs);
-        addToMap("fallingObjects", fallingObjectsImgs);
-        addToMap("player", playerImgs);
-        addToMap("structures", structuresImgs);
-        addToMap("endScreens", endScreensImgs);
+        map = addToMap("backgrounds", backroundsImgs, map);
+        map = addToMap("carts", cartsImgs, map);
+        map = addToMap("fallingObjects", fallingObjectsImgs, map);
+        map = addToMap("player", playerImgs, map);
+        map = addToMap("structures", structuresImgs, map);
+        map = addToMap("endScreens", endScreensImgs, map);
+        return map;
     }
 
-    public void addToMap(String dir, String[] names) {
+    public Map<String, Image> addToMap(String dir, String[] names, Map<String, Image> map) {
         for (String s : names) {
-            imageMap.put(s, getAssetLoader().loadImage(dir + "/" + s + ".png"));
+            map.put(s, getAssetLoader().loadImage(dir + "/" + s + ".png"));
         }
+        return map;
     }
+
+    public Map<String,ArrayList<String>> loadText(){
+
+        String line;
+        String currentTitle="";
+        ArrayList<String> currentList = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+        Map<String,ArrayList<String>> map = new HashMap<>();
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/config/german.csv"));
+
+
+            while ((line = reader.readLine()) != null) {
+                if(!line.isEmpty()){
+                    if(line.contains("Title: ")){
+                        if(currentTitle.isEmpty()){
+                            currentTitle = line.substring(7, line.length()-1);
+                        }else{
+                            map.put(currentTitle, currentList);
+                            currentTitle = line.substring(7, line.length()-1);
+                            currentList = new ArrayList<>();
+                        }
+
+                    }else{
+                        sb.append(line);
+
+
+                        if (line.length() > 2 && line.charAt(line.length() - 2) == '\"'
+                                && line.charAt(line.length() - 1) == ',') {
+                            sb.setLength(sb.length() - 1);
+                            currentList.add(sb.toString());
+                            sb = new StringBuilder();
+                        }else if(line.length() > 2 && line.endsWith(",")){
+                            sb.setLength(sb.length() - 1);
+                            currentList.add(sb.toString());
+                            sb = new StringBuilder();
+                        }
+                        else if(line.length() > 2 && line.endsWith("\"")){
+                            currentList.add(sb.toString());
+                            sb = new StringBuilder();
+                        }
+                    }
+                }
+            }
+
+            reader.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        map.put(currentTitle, currentList);
+        return map;
+    }
+
+
 
     public void initPunktesystem(PunktesystemView punktesystemView) {
         updateScore(0);
