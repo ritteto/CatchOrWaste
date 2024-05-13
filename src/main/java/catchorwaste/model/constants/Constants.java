@@ -14,7 +14,7 @@ public final class Constants {
     public static final double STREET_HEIGHT = getAppHeight() * 0.775;
     public static final double CURVE_BR = getAppWidth() * 0.841; // First curve to vertical on right side of street
     public static final double CURVE_BL = getAppWidth() * 0.035; // First curve to vertical on left side of street
-    public static final double CURVE_TR = getAppHeight()*0.07; // Height of Curve on top to the village
+    public static final double CURVE_TR = getAppHeight() * 0.07; // Height of Curve on top to the village
     public static final double RECYCLE_HEIGHT = getAppHeight() * 0.6;
     public static final double GATE_HEIGHT = getAppHeight() * 0.665;
     public static final double GATE_LEFT_END = getAppWidth() * 0.785;
@@ -41,8 +41,6 @@ public final class Constants {
     public static final int DRESS_SCORE = 10;
     public static final String FONT_SIZE = "-fx-font-size: 30px;";
     public static final String START_SCREEN_IMG = "assets/textures/backgrounds/background_bad.png";
-
-    public static final String TUTORIAL_SCREEN_IMG = "assets/textures/startScreen/tutorial-test-1.png";
     public static final String FONT = "/fonts/ArcadeFont.ttf";
 
     public static final String[] LEARNING_MESSAGES = {
@@ -56,14 +54,6 @@ public final class Constants {
             "Auf Ricardo ist bei jedem Produkt ersichtlich " +
                     "\nwie viel CO2 gesparrt wird wenn man " +
                     "\netwas gebraucht kauft."
-    };
-
-    public static final String[] TUTORIAL_MESSAGE = {
-            "Handys, Kleider und Lampen werden in verschiedenen Zuständen weggeworfen."+
-                    "\n Es liegt an dir, der Wegwerfpolizist, diese in die richtige Station zu bringen "+
-                    "\n unbeschädigte, reine Gegenstände werden weitergegeben."+
-                    "\n Leicht vergraute, leicht geschädigte Gegenstände werden repariert."+
-                    "\n ganz kaputte Gegenstände gehören zur Recyclingstation."
     };
 
 }
