@@ -13,7 +13,6 @@
 - [Run on RaspberryPi](#run-on-raspberrypi)
 - [Game modifications](#game-modifications)
 - [Hardware](#hardware)
-- [Features](#features)
 - [License](#license)
 
 ## Project Overview
@@ -45,7 +44,8 @@ mvn package clean
 ```
 
 ## Setup new RaspberryPi
-To setup a new RaspberryPi ..
+To setup a new RaspberryPi follow this guide: [Pi4J setup new RaspberryPi](https://pi4j.com/getting-started/set-up-a-new-raspberry-pi/)
+- Set the resolution of the Monitor in the monitors.xml file to 800x600 for optimal performance and fullscreen
 
 
 ## Run on RaspberryPi
@@ -87,7 +87,6 @@ tbd.
 | Raspberry Pi                                | 1     | [Technical sheet](assets%2Fpdf%2Fraspberry-pi-4-reduced-schematics.pdf)                   |
 
 
-### Wiring
 
 #### Monitor
 - Removed from original housing and integrated to box
@@ -101,8 +100,10 @@ tbd.
 - Removed from original housing and integrated to box
 - Connected via stereo audio aux 3.5 mm to Raspberry Pi
 - Power supply connected to Raspberry Pi (USB 3.1)
+- The volume can be changed at the front of the box or headphones can be plugged in
 
   <img src="assets/img/speakers_wiring.png" alt="speaker-wiring" width="300"/>
+  <img src="assets/img/speakers_front.JPEG" alt="speaker-front" width="300"/>
 
 #### Joystick & Buttons (input)
 - Are connected via perforated circuit board to Raspberry Pi
@@ -111,15 +112,17 @@ tbd.
 
 <img src="assets/img/input_wiring.png" alt="input-wiring" width="300"/>
 
-#### Overview diagram
+### Wiring
+<img src="assets/img/overview_diagram.jpg" alt="overview-diagram" width="800"/>
+<img src="assets/img/box_inside_wiring.JPG" alt="overview-wiring" width="400"/>
 
-<img src="assets/img/overview-diagram.jpg" alt="overview-diagram" width="1000"/>
+### Modifications
 
+- Make sure the box is not powered when making any changes to the hardware. 
+- Simply unscrew the three screws of the back to open it
 
+<img src="assets/img/box_back_screw.JPG" alt="hw_back" width="400"/>
 
-## Features
-
-[Describe the game's unique features here]
 
 ## License
 
