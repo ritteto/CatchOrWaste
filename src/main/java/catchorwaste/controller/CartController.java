@@ -3,7 +3,6 @@ package catchorwaste.controller;
 import catchorwaste.model.components.CartDirectionComponent;
 import catchorwaste.model.components.ImageNameComponent;
 import catchorwaste.model.enums.EntityType;
-import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 
@@ -34,8 +33,7 @@ public class CartController {
     public static void cartMovement(GameWorld gameWorld){
         for (Entity entity : gameWorld.getEntitiesByType(EntityType.CART)) {
 
-            //Left Path
-
+            //----------------Left Path----------------
             //horizontal movement between Street end and bottom left curve
             if(entity.getX() >= CURVE_BL &&
                     entity.getX() <= STREET_LEFT_END  && entity.getY() >= CART_HEIGHT_AT_STREET){
@@ -60,7 +58,7 @@ public class CartController {
                 entity.removeFromWorld();            }
 
 
-            //Right Path
+            //----------------Right Path----------------
             //horizontal movement to bottom right curve
             if(entity.getX() < CURVE_BR && entity.getX() >= STREET_RIGHT_END && entity.getY()>=CART_HEIGHT_AT_STREET){
                 entity.translateX(getCartSpeed());
@@ -146,9 +144,8 @@ public class CartController {
 
         }
     }
-
-    public static void onWorkstationCollision(){
-        FXGL.onCollision(EntityType.CART, EntityType.WORKSTATION, (cart, workstation) ->{
+    
+    public static void onWorkstationCollision(Entity cart, Entity workstation){
             if(cart.getY()== workstation.getY()+ workstation.getHeight()*0.75) {
                 if (cart.getX() == GATE_LEFT_END &&
                         workstation.getComponent(ImageNameComponent.class).getImageName().contains("markt")) {
@@ -167,7 +164,6 @@ public class CartController {
                 }
 
             }
-        });
     }
 
 
