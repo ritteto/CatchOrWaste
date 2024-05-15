@@ -71,7 +71,6 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
     public static Map<String, Image> imageMap;
     public static Map<String, ArrayList<String>> textMap;
     private GameState gameState;
-    private boolean updateEnabled = true;
 
     public static void main(String[] args) {
         launch(args);
@@ -160,13 +159,12 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
 
         //start Tutorial
         //startTutorial(); uncomment this and delete next line when Tutorial is implemented
-        //callStartScreen();
-        callEndscreen();
+        callStartScreen();
     }
 
     @Override
     protected void onUpdate(double tpf) {
-        if (gameState.equals(GameState.GAME) && updateEnabled) {
+        if (gameState.equals(GameState.GAME)) {
             playerOnUpdate(getGameWorld());
             cartOnUpdate(getGameWorld());
             fallingObjectOnUpdate(getGameWorld());
@@ -205,8 +203,8 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
 
     private void restartGame(){
         gameState = GameState.STARTSCREEN;
-        //callStartScreen();
-        callEndscreen();
+        callStartScreen();
+
     }
 
 
@@ -256,7 +254,7 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
 
         String line;
         String currentTitle="";
-        Boolean inQuotes = false;
+        boolean inQuotes = false;
         ArrayList<String> currentList = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
         Map<String,ArrayList<String>> map = new HashMap<>();

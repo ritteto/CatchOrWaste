@@ -18,7 +18,6 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 public class EndScreenView extends StackPane {
 
-    Label endLabel = new Label();
 
     public static void initEndscreenView(){
         spawn("ENDSCREEN");
@@ -28,7 +27,6 @@ public class EndScreenView extends StackPane {
     public static Node scoreEndscreen() {
         int score = PunktesystemModel.getPoints();
         Label endLabel = new Label();
-        StackPane stackpane = new StackPane();
 
         Font font = Font.loadFont(EndScreenView.class.getResourceAsStream(FONT), 20);
         endLabel.setFont(font);
@@ -42,7 +40,6 @@ public class EndScreenView extends StackPane {
     }
 
     public static Node additionalText() {
-        StackPane stackpane = new StackPane();
 
         Label additionalTextLabel = new Label(textMap.get("EndScreen").get(0));
         //Font font = Font.loadFont(FONT, 20);

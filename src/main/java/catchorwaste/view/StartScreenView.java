@@ -37,9 +37,6 @@ public class StartScreenView extends StackPane {
         getGameScene().addUINodes(stackPane);
     }
 
-    public static void removeStartScreen(){
-        getGameScene().removeUINodes(stackPane);
-    }
 
     public void getTutorial(){
         Image TutorialImage = new Image(TUTORIAL_SCREEN_IMG);
