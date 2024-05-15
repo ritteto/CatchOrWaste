@@ -4,21 +4,21 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.IntegerProperty;
 
 public class TimerModel {
-    private final IntegerProperty totalSeconds = new SimpleIntegerProperty(0);
+    private static final IntegerProperty totalSeconds = new SimpleIntegerProperty(0);
 
-    public int getTotalSeconds() {
+    public static int getTotalSeconds() {
         return totalSeconds.get();
     }
 
-    public void setTotalSeconds(int seconds) {
+    public static void setTotalSeconds(int seconds) {
         totalSeconds.set(seconds);
     }
 
-    public int getMinutes() {
+    public static int getMinutes() {
         return getTotalSeconds() / 60;
     }
 
-    public int getSeconds() {
+    public static int getSeconds() {
         return getTotalSeconds() % 60;
     }
 }
