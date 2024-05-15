@@ -3,7 +3,6 @@ package catchorwaste.controller;
 import catchorwaste.model.components.CartDirectionComponent;
 import catchorwaste.model.components.ImageNameComponent;
 import catchorwaste.model.enums.EntityType;
-import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 

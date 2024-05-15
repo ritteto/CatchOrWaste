@@ -6,12 +6,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
-import javax.crypto.spec.PSource;
-import java.util.Stack;
 
 import static catchorwaste.CatchOrWasteApp.textMap;
-import static catchorwaste.model.constants.Constants.*;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
+
+import static catchorwaste.model.constants.Constants.TUTORIAL_SCREEN_IMG;
+import static catchorwaste.model.constants.Constants.START_SCREEN_IMG;
+import static catchorwaste.model.constants.Constants.FONT_SIZE;
+
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppWidth;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppHeight;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
 
 public class StartScreenView extends StackPane {
 

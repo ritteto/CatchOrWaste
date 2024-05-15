@@ -43,18 +43,6 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
                 .build();
     }
 
-    @Spawns("ENDSCREEN")
-    public Entity newEndScreen(SpawnData data) {
-        var endScreens = "endScreen_1";
-        var endScreenView = new ImageView(imageMap.get(endScreens));
-        endScreenView.setFitWidth(getAppWidth());
-        endScreenView.setFitHeight(getAppHeight());
-        return FXGL.entityBuilder(data)
-                .view(endScreenView)
-                .type(EntityType.ENDSCREEN)
-                .build();
-    }
-
     @Spawns("OBJECT")
     public Entity newObject(SpawnData data) {
         Random random = new Random();
@@ -130,6 +118,17 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
                 .type(EntityType.WORKSTATION)
                 .scale(1.45, 1.45)
                 .zIndex(10)
+                .build();
+    }
+
+    @Spawns("ENDSCREEN")
+    public Entity newEndScreen(SpawnData data) {
+        var endScreenView = new ImageView(imageMap.get("endScreen_1"));
+        endScreenView.setFitWidth(getAppWidth());
+        endScreenView.setFitHeight(getAppHeight());
+        return FXGL.entityBuilder(data)
+                .view(endScreenView)
+                .type(EntityType.ENDSCREEN)
                 .build();
     }
 

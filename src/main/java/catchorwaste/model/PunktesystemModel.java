@@ -8,7 +8,6 @@ import java.util.Map;
 import static catchorwaste.model.constants.Constants.IPHONE_SCORE;
 import static catchorwaste.model.constants.Constants.DRESS_SCORE;
 import static catchorwaste.model.constants.Constants.LAMP_SCORE;
-import static catchorwaste.view.PunktesystemView.displayUpdate;
 import static catchorwaste.view.PunktesystemView.updateScore;
 
 public class PunktesystemModel {

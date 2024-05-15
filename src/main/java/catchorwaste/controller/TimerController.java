@@ -1,15 +1,9 @@
 package catchorwaste.controller;
 
-import catchorwaste.CatchOrWasteApp;
 import catchorwaste.model.TimerModel;
-import catchorwaste.view.PunktesystemView;
 import catchorwaste.view.TimerView;
-import com.almasb.fxgl.dsl.FXGL;
 import javafx.animation.AnimationTimer;
 
-import java.util.EventListener;
-
-import static catchorwaste.model.TimerModel.getMinutes;
 import static catchorwaste.model.TimerModel.setTotalSeconds;
 import static catchorwaste.model.constants.Constants.TOTAL_TIME_LIMIT_SECONDS;
 import static catchorwaste.view.TimerView.initTimerView;

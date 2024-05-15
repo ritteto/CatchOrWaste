@@ -1,8 +1,5 @@
 package catchorwaste.controller;
 
-import catchorwaste.model.PunktesystemModel;
-import catchorwaste.view.PunktesystemView;
-
 import static catchorwaste.model.PunktesystemModel.initPointsMap;
 import static catchorwaste.view.PunktesystemView.initPunktesystemView;
 import static catchorwaste.view.PunktesystemView.updateScore;
