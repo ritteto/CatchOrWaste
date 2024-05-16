@@ -1,0 +1,23 @@
+{
+"StartScreen":"Cliquer pour commencer",
+"Settings":["Parametres", "Langue", "Difficulte", "Didacticiel", "Avancer"],
+"Game":"Points",
+"EndScreen":"Vos points: ",
+ "LearningMessageTitle": [
+  "Recyclez-moi",
+  "Acheter d'occasion!!!"
+ ],
+ "LearningMessages": [
+  "Le recyclage réduit la nécessité d'extraire de nouvelles matières premières et préserve ainsi les ressources naturelles telles que les forêts, les minéraux et l'eau",
+  "Le recyclage permet de produire moins de déchets et de réduire la charge des décharges, ce qui contribue à la prévention de la pollution",
+  "La fabrication de produits à partir de matériaux recyclés nécessite souvent moins d'énergie que la fabrication à partir de matières premières neuves, ce qui contribue à réduire les émissions de gaz à effet de serre",
+  "Le recyclage contribue à la réduction des émissions de gaz à effet de serre en brûlant ou en mettant en décharge la quantité de déchets qui, autrement, entraînerait la libération de méthane",
+  "Le recyclage favorise une économie durable en réintroduisant des matériaux dans le cycle de production et en réduisant la consommation de nouvelles ressources",
+  "L'achat d'articles d'occasion permet d'éviter que des objets ne finissent dans des décharges, ce qui contribue à la réduction des déchets et prolonge la durée de vie des produits",
+  "Les produits de seconde main sont souvent moins chers que les articles neufs, ce qui permet aux consommateurs d'économiser de l'argent sans renoncer à la qualité",
+  "Les achats de seconde main offrent souvent des objets uniques et rares qui ne sont plus fabriqués, ce qui permet un style et une expression individuels",
+  "L'achat d'articles d'occasion permet de réduire la production de produits neufs, ce qui contribue à préserver les ressources naturelles et à réduire l'empreinte écologique",
+  "L'achat dans les magasins d'occasion ou les marchés aux puces soutient souvent les commerces locaux et les organisations à but non lucratif, ce qui contribue à renforcer la communauté"
+ ]
+
+}

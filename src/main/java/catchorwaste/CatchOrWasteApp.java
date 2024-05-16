@@ -4,7 +4,6 @@ import catchorwaste.controller.*;
 import catchorwaste.model.enums.EntityType;
 import catchorwaste.model.enums.GameState;
 import catchorwaste.model.factories.EntityFactory;
-import catchorwaste.view.StartScreenView;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
@@ -15,36 +14,32 @@ import com.almasb.fxgl.entity.SpawnData;
 
 import com.almasb.fxgl.input.UserAction;
 import javafx.scene.Node;
+
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
+import java.io.*;
 
+import java.util.*;
 
 import static catchorwaste.controller.CartController.cartMovement;
 import static catchorwaste.controller.CartController.onWorkstationCollision;
-import static catchorwaste.controller.EndScreenController.initEndscreen;
 import static catchorwaste.controller.FallingObjectController.dropObjects;
 import static catchorwaste.controller.FallingObjectController.stickToPlayer;
 import static catchorwaste.controller.PlayerController.boundaries;
 import static catchorwaste.controller.PlayerController.catchObject;
 import static catchorwaste.controller.PlayerController.movePlayer;
 import static catchorwaste.controller.PunktesystemController.initPunktesystem;
-import static catchorwaste.controller.SelectionScreenController.changeSelection;
+import static catchorwaste.controller.SettingsController.changeSelection;
 import static catchorwaste.controller.TimerController.initTimer;
 import static catchorwaste.controller.TimerController.startTimer;
 import static catchorwaste.model.CartModel.setGate;
-import static catchorwaste.model.SelectionScreenModel.getSelected;
+import static catchorwaste.model.SettingsModel.getSelected;
 import static catchorwaste.model.constants.Constants.HOUSE1_X;
 import static catchorwaste.model.constants.Constants.HOUSE2_X;
 import static catchorwaste.model.constants.Constants.HOUSE3_X;
@@ -128,17 +123,6 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
             }
         }, KeyCode.RIGHT);
 
-        /*
-        onKeyDown(KeyCode.RIGHT, "Move Right", () -> {
-            if(gameState.equals(GameState.GAME)){
-                movePlayer(true, getGameWorld());
-            }else if(gameState.equals(GameState.SELECTIONSCREEN)){
-                changeSelection(getSelected()+1);
-            }
-            return null;
-        });
-
-         */
 
         FXGL.getInput().addAction(new UserAction("Move Left") {
 
@@ -157,16 +141,6 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
             }
         }, KeyCode.LEFT);
 
-        /*
-        onKeyDown(KeyCode.LEFT, "Move Left", () -> {
-            if(gameState.equals(GameState.GAME)){
-                movePlayer(false, getGameWorld());
-            } else if(gameState.equals(GameState.SELECTIONSCREEN)){
-                changeSelection(getSelected()-1);
-            }
-            return null;
-        });
-        */
 
         onKey(KeyCode.DIGIT1, "1", () -> {
             setGate(true);
@@ -233,7 +207,7 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
     }
 
     private void callSelectionScreen(){
-        callScreen(GameState.SELECTIONSCREEN, SelectionScreenController::initSelectionScreen);
+        callScreen(GameState.SELECTIONSCREEN, SettingsController::initSelectionScreen);
     }
 
     private void callEndscreen(){
@@ -302,62 +276,37 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
 
     public Map<String,ArrayList<String>> loadText(){
 
-        String line;
-        String currentTitle="";
-        boolean inQuotes = false;
-        ArrayList<String> currentList = new ArrayList<>();
-        StringBuilder sb = new StringBuilder();
-        Map<String,ArrayList<String>> map = new HashMap<>();
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/config/german.csv"));
+        Map<String, ArrayList<String>> map = new HashMap<>();
 
+        try{
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(new FileReader("src/main/resources/config/language_files/german.json"));
 
-            while ((line = reader.readLine()) != null) {
-                if(!line.isEmpty()){
-                    if(line.contains("Title: ")){
-                        if(currentTitle.isEmpty()){
-                            currentTitle = line.substring(7, line.length()-1);
-                        }else{
-                            map.put(currentTitle, currentList);
-                            currentTitle = line.substring(7, line.length()-1);
-                            currentList = new ArrayList<>();
-                        }
+            Iterator<Map.Entry<String, JsonNode>> fields = jsonNode.fields();
+            while (fields.hasNext()){
+                Map.Entry<String, JsonNode> field = fields.next();
+                var key = field.getKey();
+                var value = field.getValue();
 
-                    }else{
-                        sb.append(line);
-
-                        if(line.startsWith("\"")){
-                            inQuotes = true;
-                        }
-
-                        if (line.length() > 2 && line.charAt(line.length() - 2) == '\"'
-                                && line.charAt(line.length() - 1) == ',') {
-                            sb.setLength(sb.length() - 1);
-                            inQuotes = false;
-                            currentList.add(sb.toString());
-                            sb = new StringBuilder();
-                        }else if(line.length() > 2 && line.endsWith(",") && !inQuotes){
-                            sb.setLength(sb.length() - 1);
-                            currentList.add(sb.toString());
-                            sb = new StringBuilder();
-                        }else if(line.length() > 2 && line.endsWith("\"")){
-                            currentList.add(sb.toString());
-                            inQuotes = false;
-                            sb = new StringBuilder();
-                        }
+                if(value.isArray()){
+                    ArrayList<String> messages = new ArrayList<>();
+                    for (JsonNode node : value) {
+                        messages.add(node.asText());
                     }
+                    map.put(key, messages);
+                }else{
+                    var list = new ArrayList<String>();
+                    list.add(value.asText());
+                    map.put(key,list);
                 }
             }
 
-            reader.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        }catch (Exception e){
+            System.out.println(e);
         }
-        map.put(currentTitle, currentList);
         return map;
-    }
 
+    }
     public Map<String, Image> addToMap(String dir, String[] names, Map<String, Image> map) {
         for (String s : names) {
             map.put(s, getAssetLoader().loadImage(dir + "/" + s + ".png"));

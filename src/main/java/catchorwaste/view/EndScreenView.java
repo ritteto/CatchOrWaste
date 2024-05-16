@@ -42,7 +42,6 @@ public class EndScreenView extends StackPane {
     public static Node additionalText() {
 
         Label additionalTextLabel = new Label(textMap.get("EndScreen").get(0));
-        //Font font = Font.loadFont(FONT, 20);
         Font font = Font.loadFont(EndScreenView.class.getResourceAsStream(FONT), 20);
         additionalTextLabel.setFont(font);
 
@@ -58,15 +57,15 @@ public class EndScreenView extends StackPane {
 
     public static Node learningMessage() {
         Random random = new Random();
-        int randomIndex = random.nextInt(2, textMap.get("Learning messages").size());
+        int randomIndex = random.nextInt(textMap.get("LearningMessages").size());
         String randomTitle;
-        if(randomIndex <= 6){
-            randomTitle = textMap.get("Learning messages").get(0);
+        if(randomIndex < textMap.get("LearningMessages").size()/2){
+            randomTitle = textMap.get("LearningMessageTitle").get(0);
         }else{
-            randomTitle = textMap.get("Learning messages").get(1);
+            randomTitle = textMap.get("LearningMessageTitle").get(1);
         }
 
-        String randomMessage = textMap.get("Learning messages").get(randomIndex);
+        String randomMessage = textMap.get("LearningMessages").get(randomIndex);
 
         Label titleLabel = new Label(randomTitle);
         titleLabel.setFont(Font.loadFont(EndScreenView.class.getResourceAsStream(FONT), 25));

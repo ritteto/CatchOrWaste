@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
+import static catchorwaste.CatchOrWasteApp.textMap;
 import static catchorwaste.model.constants.Constants.FONT_SIZE;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
 import static javafx.scene.text.FontWeight.BOLD;
@@ -29,7 +30,7 @@ public class PunktesystemView extends StackPane {
     }
 
     public static void updateScore(double score) {
-        scoreLabel.setText((int) score + " Punkte");
+        scoreLabel.setText((int) score +" "+ textMap.get("Game").get(0));
     }
 
     public static void displayUpdate(int change, double x, double y) {
