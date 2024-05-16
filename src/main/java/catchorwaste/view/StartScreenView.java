@@ -1,11 +1,15 @@
 package catchorwaste.view;
 
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
+import java.util.ArrayList;
 
 import static catchorwaste.CatchOrWasteApp.textMap;
 
@@ -22,6 +26,7 @@ public class StartScreenView extends StackPane {
     private static StackPane stackPane;
     private static Label startLabel;
     private static ImageView backgroundImageView;
+
 
     public static void initStartScreenView() {
         //backgroundImage = new Image(START_SCREEN_IMG);

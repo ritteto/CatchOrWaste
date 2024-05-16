@@ -1,7 +1,6 @@
 package catchorwaste;
 
-import catchorwaste.controller.GPIOController;
-import catchorwaste.controller.TimerController;
+import catchorwaste.controller.*;
 import catchorwaste.model.enums.EntityType;
 import catchorwaste.model.enums.GameState;
 import catchorwaste.model.factories.EntityFactory;
@@ -14,6 +13,7 @@ import com.almasb.fxgl.entity.GameWorld;
 import com.almasb.fxgl.entity.SpawnData;
 
 
+import com.almasb.fxgl.input.UserAction;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -40,9 +40,11 @@ import static catchorwaste.controller.PlayerController.boundaries;
 import static catchorwaste.controller.PlayerController.catchObject;
 import static catchorwaste.controller.PlayerController.movePlayer;
 import static catchorwaste.controller.PunktesystemController.initPunktesystem;
+import static catchorwaste.controller.SelectionScreenController.changeSelection;
 import static catchorwaste.controller.TimerController.initTimer;
 import static catchorwaste.controller.TimerController.startTimer;
 import static catchorwaste.model.CartModel.setGate;
+import static catchorwaste.model.SelectionScreenModel.getSelected;
 import static catchorwaste.model.constants.Constants.HOUSE1_X;
 import static catchorwaste.model.constants.Constants.HOUSE2_X;
 import static catchorwaste.model.constants.Constants.HOUSE3_X;
@@ -55,22 +57,14 @@ import static catchorwaste.model.constants.Constants.MARKT_X;
 import static catchorwaste.model.constants.Constants.STREET_HEIGHT;
 import static catchorwaste.view.FallingObjectView.spawnObjects;
 import static catchorwaste.view.PlayerView.isAtStreetEnd;
-
-import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.getAssetLoader;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppWidth;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppHeight;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.onKeyDown;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.onKey;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 
 
 public class CatchOrWasteApp extends GameApplication implements TimerController.TimerListener {
 
     public static Map<String, Image> imageMap;
     public static Map<String, ArrayList<String>> textMap;
-    private GameState gameState;
+    public static GameState gameState;
 
     public static void main(String[] args) {
         launch(args);
@@ -107,22 +101,72 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
 
         onKeyDown(KeyCode.SPACE, "Start Game", () -> {
             if (gameState.equals(GameState.STARTSCREEN)) {
-                startGame();
+                callSelectionScreen();
+                //startGame();
             }else if(gameState.equals(GameState.ENDSCREEN)){
                 restartGame();
+            }else if(gameState.equals(GameState.SELECTIONSCREEN)){
+                startGame();
             }
             return null;
         });
 
-        onKey(KeyCode.RIGHT, "Move Right", () -> {
-            movePlayer(true, getGameWorld());
+        FXGL.getInput().addAction(new UserAction("Move Right") {
+
+            @Override
+            protected void onActionBegin() {
+                if(gameState.equals(GameState.SELECTIONSCREEN)) {
+                    changeSelection(getSelected() + 1);
+                }
+            }
+
+            @Override
+            protected void onAction() {
+                if(gameState.equals(GameState.GAME)) {
+                    movePlayer(true, getGameWorld());
+                }
+            }
+        }, KeyCode.RIGHT);
+
+        /*
+        onKeyDown(KeyCode.RIGHT, "Move Right", () -> {
+            if(gameState.equals(GameState.GAME)){
+                movePlayer(true, getGameWorld());
+            }else if(gameState.equals(GameState.SELECTIONSCREEN)){
+                changeSelection(getSelected()+1);
+            }
             return null;
         });
 
-        onKey(KeyCode.LEFT, "Move Left", () -> {
-            movePlayer(false, getGameWorld());
+         */
+
+        FXGL.getInput().addAction(new UserAction("Move Left") {
+
+            @Override
+            protected void onActionBegin() {
+                if(gameState.equals(GameState.SELECTIONSCREEN)) {
+                    changeSelection(getSelected() - 1);
+                }
+            }
+
+            @Override
+            protected void onAction() {
+                if(gameState.equals(GameState.GAME)) {
+                    movePlayer(false, getGameWorld());
+                }
+            }
+        }, KeyCode.LEFT);
+
+        /*
+        onKeyDown(KeyCode.LEFT, "Move Left", () -> {
+            if(gameState.equals(GameState.GAME)){
+                movePlayer(false, getGameWorld());
+            } else if(gameState.equals(GameState.SELECTIONSCREEN)){
+                changeSelection(getSelected()-1);
+            }
             return null;
         });
+        */
 
         onKey(KeyCode.DIGIT1, "1", () -> {
             setGate(true);
@@ -178,10 +222,22 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
         //TODO implement Tutorial call here
     }
 
-    private void callStartScreen(){
+    private void callScreen(GameState gamestate, Runnable runnable){
         removeEverything();
-        gameState = GameState.STARTSCREEN;
-        StartScreenView.initStartScreenView();
+        gameState = gamestate;
+        runnable.run();
+    }
+
+    private void callStartScreen(){
+        callScreen(GameState.STARTSCREEN, StartScreenController::initStartScreen);
+    }
+
+    private void callSelectionScreen(){
+        callScreen(GameState.SELECTIONSCREEN, SelectionScreenController::initSelectionScreen);
+    }
+
+    private void callEndscreen(){
+        callScreen(GameState.ENDSCREEN, EndScreenController::initEndscreen);
     }
 
     private void startGame(){
@@ -193,12 +249,6 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
         initTimer();
 
         startTimer();
-    }
-
-    private void callEndscreen(){
-        removeEverything();
-        gameState = GameState.ENDSCREEN;
-        initEndscreen();
     }
 
     private void restartGame(){
