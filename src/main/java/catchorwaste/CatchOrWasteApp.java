@@ -57,12 +57,10 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.onKey;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 
-
 public class CatchOrWasteApp extends GameApplication {
 
     public static Map<String, Image> imageMap;
     private boolean updateEnabled = true;
-    public boolean gameStarted = false;
     StartScreenView startScreenView;
     EntityFactory factory;
     EndScreenView endScreenView;
@@ -102,16 +100,16 @@ public class CatchOrWasteApp extends GameApplication {
             GPIOController controller = new GPIOController();
             controller.init();
             controller.onAcceptButton(() -> {
-                if (!gameStarted) {
+                if (!startScreenView.isGameStarted()) {
                     startGame();
-                } else if (!getGameWorld().getEntitiesByType(EntityType.ENDSCREEN).isEmpty()){
+                } else if (!getGameWorld().getEntitiesByType(EntityType.ENDSCREEN).isEmpty()) {
 
                 }
             });
         }
 
         onKey(KeyCode.SPACE, "Start Game", () -> {
-            if (!gameStarted) {
+            if (!startScreenView.isGameStarted()) {
                 startGame();
             }
             return null;
@@ -141,7 +139,7 @@ public class CatchOrWasteApp extends GameApplication {
     }
 
     public void startGame() {
-        gameStarted = true;
+        startScreenView.setGameStarted(true);
 
 
         getGameScene().removeUINode(startScreenView);
@@ -213,7 +211,7 @@ public class CatchOrWasteApp extends GameApplication {
 
     @Override
     protected void onUpdate(double tpf) {
-        if (gameStarted && updateEnabled) {
+        if (startScreenView.isGameStarted() && updateEnabled) {
             playerOnUpdate(getGameWorld());
             cartOnUpdate(getGameWorld());
             fallingObjectOnUpdate(getGameWorld());
