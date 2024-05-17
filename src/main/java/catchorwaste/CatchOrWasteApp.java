@@ -39,7 +39,7 @@ import static catchorwaste.controller.SettingsController.changeSelection;
 import static catchorwaste.controller.TimerController.initTimer;
 import static catchorwaste.controller.TimerController.startTimer;
 import static catchorwaste.model.CartModel.setGate;
-import static catchorwaste.model.SettingsModel.getSelected;
+import static catchorwaste.model.SettingsModel.getSelectedLine;
 import static catchorwaste.model.constants.Constants.HOUSE1_X;
 import static catchorwaste.model.constants.Constants.HOUSE2_X;
 import static catchorwaste.model.constants.Constants.HOUSE3_X;
@@ -111,7 +111,7 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
             @Override
             protected void onActionBegin() {
                 if(gameState.equals(GameState.SELECTIONSCREEN)) {
-                    changeSelection(getSelected() + 1);
+                    changeSelection(getSelectedLine() + 1);
                 }
             }
 
@@ -129,7 +129,7 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
             @Override
             protected void onActionBegin() {
                 if(gameState.equals(GameState.SELECTIONSCREEN)) {
-                    changeSelection(getSelected() - 1);
+                    changeSelection(getSelectedLine() - 1);
                 }
             }
 
@@ -317,7 +317,7 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
     private void playBackgroundMusic(String musicFile) {
         try {
             Media media = new Media(new File(musicFile).toURI().toString());
-            MediaPlayer mediaPlayer = new MediaPlayer(media);
+              MediaPlayer mediaPlayer = new MediaPlayer(media);
             mediaPlayer.setVolume(0.5); // Lautstärke setzen, Bereich von 0.0 bis 1.0
             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Musik endlos wiederholen
             mediaPlayer.play();

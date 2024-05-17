@@ -1,7 +1,7 @@
 package catchorwaste.controller;
 
 import static catchorwaste.model.SettingsModel.setSelectedLine;
-import static catchorwaste.view.SettingsView.changeSelected;
+import static catchorwaste.view.SettingsView.changeSelectedLine;
 import static catchorwaste.view.SettingsView.initSelectionScreenView;
 
 public class SettingsController {
@@ -11,6 +11,6 @@ public class SettingsController {
 
     public static void changeSelection(int position){
         setSelectedLine(position);
-        changeSelected();
+        changeSelectedLine();
     }
 }
