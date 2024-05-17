@@ -16,7 +16,6 @@ import com.almasb.fxgl.entity.SpawnData;
 
 import javafx.scene.Node;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -44,7 +43,6 @@ import static catchorwaste.controller.PunktesystemController.initPunktesystem;
 import static catchorwaste.controller.TimerController.initTimer;
 import static catchorwaste.controller.TimerController.startTimer;
 import static catchorwaste.model.CartModel.setGate;
-import static catchorwaste.model.PunktesystemModel.initPointsMap;
 import static catchorwaste.model.constants.Constants.HOUSE1_X;
 import static catchorwaste.model.constants.Constants.HOUSE2_X;
 import static catchorwaste.model.constants.Constants.HOUSE3_X;
@@ -68,20 +66,15 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.onKey;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 
-public class CatchOrWasteApp extends GameApplication {
+public class CatchOrWasteApp extends GameApplication implements TimerController.TimerListener {
 
     public static Map<String, Image> imageMap;
-    private boolean updateEnabled = true;
-    StartScreenView startScreenView;
-    EntityFactory factory;
-    EndScreenView endScreenView;
     public static Map<String, ArrayList<String>> textMap;
     private GameState gameState;
 
     public static void main(String[] args) {
         launch(args);
     }
-
 
     //application methods
     @Override
@@ -101,6 +94,7 @@ public class CatchOrWasteApp extends GameApplication {
         if (osArch.contains("arm") || osArch.contains("aarch64")) {
             GPIOController controller = new GPIOController();
             controller.init();
+
             controller.onAcceptButton(() -> {
                 if (gameState.equals(GameState.STARTSCREEN)) {
                     startGame();
@@ -144,47 +138,27 @@ public class CatchOrWasteApp extends GameApplication {
 
     @Override
     protected void initGame() {
+        //load resources
+        imageMap = loadImages();
+        textMap = loadText();
+
+        //register eventHandlers such as collison handlers
+        FXGL.onCollision(EntityType.CART, EntityType.WORKSTATION,
+                (cart, workstation) -> onWorkstationCollision(cart,workstation));
+
+        TimerController.setTimerListener(this);
+
+        //register Entity Factory
+        getGameWorld().addEntityFactory(new EntityFactory());
+
+        //start music
+        playBackgroundMusic("/home/pi4j/deploy/music.mp3");
+
         getGameScene().setCursorInvisible();
 
-        startScreenView = new StartScreenView();
-        getGameScene().addUINode(startScreenView);
-
-        imageMap = new HashMap<>();
-        loadImages();
-        factory = new EntityFactory();
-        getGameWorld().addEntityFactory(factory);
-
-        Entity background1 = spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 1).put("Name", "background_bad"));
-        Entity background2 = spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 2).put("Name", "streets"));
-        setBackground(background1);
-        setBackground(background2);
-
-        // spawn houses
-        spawn("HOUSE", new SpawnData(HOUSE1_X, HOUSE_Y).put("Position", 1));
-        spawn("HOUSE", new SpawnData(HOUSE2_X, HOUSE_Y).put("Position", 2));
-        spawn("HOUSE", new SpawnData(HOUSE3_X, HOUSE_Y).put("Position", 1));
-        spawn("HOUSE", new SpawnData(HOUSE4_X, HOUSE_Y).put("Position", 2));
-
-        // spawn market, repaicenter & recycling
-        spawn("WORKSTATION", new SpawnData(REPARIEREN_X, WORKSTATION_RIGHT_Y).put("Position", 1));
-        spawn("WORKSTATION", new SpawnData(MARKT_X, WORKSTATION_RIGHT_Y).put("Position", 2));
-        spawn("WORKSTATION", new SpawnData(RECYCLE_X, getAppHeight() * 0.48).put("Position", 3));
-
-        //spawn the player from the factory
-        spawn("PLAYER", (double) getAppWidth() / 2, STREET_HEIGHT);
-        playBackgroundMusic("/home/pi4j/deploy/music.mp3");
-    }
-
-    private void playBackgroundMusic(String musicFile) {
-        try {
-            Media media = new Media(new File(musicFile).toURI().toString());
-            MediaPlayer mediaPlayer = new MediaPlayer(media);
-            mediaPlayer.setVolume(0.5); // Lautstärke setzen, Bereich von 0.0 bis 1.0
-            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Musik endlos wiederholen
-            mediaPlayer.play();
-        } catch (Exception e) {
-            System.out.println("Fehler beim Laden der Musikdatei: " + e.getMessage());
-        }
+        //start Tutorial
+        //startTutorial(); uncomment this and delete next line when Tutorial is implemented
+        callStartScreen();
     }
 
     @Override
@@ -400,7 +374,6 @@ public class CatchOrWasteApp extends GameApplication {
             getGameScene().removeUINode(node);
         }
     }
-
     @Override
     public void onTimerStopped() {
         callEndscreen();
