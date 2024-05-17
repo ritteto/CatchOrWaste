@@ -1,27 +1,27 @@
 package catchorwaste.controller;
 
-import catchorwaste.CatchOrWasteApp;
 import catchorwaste.model.TimerModel;
-import catchorwaste.view.PunktesystemView;
 import catchorwaste.view.TimerView;
-import com.almasb.fxgl.dsl.FXGL;
 import javafx.animation.AnimationTimer;
+
+import static catchorwaste.model.TimerModel.setTotalSeconds;
 import static catchorwaste.model.constants.Constants.TOTAL_TIME_LIMIT_SECONDS;
+import static catchorwaste.view.TimerView.initTimerView;
+
 public class TimerController {
-    private final TimerModel timerModel;
-    private final TimerView timerView;
-    private final PunktesystemView punktesystemView;
 
-    private final AnimationTimer animationTimer;
+    public interface TimerListener {
+        void onTimerStopped();
+    }
 
-    private long startTimeNano; // time of start
+    private static AnimationTimer animationTimer;
+    private static TimerListener listener;
 
-    public TimerController(TimerModel model, TimerView view, PunktesystemView punktesystemView) {
-        this.timerModel = model;
-        this.timerView = view;
-        this.punktesystemView = punktesystemView;
+    private static long startTimeNano; // time of start
 
-        // creates animation timer to update timer
+    public static void initTimer(){
+        initTimerView();
+
         animationTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -30,13 +30,14 @@ public class TimerController {
         };
     }
 
-    public void startTimer() {
+
+    public static void startTimer() {
         //sets time
         startTimeNano = System.nanoTime();
         animationTimer.start();
     }
 
-    private void updateTimer(long now) {
+    private static void updateTimer(long now) {
         // calculates remaining time after start
         long elapsedTimeNano = now - startTimeNano;
         int elapsedTimeSeconds = (int) (elapsedTimeNano / 1_000_000_000);
@@ -45,20 +46,28 @@ public class TimerController {
         int remainingTimeSeconds = Math.max(TOTAL_TIME_LIMIT_SECONDS - elapsedTimeSeconds, 0);
 
         // Aktualisiere das Timer-Modell und die Ansicht
-        timerModel.setTotalSeconds(remainingTimeSeconds);
-        timerView.updateTimer(timerModel.getMinutes(), timerModel.getSeconds());
+        setTotalSeconds(remainingTimeSeconds);
+        TimerView.updateTimer(TimerModel.getMinutes(), TimerModel.getSeconds());
 
         // checks if there's no time left
         if (remainingTimeSeconds == 0) {
             stopTimer();
+            if (listener != null) {
+                listener.onTimerStopped();
+            }
             //calls method from the main class
-            ((CatchOrWasteApp) FXGL.getApp()).timeIsUp(timerView, punktesystemView);
+            //((CatchOrWasteApp) FXGL.getApp()).timeIsUp(timerView, punktesystemView);
         }
     }
 
-    public void stopTimer() {
+    public static void stopTimer() {
         // Stoppe den AnimationTimer
         animationTimer.stop();
     }
+
+    public static void setTimerListener(TimerListener newListener) {
+        listener = newListener;
+    }
+
 }
 

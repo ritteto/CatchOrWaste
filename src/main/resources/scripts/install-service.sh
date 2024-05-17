@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 dos2unix "$0"
 
@@ -21,6 +21,3 @@ sudo systemctl enable game.service
 
 # Starte den Service sofort
 sudo systemctl start game.service
-
-# Zeige den Status des Service an
-sudo systemctl status game.service

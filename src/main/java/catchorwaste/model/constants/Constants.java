@@ -2,11 +2,12 @@ package catchorwaste.model.constants;
 
 import com.almasb.fxgl.dsl.FXGL;
 
+
 import static com.almasb.fxgl.dsl.FXGL.getAppHeight;
 import static com.almasb.fxgl.dsl.FXGL.getAppWidth;
 
 public final class Constants {
-    public static final int TOTAL_TIME_LIMIT_SECONDS = 180;
+    public static final int TOTAL_TIME_LIMIT_SECONDS = 10;
     public static double itemsPerSecond = 0.5; // Objekte pro Sekunde
     public static long lastSpawnTime = System.currentTimeMillis();
     public static final double STREET_RIGHT_END = getAppWidth() * 0.76;
@@ -42,18 +43,5 @@ public final class Constants {
     public static final String FONT_SIZE = "-fx-font-size: 30px;";
     public static final String START_SCREEN_IMG = "assets/textures/backgrounds/background_bad.png";
     public static final String FONT = "/fonts/ArcadeFont.ttf";
-
-    public static final String[] LEARNING_MESSAGES = {
-            "Handys haben im Jahr 2020 die meisten " +
-                    "\nEmissionen verursacht. Das Problem dabei ist " +
-                    "\ndie Produktion, die 85% davon braucht." +
-                    "\nEs lohnt sich also, ein Handy so lange" +
-                    "\nwie es nur geht zu verwenden.",
-            "Wenn man Second Hand Kleider kauft kann man " +
-                    "\nbis zu 59% der Emissionen im vergleich \nzu einem Neukauf.",
-            "Auf Ricardo ist bei jedem Produkt ersichtlich " +
-                    "\nwie viel CO2 gesparrt wird wenn man " +
-                    "\netwas gebraucht kauft."
-    };
 
 }

@@ -14,14 +14,18 @@ import static javafx.scene.text.FontWeight.BOLD;
 
 
 public class PunktesystemView extends StackPane {
+
+    private static StackPane stackPane;
     private static Label scoreLabel;
 
-    public PunktesystemView() {
+    public static void initPunktesystemView() {
+        stackPane = new StackPane();
         scoreLabel = new Label();
         scoreLabel.setStyle(FONT_SIZE);
         StackPane.setMargin(scoreLabel, new Insets(80, 0, 0, 20));
 
-        getChildren().add(scoreLabel);
+        stackPane.getChildren().add(scoreLabel);
+        getGameScene().addUINode(stackPane);
     }
 
     public static void updateScore(double score) {
