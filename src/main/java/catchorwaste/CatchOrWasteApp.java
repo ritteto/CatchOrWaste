@@ -4,7 +4,6 @@ import catchorwaste.controller.*;
 import catchorwaste.model.enums.EntityType;
 import catchorwaste.model.enums.GameState;
 import catchorwaste.model.factories.EntityFactory;
-import catchorwaste.view.StartScreenView;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
@@ -15,36 +14,33 @@ import com.almasb.fxgl.entity.SpawnData;
 
 import com.almasb.fxgl.input.UserAction;
 import javafx.scene.Node;
+
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
+import java.io.*;
 
+import java.util.*;
 
 import static catchorwaste.controller.CartController.cartMovement;
 import static catchorwaste.controller.CartController.onWorkstationCollision;
-import static catchorwaste.controller.EndScreenController.initEndscreen;
 import static catchorwaste.controller.FallingObjectController.dropObjects;
 import static catchorwaste.controller.FallingObjectController.stickToPlayer;
 import static catchorwaste.controller.PlayerController.boundaries;
 import static catchorwaste.controller.PlayerController.catchObject;
 import static catchorwaste.controller.PlayerController.movePlayer;
 import static catchorwaste.controller.PunktesystemController.initPunktesystem;
-import static catchorwaste.controller.SelectionScreenController.changeSelection;
+import static catchorwaste.controller.SettingsController.*;
 import static catchorwaste.controller.TimerController.initTimer;
 import static catchorwaste.controller.TimerController.startTimer;
 import static catchorwaste.model.CartModel.setGate;
-import static catchorwaste.model.SelectionScreenModel.getSelected;
+import static catchorwaste.model.FallingObjectModel.setGameStartTime;
+import static catchorwaste.model.SettingsModel.*;
 import static catchorwaste.model.constants.Constants.HOUSE1_X;
 import static catchorwaste.model.constants.Constants.HOUSE2_X;
 import static catchorwaste.model.constants.Constants.HOUSE3_X;
@@ -63,7 +59,9 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 public class CatchOrWasteApp extends GameApplication implements TimerController.TimerListener {
 
     public static Map<String, Image> imageMap;
-    public static Map<String, ArrayList<String>> textMap;
+    public static Map<String, ArrayList<String>> languageMap;
+    public static String[] languages = {"german", "english", "french"};
+    public static Map<String, Map<String, ArrayList<String>>> textMap;
     public static GameState gameState;
 
     public static void main(String[] args) {
@@ -92,21 +90,37 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
 
             controller.onAcceptButton(() -> {
                 if (gameState.equals(GameState.STARTSCREEN)) {
-                    startGame();
+                    callSettings();
+                    //startGame();
                 }else if(gameState.equals(GameState.ENDSCREEN)){
                     restartGame();
+                }else if(gameState.equals(GameState.SETTINGS) && getSelectedLine() == 4){
+                    updateLanguage();
+                    if(isTutorialSelected()){
+                        System.out.println("Tutorial Selected");
+                        startGame();
+                    }else{
+                        startGame();
+                    }
                 }
             });
         }
 
         onKeyDown(KeyCode.SPACE, "Start Game", () -> {
             if (gameState.equals(GameState.STARTSCREEN)) {
-                callSelectionScreen();
+                callSettings();
                 //startGame();
             }else if(gameState.equals(GameState.ENDSCREEN)){
                 restartGame();
-            }else if(gameState.equals(GameState.SELECTIONSCREEN)){
-                startGame();
+            }else if(gameState.equals(GameState.SETTINGS) && getSelectedLine() == 4){
+                updateLanguage();
+                System.out.println(getSelectedDiff());
+                if(isTutorialSelected()){
+                    System.out.println("Tutorial Selected");
+                    startGame();
+                }else{
+                    startGame();
+                }
             }
             return null;
         });
@@ -115,8 +129,8 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
 
             @Override
             protected void onActionBegin() {
-                if(gameState.equals(GameState.SELECTIONSCREEN)) {
-                    changeSelection(getSelected() + 1);
+                if(gameState.equals(GameState.SETTINGS)) {
+                    changeSelectedLine(getSelectedLine() + 1);
                 }
             }
 
@@ -128,24 +142,13 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
             }
         }, KeyCode.RIGHT);
 
-        /*
-        onKeyDown(KeyCode.RIGHT, "Move Right", () -> {
-            if(gameState.equals(GameState.GAME)){
-                movePlayer(true, getGameWorld());
-            }else if(gameState.equals(GameState.SELECTIONSCREEN)){
-                changeSelection(getSelected()+1);
-            }
-            return null;
-        });
-
-         */
 
         FXGL.getInput().addAction(new UserAction("Move Left") {
 
             @Override
             protected void onActionBegin() {
-                if(gameState.equals(GameState.SELECTIONSCREEN)) {
-                    changeSelection(getSelected() - 1);
+                if(gameState.equals(GameState.SETTINGS)) {
+                    changeSelectedLine(getSelectedLine() - 1);
                 }
             }
 
@@ -157,24 +160,22 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
             }
         }, KeyCode.LEFT);
 
-        /*
-        onKeyDown(KeyCode.LEFT, "Move Left", () -> {
+
+        onKeyDown(KeyCode.DIGIT1, "1", () -> {
             if(gameState.equals(GameState.GAME)){
-                movePlayer(false, getGameWorld());
-            } else if(gameState.equals(GameState.SELECTIONSCREEN)){
-                changeSelection(getSelected()-1);
+                setGate(true);
+            } else if (gameState.equals(GameState.SETTINGS) && getSelectedLine()<4) {
+                changeSelectedColumn(getSelectedColumn()-1);
             }
             return null;
         });
-        */
 
-        onKey(KeyCode.DIGIT1, "1", () -> {
-            setGate(true);
-            return null;
-        });
-
-        onKey(KeyCode.DIGIT2, "2", () -> {
-            setGate(false);
+        onKeyDown(KeyCode.DIGIT2, "2", () -> {
+            if(gameState.equals(GameState.GAME)){
+                setGate(false);
+            } else if (gameState.equals(GameState.SETTINGS) && getSelectedLine()<4) {
+                changeSelectedColumn(getSelectedColumn()+1);
+            }
             return null;
         });
 
@@ -186,6 +187,7 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
         //load resources
         imageMap = loadImages();
         textMap = loadText();
+        languageMap = textMap.get("german");
 
         //register eventHandlers such as collison handlers
         FXGL.onCollision(EntityType.CART, EntityType.WORKSTATION,
@@ -232,8 +234,8 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
         callScreen(GameState.STARTSCREEN, StartScreenController::initStartScreen);
     }
 
-    private void callSelectionScreen(){
-        callScreen(GameState.SELECTIONSCREEN, SelectionScreenController::initSelectionScreen);
+    private void callSettings(){
+        callScreen(GameState.SETTINGS, SettingsController::initSettings);
     }
 
     private void callEndscreen(){
@@ -248,6 +250,7 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
         initPunktesystem();
         initTimer();
 
+        setGameStartTime(System.currentTimeMillis());
         startTimer();
     }
 
@@ -300,62 +303,50 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
         return map;
     }
 
-    public Map<String,ArrayList<String>> loadText(){
+    public Map<String, Map<String, ArrayList<String>>> loadText(){
 
-        String line;
-        String currentTitle="";
-        boolean inQuotes = false;
-        ArrayList<String> currentList = new ArrayList<>();
-        StringBuilder sb = new StringBuilder();
-        Map<String,ArrayList<String>> map = new HashMap<>();
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/config/german.csv"));
+        Map<String, Map<String, ArrayList<String>>> returnMap = new HashMap<>();
 
+        File folder = new File("src/main/resources/config/language_files/");
+        File[] listOfFiles = folder.listFiles();
 
-            while ((line = reader.readLine()) != null) {
-                if(!line.isEmpty()){
-                    if(line.contains("Title: ")){
-                        if(currentTitle.isEmpty()){
-                            currentTitle = line.substring(7, line.length()-1);
+        if(listOfFiles != null){
+            for (File file:listOfFiles) {
+                Map<String, ArrayList<String>> map = new HashMap<>();
+                try{
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    JsonNode jsonNode = objectMapper.readTree(new FileReader("src/main/resources/config/language_files/"+file.getName()));
+
+                    Iterator<Map.Entry<String, JsonNode>> fields = jsonNode.fields();
+                    while (fields.hasNext()){
+                        Map.Entry<String, JsonNode> field = fields.next();
+                        var key = field.getKey();
+                        var value = field.getValue();
+
+                        if(value.isArray()){
+                            ArrayList<String> messages = new ArrayList<>();
+                            for (JsonNode node : value) {
+                                messages.add(node.asText());
+                            }
+                            map.put(key, messages);
                         }else{
-                            map.put(currentTitle, currentList);
-                            currentTitle = line.substring(7, line.length()-1);
-                            currentList = new ArrayList<>();
-                        }
-
-                    }else{
-                        sb.append(line);
-
-                        if(line.startsWith("\"")){
-                            inQuotes = true;
-                        }
-
-                        if (line.length() > 2 && line.charAt(line.length() - 2) == '\"'
-                                && line.charAt(line.length() - 1) == ',') {
-                            sb.setLength(sb.length() - 1);
-                            inQuotes = false;
-                            currentList.add(sb.toString());
-                            sb = new StringBuilder();
-                        }else if(line.length() > 2 && line.endsWith(",") && !inQuotes){
-                            sb.setLength(sb.length() - 1);
-                            currentList.add(sb.toString());
-                            sb = new StringBuilder();
-                        }else if(line.length() > 2 && line.endsWith("\"")){
-                            currentList.add(sb.toString());
-                            inQuotes = false;
-                            sb = new StringBuilder();
+                            var list = new ArrayList<String>();
+                            list.add(value.asText());
+                            map.put(key,list);
                         }
                     }
+
+                }catch (Exception e){
+                    System.out.println(e);
                 }
+                var fileName = file.getName().split("\\.")[0];
+                returnMap.put(fileName, map);
             }
-
-            reader.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        map.put(currentTitle, currentList);
-        return map;
+
+
+        return returnMap;
+
     }
 
     public Map<String, Image> addToMap(String dir, String[] names, Map<String, Image> map) {
@@ -368,7 +359,7 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
     private void playBackgroundMusic(String musicFile) {
         try {
             Media media = new Media(new File(musicFile).toURI().toString());
-            MediaPlayer mediaPlayer = new MediaPlayer(media);
+              MediaPlayer mediaPlayer = new MediaPlayer(media);
             mediaPlayer.setVolume(0.5); // Lautstärke setzen, Bereich von 0.0 bis 1.0
             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Musik endlos wiederholen
             mediaPlayer.play();

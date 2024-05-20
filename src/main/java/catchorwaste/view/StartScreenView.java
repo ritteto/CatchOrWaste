@@ -1,17 +1,13 @@
 package catchorwaste.view;
 
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
-import java.util.ArrayList;
 
-import static catchorwaste.CatchOrWasteApp.textMap;
+import static catchorwaste.CatchOrWasteApp.languageMap;
 
 import static catchorwaste.model.constants.Constants.TUTORIAL_SCREEN_IMG;
 import static catchorwaste.model.constants.Constants.START_SCREEN_IMG;
@@ -29,9 +25,8 @@ public class StartScreenView extends StackPane {
 
 
     public static void initStartScreenView() {
-        //backgroundImage = new Image(START_SCREEN_IMG);
         stackPane = new StackPane();
-        startLabel = new Label(textMap.get("StartScreen").get(0));
+        startLabel = new Label(languageMap.get("StartScreen").get(0));
         startLabel.setStyle(FONT_SIZE);
         stackPane.setAlignment(Pos.CENTER);
 

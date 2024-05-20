@@ -11,7 +11,7 @@ import javafx.scene.text.Font;
 
 import java.util.Random;
 
-import static catchorwaste.CatchOrWasteApp.textMap;
+import static catchorwaste.CatchOrWasteApp.languageMap;
 import static catchorwaste.model.constants.Constants.FONT;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
@@ -41,8 +41,7 @@ public class EndScreenView extends StackPane {
 
     public static Node additionalText() {
 
-        Label additionalTextLabel = new Label(textMap.get("EndScreen").get(0));
-        //Font font = Font.loadFont(FONT, 20);
+        Label additionalTextLabel = new Label(languageMap.get("EndScreen").get(0));
         Font font = Font.loadFont(EndScreenView.class.getResourceAsStream(FONT), 20);
         additionalTextLabel.setFont(font);
 
@@ -58,15 +57,15 @@ public class EndScreenView extends StackPane {
 
     public static Node learningMessage() {
         Random random = new Random();
-        int randomIndex = random.nextInt(2, textMap.get("Learning messages").size());
+        int randomIndex = random.nextInt(languageMap.get("LearningMessages").size());
         String randomTitle;
-        if(randomIndex <= 6){
-            randomTitle = textMap.get("Learning messages").get(0);
+        if(randomIndex < languageMap.get("LearningMessages").size()/2){
+            randomTitle = languageMap.get("LearningMessageTitle").get(0);
         }else{
-            randomTitle = textMap.get("Learning messages").get(1);
+            randomTitle = languageMap.get("LearningMessageTitle").get(1);
         }
 
-        String randomMessage = textMap.get("Learning messages").get(randomIndex);
+        String randomMessage = languageMap.get("LearningMessages").get(randomIndex);
 
         Label titleLabel = new Label(randomTitle);
         titleLabel.setFont(Font.loadFont(EndScreenView.class.getResourceAsStream(FONT), 25));
