@@ -24,7 +24,8 @@ import javafx.scene.image.ImageView;
 import java.util.Random;
 
 import static catchorwaste.CatchOrWasteApp.imageMap;
-
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppHeight;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppWidth;
 
 
 public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
@@ -39,15 +40,6 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
                 .with(new CollidableComponent(true))
                 .scale(2, 2)
                 .type(EntityType.PLAYER)
-                .build();
-    }
-
-    @Spawns("ENDSCREEN")
-    public Entity newEndScreen(SpawnData data) {
-        var endScreens = new String[]{"endScreen_1"};
-        return FXGL.entityBuilder(data)
-                .view(new ImageView(imageMap.get(endScreens[(int) data.get("Position") - 1])))
-                .type(EntityType.ENDSCREEN)
                 .build();
     }
 
@@ -106,8 +98,11 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
     @Spawns("BACKGROUND")
     public Entity newBackground(SpawnData data) {
         var backgrounds = new String[]{"background_bad", "streets_left"};
+        var backgroundView = new ImageView(imageMap.get(backgrounds[(int) data.get("Position") - 1]));
+        backgroundView.setFitWidth(getAppWidth());
+        backgroundView.setFitHeight(getAppHeight());
         return FXGL.entityBuilder(data)
-                .view(new ImageView(imageMap.get(backgrounds[(int) data.get("Position") - 1])))
+                .view(backgroundView)
                 .with(new ImageNameComponent(data.get("Name")))
                 .type(EntityType.BACKGROUND)
                 .build();
@@ -123,6 +118,17 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
                 .type(EntityType.WORKSTATION)
                 .scale(1.45, 1.45)
                 .zIndex(10)
+                .build();
+    }
+
+    @Spawns("ENDSCREEN")
+    public Entity newEndScreen(SpawnData data) {
+        var endScreenView = new ImageView(imageMap.get("endScreen_1"));
+        endScreenView.setFitWidth(getAppWidth());
+        endScreenView.setFitHeight(getAppHeight());
+        return FXGL.entityBuilder(data)
+                .view(endScreenView)
+                .type(EntityType.ENDSCREEN)
                 .build();
     }
 

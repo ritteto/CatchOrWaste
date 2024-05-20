@@ -1,36 +1,48 @@
 package catchorwaste.view;
 
 import catchorwaste.model.PunktesystemModel;
+import com.almasb.fxgl.dsl.FXGL;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 import java.util.Random;
 
-import static catchorwaste.model.constants.Constants.LEARNING_MESSAGES;
+import static catchorwaste.CatchOrWasteApp.languageMap;
 import static catchorwaste.model.constants.Constants.FONT;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
+
 public class EndScreenView extends StackPane {
 
-    Label endLabel = new Label();
 
-    public Node scoreEndscreen() {
+    public static void initEndscreenView(){
+        spawn("ENDSCREEN");
+        getGameScene().addUINodes(scoreEndscreen(),additionalText(),learningMessage());
+    }
+
+    public static Node scoreEndscreen() {
         int score = PunktesystemModel.getPoints();
+        Label endLabel = new Label();
 
-        Font font = Font.loadFont(getClass().getResourceAsStream(FONT), 20);
+        Font font = Font.loadFont(EndScreenView.class.getResourceAsStream(FONT), 20);
         endLabel.setFont(font);
 
         endLabel.setLayoutX(364);
         endLabel.setLayoutY(200);
         endLabel.setText("" + score);
 
-        getChildren().add(endLabel);
+        //stackpane.getChildren().add(endLabel);
         return endLabel;
     }
 
-    public Node additionalText() {
-        Label additionalTextLabel = new Label("Deine Punkte: ");
-        Font font = Font.loadFont(getClass().getResourceAsStream(FONT), 20);
+    public static Node additionalText() {
+
+        Label additionalTextLabel = new Label(languageMap.get("EndScreen").get(0));
+        Font font = Font.loadFont(EndScreenView.class.getResourceAsStream(FONT), 20);
         additionalTextLabel.setFont(font);
 
         // Erst nach dem Setzen des Texts die Breite abfragen
@@ -40,24 +52,37 @@ public class EndScreenView extends StackPane {
         additionalTextLabel.setLayoutX(277);  // Zentriere den Text
         additionalTextLabel.setLayoutY(150); // Y-Position anpassen
 
-        getChildren().addAll(additionalTextLabel);
         return additionalTextLabel;
     }
 
-    public Node learningMessage() {
+    public static Node learningMessage() {
         Random random = new Random();
-        int randomMessage = random.nextInt(3);
+        int randomIndex = random.nextInt(languageMap.get("LearningMessages").size());
+        String randomTitle;
+        if(randomIndex < languageMap.get("LearningMessages").size()/2){
+            randomTitle = languageMap.get("LearningMessageTitle").get(0);
+        }else{
+            randomTitle = languageMap.get("LearningMessageTitle").get(1);
+        }
 
-        Label learningMessageLabel = new Label(LEARNING_MESSAGES[randomMessage]);
-        Font font = Font.loadFont(getClass().getResourceAsStream(FONT), 16);
-        learningMessageLabel.setFont(font);
+        String randomMessage = languageMap.get("LearningMessages").get(randomIndex);
 
-        learningMessageLabel.setLayoutX(40);  // Zentriere den Text
-        learningMessageLabel.setLayoutY(250); // Y-Position anpassen
+        Label titleLabel = new Label(randomTitle);
+        titleLabel.setFont(Font.loadFont(EndScreenView.class.getResourceAsStream(FONT), 25));
 
+        Label messageLabel = new Label(randomMessage);
+        messageLabel.setFont(Font.loadFont(EndScreenView.class.getResourceAsStream(FONT), 16));
+        messageLabel.setWrapText(true); // Automatisches Umbruch des Textes aktivieren
+        messageLabel.setPrefWidth(FXGL.getAppWidth() - 50); // Breite des Labels einstellen, je nach Bedarf
+        messageLabel.setAlignment(Pos.CENTER);
 
-        getChildren().add(learningMessageLabel);
-        return learningMessageLabel;
+        VBox container = new VBox(10); // VBox für die Anordnung von Labels
+        container.getChildren().addAll(titleLabel, messageLabel);
+
+        container.setLayoutX(30);
+        container.setLayoutY(250);
+
+        //stackpane.getChildren().add(container);
+        return container;
     }
-
 }

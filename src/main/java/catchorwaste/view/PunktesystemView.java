@@ -8,24 +8,29 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
+import static catchorwaste.CatchOrWasteApp.languageMap;
 import static catchorwaste.model.constants.Constants.FONT_SIZE;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
 import static javafx.scene.text.FontWeight.BOLD;
 
 
 public class PunktesystemView extends StackPane {
+
+    private static StackPane stackPane;
     private static Label scoreLabel;
 
-    public PunktesystemView() {
+    public static void initPunktesystemView() {
+        stackPane = new StackPane();
         scoreLabel = new Label();
         scoreLabel.setStyle(FONT_SIZE);
         StackPane.setMargin(scoreLabel, new Insets(80, 0, 0, 20));
 
-        getChildren().add(scoreLabel);
+        stackPane.getChildren().add(scoreLabel);
+        getGameScene().addUINode(stackPane);
     }
 
     public static void updateScore(double score) {
-        scoreLabel.setText((int) score + " Punkte");
+        scoreLabel.setText((int) score +" "+ languageMap.get("Game").get(0));
     }
 
     public static void displayUpdate(int change, double x, double y) {

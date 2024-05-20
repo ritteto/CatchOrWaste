@@ -1,13 +1,15 @@
 [Unit]
-Description=Automatically start game application on Raspberry Pi
-After=network.target
+Description=Run CatchOrWaste on Raspberry Pi
+After=graphical.target
 
 [Service]
 Type=simple
-User=pi4j
+Environment="Display=:0"
+ExecStartPre=/bin/sleep 15
 ExecStart=/home/pi4j/deploy/start-app.sh
 Restart=on-failure
 RestartSec=10s
+User=pi4j
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=graphical.target
