@@ -132,13 +132,6 @@ public class SettingsView {
         labels.addAll(Arrays.asList(initTutorialLabels(tutorialLabels)));
 
 
-        /*
-        for (int i = 1; i < 3; i++) {
-            labels.add(initTutorialLabel(new Label(languageMap.get("Settings").get(i+4)), i));
-        }
-
-         */
-
         submitLabel.setAlignment(Pos.CENTER);
         submitLabel.setFont(Font.loadFont(EndScreenView.class.getResourceAsStream(FONT), 15));
         StackPane.setAlignment(submitLabel, Pos.TOP_CENTER);

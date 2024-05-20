@@ -1,10 +1,6 @@
 package catchorwaste;
 
-import catchorwaste.controller.TimerController;
-import catchorwaste.controller.GPIOController;
-import catchorwaste.controller.StartScreenController;
-import catchorwaste.controller.SettingsController;
-import catchorwaste.controller.EndScreenController;
+import catchorwaste.controller.*;
 import catchorwaste.model.enums.EntityType;
 import catchorwaste.model.enums.GameState;
 import catchorwaste.model.factories.EntityFactory;
@@ -240,7 +236,8 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
 
         //start Tutorial
         //startTutorial(); uncomment this and delete next line when Tutorial is implemented
-        callStartScreen();
+        callNameGenerator();
+        //callStartScreen();
     }
 
     @Override
@@ -269,6 +266,10 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
 
         setGameStartTime(System.currentTimeMillis());
         startTimer();
+    }
+
+    private void callNameGenerator(){
+        callScreen(GameState.NAMEGENERATOR, NameGeneratorController::initNameGenerator);
     }
 
     private void callSettings(){
