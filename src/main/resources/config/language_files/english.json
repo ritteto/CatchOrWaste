@@ -1,6 +1,6 @@
 {
 "StartScreen":"Click to start",
-"Settings":["Settings", "Language", "Difficulty", "Tutorial", "Submit"],
+"Settings":["Settings", "Language", "Difficulty", "Tutorial", "Submit", "Yes", "No"],
  "Game":"Points",
 "EndScreen":"Your points: ",
  "LearningMessageTitle": [

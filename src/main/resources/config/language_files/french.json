@@ -1,11 +1,11 @@
 {
 "StartScreen":"Cliquer pour commencer",
-"Settings":["Parametres", "Langue", "Difficulte", "Didacticiel", "Avancer"],
+"Settings":["Parametres", "Langue", "Difficulte", "Didacticiel", "Avancer", "Oui", "Non"],
 "Game":"Points",
 "EndScreen":"Vos points: ",
  "LearningMessageTitle": [
   "Recyclez-moi",
-  "Acheter d'occasion!!!"
+  "Acheter second hand!!!"
  ],
  "LearningMessages": [
   "Le recyclage réduit la nécessité d'extraire de nouvelles matières premières et préserve ainsi les ressources naturelles telles que les forêts, les minéraux et l'eau",

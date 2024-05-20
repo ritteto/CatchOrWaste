@@ -10,16 +10,16 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import static catchorwaste.CatchOrWasteApp.textMap;
-import static catchorwaste.model.SettingsModel.getSelectedColumn;
-import static catchorwaste.model.SettingsModel.getSelectedLine;
+import static catchorwaste.CatchOrWasteApp.languageMap;
+import static catchorwaste.model.SettingsModel.*;
 import static catchorwaste.model.constants.Constants.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 
 public class SettingsView {
-    public static void initSelectionScreenView(){
+    public static void initSettingsView(){
         var stackPane = new StackPane();
 
         stackPane.getChildren().addAll(initBackground());
@@ -36,12 +36,12 @@ public class SettingsView {
 
 
         getGameScene().addUINodes(stackPane);
-        changeSelectedLine();
-
-        highLightChosenLabel();
+        setSelectedLine(1);
+        highlightSelectedLine();
+        initChosenLabels();
     }
 
-    public static void changeSelectedLine(){
+    public static void highlightSelectedLine(){
         int position = getSelectedLine();
         List<Node> uinodes = getGameScene().getUINodes().stream().toList();
         for (Node node: uinodes) {
@@ -63,7 +63,6 @@ public class SettingsView {
         stroke.setStroke(Color.rgb(54,54,50));
         stroke.setStrokeWidth(5);
         getGameScene().addUINode(stroke);
-        highLightChosenLabel();
     }
 
     private static ArrayList<Rectangle> initBoxes(){
@@ -98,8 +97,8 @@ public class SettingsView {
 
     private static ArrayList<Label> initLabels(){
         var labels = new ArrayList<Label>();
-        var title = new Label(textMap.get("Settings").get(0));
-        var submitLabel = new Label(textMap.get("Settings").get(4));
+        var title = new Label(languageMap.get("Settings").get(0));
+        var submitLabel = new Label(languageMap.get("Settings").get(4));
 
         title.setAlignment(Pos.CENTER);
         title.setFont(Font.loadFont(EndScreenView.class.getResourceAsStream(FONT), 25));
@@ -108,7 +107,7 @@ public class SettingsView {
         labels.add(title);
 
         for (int i = 1; i < 4; i++) {
-            labels.add(initBoxLabel(new Label(textMap.get("Settings").get(i)), i));
+            labels.add(initBoxLabel(new Label(languageMap.get("Settings").get(i)), i));
         }
 
         String[] languages = {"DE", "EN", "FR"};
@@ -120,10 +119,17 @@ public class SettingsView {
             labels.add(initDiffLabel(new Label(String.valueOf(i)), i));
         }
 
-        String[] tutorials = {"YES", "NO"};
+        Label[] tutorialLabels =
+                {new Label(languageMap.get("Settings").get(5)), new Label(languageMap.get("Settings").get(6))};
+        labels.addAll(Arrays.asList(initTutorialLabels(tutorialLabels)));
+
+
+        /*
         for (int i = 1; i < 3; i++) {
-            labels.add(initTutorialLabel(new Label(tutorials[i-1]), i));
+            labels.add(initTutorialLabel(new Label(languageMap.get("Settings").get(i+4)), i));
         }
+
+         */
 
         submitLabel.setAlignment(Pos.CENTER);
         submitLabel.setFont(Font.loadFont(EndScreenView.class.getResourceAsStream(FONT), 15));
@@ -161,55 +167,47 @@ public class SettingsView {
         return label;
     }
 
-    private static Label initTutorialLabel(Label label, int position){
-        StackPane.setAlignment(label, Pos.TOP_LEFT);
-        label.setFont(Font.loadFont(EndScreenView.class.getResourceAsStream(FONT), 17));
-        label.setTranslateX(getAppWidth()*0.57+getAppWidth()*0.08*position);
-        label.setTranslateY(getAppHeight()*0.675-label.getFont().getSize()/2);
-        label.setId("TutorialLabel"+ position);
-        return label;
+    private static Label[] initTutorialLabels(Label[] labels){
+        var fontSize = getAppWidth()*0.02125;
+        for (int i = 0; i < labels.length; i++) {
+            StackPane.setAlignment(labels[i], Pos.TOP_LEFT);
+            labels[i].setFont(Font.loadFont(EndScreenView.class.getResourceAsStream(FONT), (int) fontSize));
+            labels[i].setId("TutorialLabel"+ (i+1));
+            labels[i].setTranslateY(getAppHeight()*0.675-labels[i].getFont().getSize()/2);
+        }
+        labels[1].setTranslateX(getAppWidth()*0.8-(labels[1].getText().length()+1)*fontSize);
+        labels[0].setTranslateX(getAppWidth()*0.8-(labels[1].getText().length()+1)*fontSize-
+                fontSize-labels[0].getText().length()*fontSize);
+        return labels;
     }
 
-    private static void highLightChosenLabel(){
+    public static void highlightSelectedColumn(){
         String[][] ids = {{"LangLabel1", "LangLabel2", "LangLabel3"},
                 {"DiffLabel1", "DiffLabel2", "DiffLabel3"},
                 {"TutorialLabel1","TutorialLabel2"}};
         for(Node node: getGameScene().getUINodes()){
             if (node instanceof StackPane && node.getId().equals("SettingScreenElements")){
                 for(Node spNode: (((StackPane) node).getChildren())){
-                    if(spNode instanceof Label){
-                        System.out.println(spNode.getId());
+                    if(spNode instanceof Label && getSelectedLine() < 4 && spNode.getId()!= null
+                            && spNode.getId().equals(ids[getSelectedLine()-1][getSelectedColumn()-1])){
+                        ((Label) spNode).setTextFill(Color.rgb(28, 232, 35));
+                    } else if (spNode instanceof Label && getSelectedLine() < 4 && spNode.getId()!= null
+                    && !spNode.getId().equals(ids[getSelectedLine()-1][getSelectedColumn()-1])
+                            && Arrays.asList(ids[getSelectedLine()-1]).contains(spNode.getId())) {
+                        ((Label) spNode).setTextFill(Color.BLACK);
                     }
                 }
-                /*
-            }
-                for(Node spNode: ((StackPane) node).getChildren()){
-                    if(spNode instanceof Label){
-                        if(getSelectedLine()<3){
-                            System.out.println(spNode.lookup(ids[getSelectedLine()-1][getSelectedColumn()-1]).getId());
-                        } else if (getSelectedLine()<4) {
-                            System.out.println(spNode.lookup(ids[getSelectedLine()-1][(getSelectedColumn()+1)%2]).getId());
-                        }
-                    }
-                    /*
-                    if(getSelectedLine()<3){
-                        System.out.println(spNode.lookup(ids[getSelectedLine()-1][getSelectedColumn()-1]).getId());
-                    } else if (getSelectedLine()<4) {
-                        System.out.println(spNode.lookup(ids[getSelectedLine()-1][(getSelectedColumn()+1)%2]).getId());
-                    }
-                    /*
-                    if(spNode instanceof Label && spNode.getId()!= null){
-                        if(getSelectedLine()<3){
 
-                            System.out.println(ids[getSelectedLine()-1][getSelectedColumn()-1]);
-                        }else if(getSelectedLine()<4){
-                            System.out.println(ids[getSelectedLine()-1][(getSelectedColumn()+1)%2]);
-                        }
-                    }
-
-                     */
-                //}
             }
         }
+    }
+
+    private static void initChosenLabels(){
+        for (int i = 1; i < 4; i++) {
+            setSelectedLine(i);
+            setSelectedColumn(getSelectedLine(),getSelectedColumn());
+            highlightSelectedColumn();
+        }
+        setSelectedLine(1);
     }
 }

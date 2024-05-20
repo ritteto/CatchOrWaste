@@ -1,6 +1,6 @@
 {
 "StartScreen":"Klicken zum Starten",
-"Settings":["Einstellungen", "Sprache", "Schwierigkeit", "Tutorial", "Weiter"],
+"Settings":["Einstellungen", "Sprache", "Schwierigkeit", "Tutorial", "Weiter","Ja", "Nein"],
 "Game":"Punkte",
 "EndScreen":"Deine Punkte: ",
  "LearningMessageTitle": [
