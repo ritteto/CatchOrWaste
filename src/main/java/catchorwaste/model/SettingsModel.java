@@ -1,6 +1,8 @@
 package catchorwaste.model;
 
-import static catchorwaste.CatchOrWasteApp.*;
+import static catchorwaste.CatchOrWasteApp.languages;
+import static catchorwaste.CatchOrWasteApp.languageMap;
+import static catchorwaste.CatchOrWasteApp.textMap;
 
 public class SettingsModel {
     private static int selectedLine = 1;

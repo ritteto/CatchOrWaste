@@ -14,9 +14,17 @@ import java.util.Arrays;
 import java.util.List;
 
 import static catchorwaste.CatchOrWasteApp.languageMap;
-import static catchorwaste.model.SettingsModel.*;
-import static catchorwaste.model.constants.Constants.*;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
+
+import static catchorwaste.model.SettingsModel.setSelectedLine;
+import static catchorwaste.model.SettingsModel.getSelectedLine;
+import static catchorwaste.model.SettingsModel.setSelectedColumn;
+import static catchorwaste.model.SettingsModel.getSelectedColumn;
+import static catchorwaste.model.constants.Constants.START_SCREEN_IMG;
+import static catchorwaste.model.constants.Constants.FONT;
+
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppWidth;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppHeight;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
 
 public class SettingsView {
     public static void initSettingsView(){
@@ -182,7 +190,8 @@ public class SettingsView {
     }
 
     public static void highlightSelectedColumn(){
-        String[][] ids = {{"LangLabel1", "LangLabel2", "LangLabel3"},
+        String[][] ids = {
+                {"LangLabel1", "LangLabel2", "LangLabel3"},
                 {"DiffLabel1", "DiffLabel2", "DiffLabel3"},
                 {"TutorialLabel1","TutorialLabel2"}};
         for(Node node: getGameScene().getUINodes()){

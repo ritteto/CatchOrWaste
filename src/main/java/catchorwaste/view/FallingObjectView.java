@@ -5,7 +5,9 @@ import com.almasb.fxgl.entity.GameWorld;
 import java.util.Random;
 
 import static catchorwaste.model.FallingObjectModel.getGameStartTime;
-import static catchorwaste.model.SettingsModel.*;
+import static catchorwaste.model.SettingsModel.setItemsPerSecond;
+import static catchorwaste.model.SettingsModel.getItemsPerSecond;
+import static catchorwaste.model.SettingsModel.updateDifficulty;
 import static catchorwaste.model.constants.Constants.lastSpawnTime;
 import static catchorwaste.model.constants.Constants.HOUSES;
 import static catchorwaste.model.constants.Constants.HOUSE_Y;

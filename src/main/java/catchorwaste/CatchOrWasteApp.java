@@ -1,6 +1,10 @@
 package catchorwaste;
 
-import catchorwaste.controller.*;
+import catchorwaste.controller.TimerController;
+import catchorwaste.controller.GPIOController;
+import catchorwaste.controller.StartScreenController;
+import catchorwaste.controller.SettingsController;
+import catchorwaste.controller.EndScreenController;
 import catchorwaste.model.enums.EntityType;
 import catchorwaste.model.enums.GameState;
 import catchorwaste.model.factories.EntityFactory;
@@ -23,9 +27,14 @@ import javafx.scene.media.MediaPlayer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
 
-import java.util.*;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 import static catchorwaste.controller.CartController.cartMovement;
 import static catchorwaste.controller.CartController.onWorkstationCollision;
@@ -35,12 +44,19 @@ import static catchorwaste.controller.PlayerController.boundaries;
 import static catchorwaste.controller.PlayerController.catchObject;
 import static catchorwaste.controller.PlayerController.movePlayer;
 import static catchorwaste.controller.PunktesystemController.initPunktesystem;
-import static catchorwaste.controller.SettingsController.*;
+import static catchorwaste.controller.SettingsController.updateLanguage;
+import static catchorwaste.controller.SettingsController.isTutorialSelected;
+import static catchorwaste.controller.SettingsController.changeSelectedLine;
+import static catchorwaste.controller.SettingsController.changeSelectedColumn;
+import static catchorwaste.controller.StartScreenController.changeSelectedOption;
 import static catchorwaste.controller.TimerController.initTimer;
 import static catchorwaste.controller.TimerController.startTimer;
+
 import static catchorwaste.model.CartModel.setGate;
 import static catchorwaste.model.FallingObjectModel.setGameStartTime;
-import static catchorwaste.model.SettingsModel.*;
+import static catchorwaste.model.SettingsModel.getSelectedLine;
+import static catchorwaste.model.SettingsModel.getSelectedColumn;
+import static catchorwaste.model.StartScreenModel.getOption;
 import static catchorwaste.model.constants.Constants.HOUSE1_X;
 import static catchorwaste.model.constants.Constants.HOUSE2_X;
 import static catchorwaste.model.constants.Constants.HOUSE3_X;
@@ -51,9 +67,18 @@ import static catchorwaste.model.constants.Constants.RECYCLE_X;
 import static catchorwaste.model.constants.Constants.WORKSTATION_RIGHT_Y;
 import static catchorwaste.model.constants.Constants.MARKT_X;
 import static catchorwaste.model.constants.Constants.STREET_HEIGHT;
+
 import static catchorwaste.view.FallingObjectView.spawnObjects;
 import static catchorwaste.view.PlayerView.isAtStreetEnd;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
+
+import static com.almasb.fxgl.dsl.FXGLForKtKt.onKeyDown;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAssetLoader;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppWidth;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppHeight;
+
 
 
 public class CatchOrWasteApp extends GameApplication implements TimerController.TimerListener {
@@ -72,8 +97,9 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
     //application methods
     @Override
     protected void initSettings(GameSettings settings) {
-        settings.setFullScreenAllowed(true);
-        settings.setFullScreenFromStart(true);
+        //settings.setFullScreenAllowed(true);
+        //settings.setFullScreenFromStart(true);
+
         settings.setTicksPerSecond(60);
         settings.setTitle("CatchOrWaste");
 
@@ -90,8 +116,11 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
 
             controller.onAcceptButton(() -> {
                 if (gameState.equals(GameState.STARTSCREEN)) {
-                    callSettings();
-                    //startGame();
+                    if(getOption()==1){
+                        startGame();
+                    }else{
+                        callSettings();
+                    }
                 }else if(gameState.equals(GameState.ENDSCREEN)){
                     restartGame();
                 }else if(gameState.equals(GameState.SETTINGS) && getSelectedLine() == 4){
@@ -108,13 +137,15 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
 
         onKeyDown(KeyCode.SPACE, "Start Game", () -> {
             if (gameState.equals(GameState.STARTSCREEN)) {
-                callSettings();
-                //startGame();
+                if(getOption()==1){
+                    startGame();
+                }else{
+                    callSettings();
+                }
             }else if(gameState.equals(GameState.ENDSCREEN)){
                 restartGame();
             }else if(gameState.equals(GameState.SETTINGS) && getSelectedLine() == 4){
                 updateLanguage();
-                System.out.println(getSelectedDiff());
                 if(isTutorialSelected()){
                     System.out.println("Tutorial Selected");
                     startGame();
@@ -131,6 +162,8 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
             protected void onActionBegin() {
                 if(gameState.equals(GameState.SETTINGS)) {
                     changeSelectedLine(getSelectedLine() + 1);
+                }else if(gameState.equals(GameState.STARTSCREEN)) {
+                    changeSelectedOption(getOption()+1);
                 }
             }
 
@@ -149,6 +182,8 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
             protected void onActionBegin() {
                 if(gameState.equals(GameState.SETTINGS)) {
                     changeSelectedLine(getSelectedLine() - 1);
+                }else if(gameState.equals(GameState.STARTSCREEN)) {
+                    changeSelectedOption(getOption()-1);
                 }
             }
 
@@ -220,26 +255,8 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
 
 
     //game cycle
-    private void startTutorial(){
-        //TODO implement Tutorial call here
-    }
-
-    private void callScreen(GameState gamestate, Runnable runnable){
-        removeEverything();
-        gameState = gamestate;
-        runnable.run();
-    }
-
     private void callStartScreen(){
         callScreen(GameState.STARTSCREEN, StartScreenController::initStartScreen);
-    }
-
-    private void callSettings(){
-        callScreen(GameState.SETTINGS, SettingsController::initSettings);
-    }
-
-    private void callEndscreen(){
-        callScreen(GameState.ENDSCREEN, EndScreenController::initEndscreen);
     }
 
     private void startGame(){
@@ -254,11 +271,30 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
         startTimer();
     }
 
+    private void callSettings(){
+        callScreen(GameState.SETTINGS, SettingsController::initSettings);
+    }
+
+    private void startTutorial(){
+        //TODO implement Tutorial call here
+    }
+
+    private void callEndscreen(){
+        callScreen(GameState.ENDSCREEN, EndScreenController::initEndscreen);
+    }
+
     private void restartGame(){
         gameState = GameState.STARTSCREEN;
         callStartScreen();
 
     }
+
+    private void callScreen(GameState gamestate, Runnable runnable){
+        removeEverything();
+        gameState = gamestate;
+        runnable.run();
+    }
+
 
 
 
@@ -294,12 +330,17 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
                 "endScreen_1"
         };
 
+        var startScreensImgs = new String[]{
+                "startscreen", "settingsscreen", "gamescreen"
+        };
+
         map = addToMap("backgrounds", backroundsImgs, map);
         map = addToMap("carts", cartsImgs, map);
         map = addToMap("fallingObjects", fallingObjectsImgs, map);
         map = addToMap("player", playerImgs, map);
         map = addToMap("structures", structuresImgs, map);
         map = addToMap("endScreens", endScreensImgs, map);
+        map = addToMap("startScreen", startScreensImgs, map);
         return map;
     }
 
@@ -315,7 +356,8 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
                 Map<String, ArrayList<String>> map = new HashMap<>();
                 try{
                     ObjectMapper objectMapper = new ObjectMapper();
-                    JsonNode jsonNode = objectMapper.readTree(new FileReader("src/main/resources/config/language_files/"+file.getName()));
+                    JsonNode jsonNode = objectMapper.readTree(
+                            new FileReader("src/main/resources/config/language_files/"+file.getName()));
 
                     Iterator<Map.Entry<String, JsonNode>> fields = jsonNode.fields();
                     while (fields.hasNext()){

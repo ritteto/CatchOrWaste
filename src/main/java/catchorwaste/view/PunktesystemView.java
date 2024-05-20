@@ -51,8 +51,7 @@ public class PunktesystemView extends StackPane {
         label.setLayoutY(y);
 
         getGameScene().addChild(label);
-        //FXGL.getGameTimer().runOnceAfter(() -> getGameScene().removeChild(label), Duration.millis(50));
-        getGameScene().removeChild(label);
+        FXGL.getGameTimer().runOnceAfter(() -> getGameScene().removeChild(label), Duration.millis(350));
 
     }
 

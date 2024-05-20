@@ -2,7 +2,13 @@ package catchorwaste.controller;
 
 import catchorwaste.view.SettingsView;
 
-import static catchorwaste.model.SettingsModel.*;
+import static catchorwaste.model.SettingsModel.setSelectedLine;
+import static catchorwaste.model.SettingsModel.getSelectedLine;
+import static catchorwaste.model.SettingsModel.setSelectedColumn;
+import static catchorwaste.model.SettingsModel.setSelectedLanguage;
+import static catchorwaste.model.SettingsModel.getSelectedLanguage;
+import static catchorwaste.model.SettingsModel.getSelectedTutorial;
+
 import static catchorwaste.view.SettingsView.highlightSelectedLine;
 import static catchorwaste.view.SettingsView.initSettingsView;
 
