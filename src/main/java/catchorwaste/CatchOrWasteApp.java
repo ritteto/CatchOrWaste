@@ -260,7 +260,6 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
         StringBuilder sb = new StringBuilder();
         Map<String,ArrayList<String>> map = new HashMap<>();
         try {
-            //BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/config/german.csv"));
             BufferedReader reader = new BufferedReader(new FileReader("/home/pi4j/deploy/german.csv"));
 
             while ((line = reader.readLine()) != null) {
