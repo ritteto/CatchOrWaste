@@ -13,6 +13,7 @@ import javafx.scene.text.Font;
 
 import static catchorwaste.CatchOrWasteApp.imageMap;
 
+import static catchorwaste.model.NameGeneratorModel.getPlayerName;
 import static catchorwaste.model.constants.Constants.START_SCREEN_IMG;
 import static catchorwaste.model.constants.Constants.TUTORIAL_SCREEN_IMG;
 import static catchorwaste.model.constants.Constants.FONT;
@@ -86,7 +87,6 @@ public class StartScreenView extends StackPane {
             gamescreenImage = (ImageView) UINode.lookup("#optionBoxes").lookup("#gamescreen_image");
         }
 
-        // Remove existing cover and label
         assert optionBoxes != null;
         optionBoxes.getChildren().removeIf(node ->
                 node.getId() != null && (node.getId().equals("cover") || node.getId().equals("cover_label"))
@@ -126,8 +126,7 @@ public class StartScreenView extends StackPane {
 
     public static Pane initTitle(){
         Pane titlePane = new Pane();
-        String playername = "AAA";
-        Label titlelabel = new Label("Hello"+" "+playername);
+        Label titlelabel = new Label("Hello"+" "+getPlayerName());
         titlelabel.setAlignment(Pos.TOP_LEFT);
         titlelabel.setFont(Font.loadFont(EndScreenView.class.getResourceAsStream(FONT), 35));
         titlelabel.setTranslateX(getAppWidth()*0.5-

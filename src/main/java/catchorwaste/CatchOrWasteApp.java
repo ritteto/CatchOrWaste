@@ -50,6 +50,7 @@ import static catchorwaste.controller.TimerController.startTimer;
 
 import static catchorwaste.model.CartModel.setGate;
 import static catchorwaste.model.FallingObjectModel.setGameStartTime;
+import static catchorwaste.model.NameGeneratorModel.*;
 import static catchorwaste.model.SettingsModel.getSelectedLine;
 import static catchorwaste.model.SettingsModel.getSelectedColumn;
 import static catchorwaste.model.StartScreenModel.getOption;
@@ -132,7 +133,12 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
         }
 
         onKeyDown(KeyCode.SPACE, "Start Game", () -> {
-            if (gameState.equals(GameState.STARTSCREEN)) {
+            if(gameState.equals(GameState.NAMEGENERATOR)) {
+                if (getActiveLane() == 4) {
+                    saveChanges();
+                    callStartScreen();
+                }
+            } else if (gameState.equals(GameState.STARTSCREEN)) {
                 if(getOption()==1){
                     startGame();
                 }else{
@@ -160,6 +166,8 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
                     changeSelectedLine(getSelectedLine() + 1);
                 }else if(gameState.equals(GameState.STARTSCREEN)) {
                     changeSelectedOption(getOption()+1);
+                } else if (gameState.equals(GameState.NAMEGENERATOR)) {
+                    setActiveLane(getActiveLane()+1);
                 }
             }
 
@@ -180,6 +188,8 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
                     changeSelectedLine(getSelectedLine() - 1);
                 }else if(gameState.equals(GameState.STARTSCREEN)) {
                     changeSelectedOption(getOption()-1);
+                } else if (gameState.equals(GameState.NAMEGENERATOR)) {
+                    setActiveLane(getActiveLane()-1);
                 }
             }
 
@@ -191,6 +201,20 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
             }
         }, KeyCode.LEFT);
 
+
+        onKeyDown(KeyCode.UP, "up", () -> {
+            if (gameState.equals(GameState.NAMEGENERATOR)) {
+                changeLetter(getLetter()-1);
+            }
+            return null;
+        });
+
+        onKeyDown(KeyCode.DOWN, "down", () -> {
+            if (gameState.equals(GameState.NAMEGENERATOR)) {
+                changeLetter(getLetter()+1);
+            }
+            return null;
+        });
 
         onKeyDown(KeyCode.DIGIT1, "1", () -> {
             if(gameState.equals(GameState.GAME)){

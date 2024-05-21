@@ -1,13 +1,19 @@
 package catchorwaste.view;
 
+import com.almasb.fxgl.dsl.FXGL;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.util.Duration;
 
 
+import static catchorwaste.model.NameGeneratorModel.getActiveLane;
+import static catchorwaste.model.NameGeneratorModel.getLetter;
 import static catchorwaste.model.constants.Constants.FONT;
 import static catchorwaste.model.constants.Constants.START_SCREEN_IMG;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
@@ -22,7 +28,10 @@ public class NameGeneratorView {
         backgroundImageView.setFitHeight(getAppHeight());
 
         pane.getChildren().addAll(backgroundImageView, initBoxes(), initSubmit());
+        pane.setId("NameGenerator");
         getGameScene().addUINode(pane);
+
+        modifyLane(1);
 
     }
 
@@ -35,6 +44,7 @@ public class NameGeneratorView {
         submitBtn.setStrokeWidth(5);
         submitBtn.setArcWidth(20);
         submitBtn.setArcHeight(20);
+        submitBtn.setId("submitBtn");
 
         pane.getChildren().add(submitBtn);
 
@@ -44,7 +54,9 @@ public class NameGeneratorView {
         label.setTextFill(Color.rgb(126,56,28));
         label.setTranslateX(submitBtn.getX()+submitBtn.getWidth()/2.0-fontsize*label.getText().length()/2.0);
         label.setTranslateY(submitBtn.getY()+submitBtn.getHeight()/2.0-fontsize/2.0);
+        label.setId("submitLabel");
 
+        pane.setId("submitPane");
         pane.getChildren().add(label);
 
         return pane;
@@ -59,7 +71,7 @@ public class NameGeneratorView {
             rectangle.setFill(Color.rgb(183,100,54));
             rectangle.setStroke(Color.BLACK);
             rectangle.setStrokeWidth(5);
-            rectangle.setId("box"+i);
+            rectangle.setId("box"+(i+1));
             pane.getChildren().add(rectangle);
 
             var label = new Label("A");
@@ -68,10 +80,11 @@ public class NameGeneratorView {
             label.setTextFill(Color.rgb(116,46,18));
             label.setTranslateX(rectangle.getX()+rectangle.getWidth()/2-fontsize/2.3);
             label.setTranslateY(rectangle.getY()+rectangle.getHeight()/2-fontsize/1.7);
-            label.setId("box_label"+i);
+            label.setId("boxLabel"+(i+1));
 
-            pane.getChildren().add(initUpArrow(rectangle));
-            pane.getChildren().add(initDownArrow(rectangle));
+            //pane.getChildren().addAll(drawUpArrow(rectangle), drawDownArrow(rectangle));
+            pane.getChildren().add(drawLine(rectangle, fontsize));
+            pane.setId("boxPane");
 
             pane.getChildren().add(label);
         }
@@ -79,26 +92,117 @@ public class NameGeneratorView {
         return pane;
     }
 
-    private static Label initUpArrow(Rectangle rectangle){
+
+    private static Label drawUpArrow(Rectangle rectangle){
         var label = new Label("^");
         var fontsize = 100;
-        label.setFont(Font.loadFont(EndScreenView.class.getResourceAsStream(FONT), fontsize));
-        label.setTextFill(Color.rgb(126,56,28));
-        label.setTranslateX(rectangle.getX()+rectangle.getWidth()/2-fontsize/2.3);
-        label.setTranslateY(rectangle.getY()+rectangle.getHeight()*0.025);
+        label.setFont(Font.loadFont(NameGeneratorView.class.getResourceAsStream("/fonts/Jacquard.ttf"), fontsize));
+        label.setTextFill(Color.rgb(116,46,18));
+        label.setTranslateX(rectangle.getX()+rectangle.getWidth()/2-fontsize/4.2);
+        label.setTranslateY(rectangle.getY()-rectangle.getHeight()*0.09);
+        label.setId("arrowUp");
 
         return label;
     }
 
-    private static Label initDownArrow(Rectangle rectangle){
+    private static Label drawDownArrow(Rectangle rectangle){
         var label = new Label("^");
         var fontsize = 100;
-        label.setFont(Font.loadFont(EndScreenView.class.getResourceAsStream(FONT), fontsize));
-        label.setTextFill(Color.rgb(126,56,28));
-        label.setTranslateX(rectangle.getX()+rectangle.getWidth()/2-fontsize/1.7);
-        label.setTranslateY(rectangle.getY()+rectangle.getHeight()*0.55);
+        label.setFont(Font.loadFont(NameGeneratorView.class.getResourceAsStream("/fonts/Jacquard.ttf"), fontsize));
+        label.setTextFill(Color.rgb(116,46,18));
+        label.setTranslateX(rectangle.getX()+rectangle.getWidth()/2-fontsize/5.1);
+        label.setTranslateY(rectangle.getY()+rectangle.getHeight()*0.65);
         label.setRotate(180);
+        label.setId("arrowDown");
 
         return label;
+    }
+
+    private static Line drawLine(Rectangle rectangle, int fontsize){
+        Line line = new Line(
+                rectangle.getX()+rectangle.getWidth()/2.0-fontsize/2.0,
+                rectangle.getY()+rectangle.getHeight()*0.75,
+                rectangle.getX()+rectangle.getWidth()/2.0+fontsize/2.0,
+                rectangle.getY()+rectangle.getHeight()*0.75);
+
+        line.setStrokeWidth(10);
+        line.setStroke(Color.rgb(126,56,28));
+        line.setId("line");
+
+        return line;
+    }
+
+    public static void modifyLane(int position){
+        Pane boxPane = null;
+        Rectangle[] rectangles = new Rectangle[4];
+        String[] rectangleNames = {"#box1", "#box2", "#box3", "#submitBtn"};
+        Label[] labels = new Label[4];
+        String[] labelNames = {"#boxLabel1", "#boxLabel2", "#boxLabel3", "#submitLabel"};
+
+        for (Node node : getGameScene().getUINodes()){
+
+            boxPane = (Pane) node.lookup("#NameGenerator").lookup("#boxPane");
+            for (int i = 0; i < rectangles.length-1; i++) {
+                rectangles[i] = (Rectangle) node.lookup("#NameGenerator")
+                        .lookup("#boxPane").lookup(rectangleNames[i]);
+            }
+            rectangles[rectangles.length-1] = (Rectangle) node.lookup("#NameGenerator")
+                    .lookup("#submitPane").lookup(rectangleNames[rectangles.length-1]);
+            for (int i = 0; i < labels.length-1; i++) {
+                labels[i] = (Label) node.lookup("#NameGenerator").lookup("#boxPane").lookup(labelNames[i]);
+            }
+            labels[labels.length-1] = (Label) node.lookup("#NameGenerator")
+                    .lookup("#submitPane").lookup(labelNames[labels.length-1]);
+
+        }
+
+        assert boxPane != null;
+        boxPane.getChildren().removeIf(node ->
+                node.getId() != null && (node.getId().equals("arrowUp") || node.getId().equals("arrowDown") ||
+                        node.getId().equals("line"))
+        );
+
+        if (position<4) {
+            rectangles[3].setStrokeWidth(5);
+            labels[labels.length-1].setTextFill(Color.rgb(126,56,28));
+            for (int i = 0; i < rectangles.length-1; i++) {
+                if(i==position-1){
+                    boxPane.getChildren().addAll(drawUpArrow(rectangles[i]), drawDownArrow(rectangles[i]));
+                    rectangles[i].setStrokeWidth(9);
+                }else{
+                    boxPane.getChildren().add(drawLine(rectangles[i], (int) labels[i].getFont().getSize()));
+                    rectangles[i].setStrokeWidth(5);
+                }
+            }
+        } else {
+            rectangles[position-1].setStrokeWidth(7);
+            labels[labels.length-1].setTextFill(Color.BLACK);
+            for (int i = 0; i < rectangles.length-1; i++) {
+                boxPane.getChildren().add(drawLine(rectangles[i], (int) labels[i].getFont().getSize()));
+                rectangles[i].setStrokeWidth(5);
+            }
+        }
+    }
+
+    public static void highlightArrow(){
+        Label arrow = null;
+        for (Node node : getGameScene().getUINodes()){
+            arrow = (Label) node.lookup("#NameGenerator").lookup("#boxPane").lookup("#arrowUp");
+        }
+        assert arrow != null;
+        arrow.setTextFill(Color.BLACK);
+        Label finalArrow = arrow;
+        FXGL.getGameTimer().runOnceAfter(() -> finalArrow.setTextFill(Color.rgb(126,56,28)), Duration.millis(150));
+    }
+
+    public static void changeLetterView(){
+        String[] labelNames = {"#boxLabel1", "#boxLabel2", "#boxLabel3"};
+        var lane = getActiveLane()-1;
+        Label label = null;
+        for (Node node : getGameScene().getUINodes()){
+            label = (Label) node.lookup("#NameGenerator").lookup("#boxPane").lookup(labelNames[lane]);
+        }
+        assert label != null;
+        label.setText(String.valueOf((char) getLetter()));
     }
 }
