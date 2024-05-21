@@ -12,12 +12,11 @@ import static catchorwaste.view.PunktesystemView.updateScore;
 
 public class PunktesystemModel {
 
-    private static int score = 0;
+    public static int score = 0;
     public static Map<String, Map<String, Map<String, Integer>>> pointsMap;
 
     public static void addPoints(int points) {
         score += points;
-        updateScore(score);
     }
 
 

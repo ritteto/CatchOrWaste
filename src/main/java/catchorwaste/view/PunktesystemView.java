@@ -14,7 +14,7 @@ import static javafx.scene.text.FontWeight.BOLD;
 
 
 public class PunktesystemView extends StackPane {
-    private static Label scoreLabel;
+    public static Label scoreLabel;
 
     public PunktesystemView() {
         scoreLabel = new Label();
