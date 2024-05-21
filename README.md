@@ -96,7 +96,7 @@ To add or modify existing learning messages, a maintainer can edit these in the 
 ### In General
 The project is structured after the MVC concept. For each screen, the timer, the scoring system as well as for the three entitiy types there are:
 - *A controller class.* This holds the logic for the game object. Structual methods can be found here.
-- *A model class.* This hold data regarding the game object. Getter and settet can be found here.
+- *A model class.* This hold data regarding the game object. Getter and Setter can be found here.
 - *A view class.* This hold visualisations the each game object. Visuals can be found here.
 
 Therefore for any required changes, a maintainer has to identify the corresponding game object the change is affecting and the apply the MVC concept to chose the right class to modify.
