@@ -36,19 +36,19 @@ public class GPIOController {
 
         buttonLeft = pi4j.create(DigitalInput.newConfigBuilder(pi4j)
                 .id("BUTTON_Left")
-                .address(5)  // GPIO 5 for the left button
+                .address(25)  // GPIO 5 for the left button
                 .pull(PullResistance.PULL_UP)
                 .provider("pigpio-digital-input"));
 
         buttonRight = pi4j.create(DigitalInput.newConfigBuilder(pi4j)
                 .id("BUTTON_Right")
-                .address(6)  // GPIO 6 for the right button
+                .address(24)  // GPIO 6 for the right button
                 .pull(PullResistance.PULL_UP)
                 .provider("pigpio-digital-input"));
 
        buttonAccept = pi4j.create(DigitalInput.newConfigBuilder(pi4j)
                .id("BUTTON_Accept")
-               .address(22)  // GPIO 22 for the accept button
+               .address(23)  // GPIO 22 for the accept button
                .pull(PullResistance.PULL_UP)
                .provider("pigpio-digital-input"));
 
@@ -66,13 +66,13 @@ public class GPIOController {
 
         joystickRight = pi4j.create(DigitalInput.newConfigBuilder(pi4j)
                 .id("JOYSTICK_Right")
-                .address(19)
+                .address(4)
                 .pull(PullResistance.PULL_UP)
                 .provider("pigpio-digital-input"));
 
         joystickLeft = pi4j.create(DigitalInput.newConfigBuilder(pi4j)
                 .id("JOYSTICK_Left")
-                .address(13)
+                .address(17)
                 .pull(PullResistance.PULL_UP)
                 .provider("pigpio-digital-input"));
 

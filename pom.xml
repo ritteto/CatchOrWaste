@@ -20,7 +20,7 @@
 
 
         <pi.hostname>pi4j</pi.hostname>
-        <pi.ipnumber>10.175.26.104
+        <pi.ipnumber>10.175.28.28
         </pi.ipnumber>  <!-- change to concrete ip-number if hostname is not unique in wlan -->
         <pi.port>22</pi.port>
         <pi.username>pi4j</pi.username>
@@ -157,6 +157,7 @@
                                 <copy todir="${project.build.directory}/distribution" overwrite="true" flatten="true">
                                     <fileset dir="src/main/resources/scripts" includes="**/*.sh, **/*.service"/>
                                     <fileset dir="src/main/resources/sounds"/>
+                                    <fileset dir="src/main/resources/config"/>
                                 </copy>
                                 <chmod dir="${project.build.directory}/distribution" perm="ugo+rx"
                                        includes="**/*.sh, **/*.service"/>
