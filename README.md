@@ -82,6 +82,9 @@ TODO: Specify what can be changed with the config file and how.
 
 ## Hardware
 
+[Dimension Plan](assets%2Fpdf%2Fdimension_plan_arcade_box.pdf)
+
+
 ### Components
 
 | Component                                   | Count | Technical Sheet                                                                           |
@@ -90,7 +93,6 @@ TODO: Specify what can be changed with the config file and how.
 | Arcade Button, 30mm, LED 5V DC, transparent | 3     | [Technical sheet](assets%2Fpdf%2FArcade-Button-30mm-beleuchtet-LED-5V-DC-transparent.pdf) |
 | EIZO FlexScan 19” (48cm)                    | 1     | [Technical sheet](assets%2Fpdf%2Feizo_l768_datenblatt.pdf)                                |
 | Raspberry Pi                                | 1     | [Technical sheet](assets%2Fpdf%2Fraspberry-pi-4-reduced-schematics.pdf)                   |
-
 
 
 #### Monitor
