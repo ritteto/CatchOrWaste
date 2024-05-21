@@ -44,21 +44,27 @@ mvn package clean
 ```
 
 ## Setup new RaspberryPi
-To setup a new RaspberryPi follow this guide: [Pi4J setup new RaspberryPi](https://pi4j.com/getting-started/set-up-a-new-raspberry-pi/)
+To set up a new RaspberryPi follow this guide: [Pi4J setup new RaspberryPi](https://pi4j.com/getting-started/set-up-a-new-raspberry-pi/)
 - Set the resolution of the Monitor in the monitors.xml file to 800x600 for optimal performance and fullscreen
 
 
-## Run on RaspberryPi
+## Install on RaspberryPi
+The Game is pre-installed on the Pi. However, if you need to re-install the game, follow these instructions:
 
-### Compile via Run Configuration
+### Install via Run Configuration
+
+You'll need:
+- Java IDE (like intelliJ)
+- Network connection
+
 Ensure your local machine is connected to the same network as your Raspberry Pi then follow these steps:
 
 1. Configure the IP address in the [pom.xml](pom.xml) file.
 2. Select the [Run on Pi.run.xml](.run%2FRun%20on%20Pi.run.xml) run configuration.
 3. Execute the configuration. Upon a successful build, the new code will be transferred to the Pi (`/home/pi4j/deploy`) and the scripts will execute automatically, replacing any old project in this directory and setting up the service.
 
-#### Compile Manually
-After a successful build, locate the generated files in the `/target/distribution` folder. Copy these files to your Raspberry Pi (`/home/pi4j/deploy`) using SCP.
+### Install Manually
+Copy the compiled code to your Raspberry Pi to `/home/pi4j/deploy`.
 
 To manually run the application on the Raspberry Pi run the [start-app.sh](src%2Fmain%2Fresources%2Fscripts%2Fstart-app.sh) script:
 ```
@@ -66,14 +72,13 @@ sudo ./start-app.sh
 ```
 
 To enable the application to start automatically after a boot or reboot run the [install-service.sh](src%2Fmain%2Fresources%2Fscripts%2Finstall-service.sh) script:
-
 ```
 sudo ./install-service.sh
 ```
 
 ## Game modifications
 
-tbd.
+TODO: Specify what can be changed with the config file and how.
 
 ## Hardware
 
