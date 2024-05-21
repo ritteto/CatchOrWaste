@@ -78,7 +78,7 @@ sudo ./install-service.sh
 
 ## Game modifications
 
-There are multiple things that can be configured within the code.
+There are multiple things that can be configured via a configuration file.
 ### Language
 Languages can be configured by the user via the options screen. This changes all text labels within all screens. The new language is applied as soon as the submit button at the end of the setting screen is pressed. 
 
@@ -88,10 +88,10 @@ If a maintainer wants to add a new Language, he needs to follow the structure of
 
 As an additional step, visuals in the SettingsView.class and the logic for selecting the right label (SettingsModel.class) have to be modified.
 
-###Learning Messages
+### Learning Messages
 To add or modify existing learning messages, a maintainer can edit these in the csv files in the folder src/main/resources/language_files/. It should be noted that there is no automatic translation between the csv files and therefore all languages have to be modified the same way. 
 
-<img src="assets/img/LanguageResources.PNG" alt="Resources" height="500"/>
+<img src="assets/img/LanguageResources.PNG" alt="Resources"/>
 
 
 ## Hardware
