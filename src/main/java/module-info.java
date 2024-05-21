@@ -40,6 +40,7 @@ open module com.pi4j.example {
     requires java.datatransfer;
     requires javafx.media;
     requires com.fasterxml.jackson.databind;
+    requires com.opencsv;
 
     uses com.pi4j.extension.Extension;
     uses com.pi4j.provider.Provider;

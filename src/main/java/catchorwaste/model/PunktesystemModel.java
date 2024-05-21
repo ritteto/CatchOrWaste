@@ -15,6 +15,10 @@ public class PunktesystemModel {
     private static int score = 0;
     public static Map<String, Map<String, Map<String, Integer>>> pointsMap;
 
+    public static void initPunktesystemModel(){
+        score = 0;
+    }
+
     public static void addPoints(int points) {
         score += points;
         updateScore(score);

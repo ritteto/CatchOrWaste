@@ -11,6 +11,14 @@ public class NameGeneratorModel {
     private static int letterLane3 = 65;
     private static String playerName;
 
+    public static void initNameGeneratorModel(){
+        activeLane = 1;
+        letterLane1 = 65;
+        letterLane2 = 65;
+        letterLane3 = 65;
+        playerName = "";
+    }
+
     public static int getActiveLane() {
         return activeLane;
     }
@@ -70,6 +78,23 @@ public class NameGeneratorModel {
     public static String getPlayerName(){
         return playerName;
     }
+
+    public static void setPlayerName(String playerName) {
+        NameGeneratorModel.playerName = playerName;
+    }
+
+    public static void setLetterLane1(int letterLane1) {
+        NameGeneratorModel.letterLane1 = letterLane1;
+    }
+
+    public static void setLetterLane2(int letterLane2) {
+        NameGeneratorModel.letterLane2 = letterLane2;
+    }
+
+    public static void setLetterLane3(int letterLane3) {
+        NameGeneratorModel.letterLane3 = letterLane3;
+    }
+
     public static void saveChanges(){
         playerName = ""+(char) letterLane1+ (char) letterLane2+(char) letterLane3;
     }

@@ -26,16 +26,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.FileReader;
 
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import static catchorwaste.controller.CartController.cartMovement;
 import static catchorwaste.controller.CartController.onWorkstationCollision;
 import static catchorwaste.controller.FallingObjectController.dropObjects;
 import static catchorwaste.controller.FallingObjectController.stickToPlayer;
+import static catchorwaste.controller.HighScoreController.addHighScore;
+import static catchorwaste.controller.HighScoreController.readHighScore;
 import static catchorwaste.controller.PlayerController.boundaries;
 import static catchorwaste.controller.PlayerController.catchObject;
 import static catchorwaste.controller.PlayerController.movePlayer;
@@ -50,7 +48,11 @@ import static catchorwaste.controller.TimerController.startTimer;
 
 import static catchorwaste.model.CartModel.setGate;
 import static catchorwaste.model.FallingObjectModel.setGameStartTime;
-import static catchorwaste.model.NameGeneratorModel.*;
+import static catchorwaste.model.NameGeneratorModel.getActiveLane;
+import static catchorwaste.model.NameGeneratorModel.setActiveLane;
+import static catchorwaste.model.NameGeneratorModel.saveChanges;
+import static catchorwaste.model.NameGeneratorModel.changeLetter;
+import static catchorwaste.model.NameGeneratorModel.getLetter;
 import static catchorwaste.model.SettingsModel.getSelectedLine;
 import static catchorwaste.model.SettingsModel.getSelectedColumn;
 import static catchorwaste.model.StartScreenModel.getOption;
@@ -260,6 +262,7 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
 
         //start Tutorial
         //startTutorial(); uncomment this and delete next line when Tutorial is implemented
+        //callNewPlayerScreen();
         callNameGenerator();
         //callStartScreen();
     }
@@ -288,6 +291,8 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
         initPunktesystem();
         initTimer();
 
+        setGate(true);
+
         setGameStartTime(System.currentTimeMillis());
         startTimer();
     }
@@ -305,13 +310,17 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
     }
 
     private void callEndscreen(){
+        addHighScore();
         callScreen(GameState.ENDSCREEN, EndScreenController::initEndscreen);
     }
 
     private void restartGame(){
-        gameState = GameState.STARTSCREEN;
-        callStartScreen();
+        callNameGenerator();
 
+    }
+
+    private void callNewPlayerScreen(){
+        callScreen(GameState.NEWPLAYER, NewPlayerController::initNewPlayerScreen);
     }
 
     private void callScreen(GameState gamestate, Runnable runnable){
