@@ -241,6 +241,7 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
                 "endScreen_1"
         };
 
+
         map = addToMap("backgrounds", backroundsImgs, map);
         map = addToMap("carts", cartsImgs, map);
         map = addToMap("fallingObjects", fallingObjectsImgs, map);
@@ -259,8 +260,8 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
         StringBuilder sb = new StringBuilder();
         Map<String,ArrayList<String>> map = new HashMap<>();
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/config/german.csv"));
-
+            //BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/config/german.csv"));
+            BufferedReader reader = new BufferedReader(new FileReader("/home/pi4j/deploy/german.csv"));
 
             while ((line = reader.readLine()) != null) {
                 if(!line.isEmpty()){
@@ -305,6 +306,7 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
             e.printStackTrace();
         }
         map.put(currentTitle, currentList);
+        System.out.println(map);
         return map;
     }
 
