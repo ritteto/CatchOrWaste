@@ -8,7 +8,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
 import static catchorwaste.model.constants.Constants.FONT;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppWidth;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppHeight;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
 
 public class NewPlayerView {
     public static void initNewPlayerScreenView(){

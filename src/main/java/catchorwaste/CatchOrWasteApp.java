@@ -1,6 +1,13 @@
 package catchorwaste;
 
-import catchorwaste.controller.*;
+import catchorwaste.controller.GPIOController;
+import catchorwaste.controller.TimerController;
+import catchorwaste.controller.StartScreenController;
+import catchorwaste.controller.NameGeneratorController;
+import catchorwaste.controller.SettingsController;
+import catchorwaste.controller.EndScreenController;
+import catchorwaste.controller.NewPlayerController;
+
 import catchorwaste.model.enums.EntityType;
 import catchorwaste.model.enums.GameState;
 import catchorwaste.model.factories.EntityFactory;
@@ -26,14 +33,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.FileReader;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 import static catchorwaste.controller.CartController.cartMovement;
 import static catchorwaste.controller.CartController.onWorkstationCollision;
 import static catchorwaste.controller.FallingObjectController.dropObjects;
 import static catchorwaste.controller.FallingObjectController.stickToPlayer;
 import static catchorwaste.controller.HighScoreController.addHighScore;
-import static catchorwaste.controller.HighScoreController.readHighScore;
 import static catchorwaste.controller.PlayerController.boundaries;
 import static catchorwaste.controller.PlayerController.catchObject;
 import static catchorwaste.controller.PlayerController.movePlayer;

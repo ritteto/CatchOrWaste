@@ -16,7 +16,9 @@ import static catchorwaste.model.NameGeneratorModel.getActiveLane;
 import static catchorwaste.model.NameGeneratorModel.getLetter;
 import static catchorwaste.model.constants.Constants.FONT;
 import static catchorwaste.model.constants.Constants.START_SCREEN_IMG;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppWidth;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppHeight;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
 
 public class NameGeneratorView {
     public static void initNameGeneratorView(){

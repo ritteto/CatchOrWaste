@@ -189,7 +189,7 @@ public class SettingsView {
                 {"TutorialLabel1","TutorialLabel2"}};
         for(Node node: getGameScene().getUINodes()){
             if (node instanceof StackPane && node.getId().equals("SettingScreenElements")){
-                for(Node spNode: (((StackPane) node).getChildren())){
+                for(Node spNode: ((StackPane) node).getChildren()){
                     if(spNode instanceof Label && getSelectedLine() < 4 && spNode.getId()!= null
                             && spNode.getId().equals(ids[getSelectedLine()-1][getSelectedColumn()-1])){
                         ((Label) spNode).setTextFill(Color.rgb(28, 232, 35));
