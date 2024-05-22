@@ -78,7 +78,9 @@ sudo ./install-service.sh
 
 ## Game modifications
 
-There are multiple things that can be configured via a configuration file.
+Simple modifications like changing text labels can be modified in the .csv language files in the /home/pi4j/deploy directory.
+For more advanced modifications a IDE like IntelliJ is needed.
+
 ### Language
 Languages can be configured by the user via the options screen. This changes all text labels within all screens. The new language is applied as soon as the submit button at the end of the setting screen is pressed. 
 
