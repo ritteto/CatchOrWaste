@@ -1,5 +1,6 @@
 package catchorwaste.controller;
 
+import catchorwaste.model.enums.GameState;
 import com.pi4j.Pi4J;
 import com.pi4j.context.Context;
 import com.pi4j.io.gpio.digital.DigitalInput;
@@ -9,7 +10,15 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static catchorwaste.CatchOrWasteApp.gameState;
+import static catchorwaste.controller.SettingsController.changeSelectedColumn;
+import static catchorwaste.controller.SettingsController.changeSelectedLine;
+import static catchorwaste.controller.StartScreenController.changeSelectedOption;
 import static catchorwaste.model.CartModel.setGate;
+import static catchorwaste.model.NameGeneratorModel.*;
+import static catchorwaste.model.SettingsModel.getSelectedColumn;
+import static catchorwaste.model.SettingsModel.getSelectedLine;
+import static catchorwaste.model.StartScreenModel.getOption;
 import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
 import static catchorwaste.controller.PlayerController.movePlayer;
 
@@ -21,8 +30,14 @@ public class GPIOController {
     private DigitalInput buttonLeft;
     private DigitalInput buttonRight;
     private DigitalInput buttonAccept;
+
+    private DigitalInput joystickDown;
+    private DigitalInput joystickUp;
     private final AtomicBoolean movingLeft = new AtomicBoolean(false);
     private final AtomicBoolean movingRight = new AtomicBoolean(false);
+
+    private final AtomicBoolean movingUp = new AtomicBoolean(false);
+    private final AtomicBoolean movingDown = new AtomicBoolean(false);
     private AnimationTimer movementTimer;
 
 
@@ -53,15 +68,30 @@ public class GPIOController {
                .provider("pigpio-digital-input"));
 
         buttonLeft.addListener(e -> {
-            if (e.state() == DigitalState.LOW) {
-                Platform.runLater(() -> setGate(true));
+            if(gameState.equals(GameState.GAME)){
+                if (e.state() == DigitalState.LOW) {
+                    Platform.runLater(() -> setGate(true));
+                }
+            } else if (gameState.equals(GameState.SETTINGS) && getSelectedLine()<4) {
+                if (e.state() == DigitalState.LOW) {
+                    Platform.runLater(() ->  changeSelectedColumn(getSelectedColumn()-1));
+                }
             }
         });
 
         buttonRight.addListener(e -> {
-            if (e.state() == DigitalState.LOW) {
-                Platform.runLater(() -> setGate(false));
+
+            if(gameState.equals(GameState.GAME)){
+                if (e.state() == DigitalState.LOW) {
+                    Platform.runLater(() -> setGate(false));
+                }
+            } else if (gameState.equals(GameState.SETTINGS) && getSelectedLine()<4) {
+                if (e.state() == DigitalState.LOW) {
+                    Platform.runLater(() -> changeSelectedColumn(getSelectedColumn()+1));
+                }
             }
+
+
         });
 
         joystickRight = pi4j.create(DigitalInput.newConfigBuilder(pi4j)
@@ -76,8 +106,23 @@ public class GPIOController {
                 .pull(PullResistance.PULL_UP)
                 .provider("pigpio-digital-input"));
 
-        handleMovement(joystickRight, movingRight, true);
-        handleMovement(joystickLeft, movingLeft, false);
+       joystickDown = pi4j.create(DigitalInput.newConfigBuilder(pi4j)
+               .id("JOYSTICK_Right")
+               .address(19)
+               .pull(PullResistance.PULL_UP)
+               .provider("pigpio-digital-input"));
+
+       joystickUp = pi4j.create(DigitalInput.newConfigBuilder(pi4j)
+               .id("JOYSTICK_Left")
+               .address(13)
+               .pull(PullResistance.PULL_UP)
+               .provider("pigpio-digital-input"));
+
+
+       handleMovement(joystickRight, movingRight, this::onJoystickRight);
+       handleMovement(joystickLeft, movingLeft, this::onJoystickLeft);
+       handleMovement(joystickUp, movingUp, this::onJoystickUp);
+       handleMovement(joystickDown, movingDown, this::onJoystickDown);
     }
 
     public void onAcceptButton(Runnable r) {
@@ -88,9 +133,12 @@ public class GPIOController {
         });
     }
 
-    private void handleMovement(DigitalInput joystick, AtomicBoolean moving, boolean direction) {
+    private void handleMovement(DigitalInput joystick, AtomicBoolean moving, Runnable action) {
         joystick.addListener(e -> {
             moving.set(e.state() == DigitalState.LOW);
+            if (moving.get()) {
+                Platform.runLater(action);
+            }
         });
     }
 
@@ -107,5 +155,37 @@ public class GPIOController {
             }
         };
         movementTimer.start();
+    }
+
+    private void onJoystickRight() {
+        if (gameState.equals(GameState.SETTINGS)) {
+            changeSelectedLine(getSelectedLine() + 1);
+        } else if (gameState.equals(GameState.STARTSCREEN)) {
+            changeSelectedOption(getOption() + 1);
+        } else if (gameState.equals(GameState.NAMEGENERATOR)) {
+            setActiveLane(getActiveLane() + 1);
+        }
+    }
+
+    private void onJoystickLeft() {
+        if (gameState.equals(GameState.SETTINGS)) {
+            changeSelectedLine(getSelectedLine() - 1);
+        } else if (gameState.equals(GameState.STARTSCREEN)) {
+            changeSelectedOption(getOption() - 1);
+        } else if (gameState.equals(GameState.NAMEGENERATOR)) {
+            setActiveLane(getActiveLane() - 1);
+        }
+    }
+
+    private void onJoystickUp() {
+        if (gameState.equals(GameState.NAMEGENERATOR)) {
+            changeLetter(getLetter() - 1);
+        }
+    }
+
+    private void onJoystickDown() {
+        if (gameState.equals(GameState.NAMEGENERATOR)) {
+            changeLetter(getLetter() + 1);
+        }
     }
 }

@@ -382,44 +382,39 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
 
         Map<String, Map<String, ArrayList<String>>> returnMap = new HashMap<>();
 
-        File folder = new File("src/main/resources/config/language_files/");
-        File[] listOfFiles = folder.listFiles();
+        String[] fileNames = {"german", "english", "french"};
+        for (int i=0; i<fileNames.length; i++) {
+            Map<String, ArrayList<String>> map = new HashMap<>();
+            try{
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode jsonNode = objectMapper.readTree(
+                        new FileReader("/home/pi4j/deploy/"+fileNames[i]+".json"));
 
-        if(listOfFiles != null){
-            for (File file:listOfFiles) {
-                Map<String, ArrayList<String>> map = new HashMap<>();
-                try{
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    JsonNode jsonNode = objectMapper.readTree(
-                            new FileReader("src/main/resources/config/language_files/"+file.getName()));
+                Iterator<Map.Entry<String, JsonNode>> fields = jsonNode.fields();
+                while (fields.hasNext()){
+                    Map.Entry<String, JsonNode> field = fields.next();
+                    var key = field.getKey();
+                    var value = field.getValue();
 
-                    Iterator<Map.Entry<String, JsonNode>> fields = jsonNode.fields();
-                    while (fields.hasNext()){
-                        Map.Entry<String, JsonNode> field = fields.next();
-                        var key = field.getKey();
-                        var value = field.getValue();
-
-                        if(value.isArray()){
-                            ArrayList<String> messages = new ArrayList<>();
-                            for (JsonNode node : value) {
-                                messages.add(node.asText());
-                            }
-                            map.put(key, messages);
-                        }else{
-                            var list = new ArrayList<String>();
-                            list.add(value.asText());
-                            map.put(key,list);
+                    if(value.isArray()){
+                        ArrayList<String> messages = new ArrayList<>();
+                        for (JsonNode node : value) {
+                            messages.add(node.asText());
                         }
+                        map.put(key, messages);
+                    }else{
+                        var list = new ArrayList<String>();
+                        list.add(value.asText());
+                        map.put(key,list);
                     }
-
-                }catch (Exception e){
-                    System.out.println(e);
                 }
-                var fileName = file.getName().split("\\.")[0];
-                returnMap.put(fileName, map);
-            }
-        }
 
+            }catch (Exception e){
+                System.out.println(e);
+            }
+
+            returnMap.put(fileNames[i], map);
+        }
 
         return returnMap;
 
