@@ -7,7 +7,7 @@ import static com.almasb.fxgl.dsl.FXGL.getAppHeight;
 import static com.almasb.fxgl.dsl.FXGL.getAppWidth;
 
 public final class Constants {
-    public static final int TOTAL_TIME_LIMIT_SECONDS = 10;
+    public static final int TOTAL_TIME_LIMIT_SECONDS = 30;
     public static double itemsPerSecond = 0.5; // Objekte pro Sekunde
     public static long lastSpawnTime = System.currentTimeMillis();
     public static final double STREET_RIGHT_END = getAppWidth() * 0.76;
