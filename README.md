@@ -90,11 +90,6 @@ If a maintainer wants to add a new Language, he needs to follow the structure of
 
 As an additional step, visuals in the SettingsView.class and the logic for selecting the right label (SettingsModel.class) have to be modified.
 
-### Learning Messages
-To add or modify existing learning messages, a maintainer can edit these in the csv files in the folder src/main/resources/language_files/. It should be noted that there is no automatic translation between the csv files and therefore all languages have to be modified the same way. 
-
-<img src="assets/img/LanguageResources.PNG" alt="Resources"/>
-
 ### In General
 The project is structured after the MVC concept. For each screen, the timer, the scoring system as well as for the three entitiy types there are:
 - *A controller class.* This holds the logic for the game object. Structual methods can be found here.
@@ -102,6 +97,13 @@ The project is structured after the MVC concept. For each screen, the timer, the
 - *A view class.* This hold visualisations the each game object. Visuals can be found here.
 
 Therefore for any required changes, a maintainer has to identify the corresponding game object the change is affecting and the apply the MVC concept to chose the right class to modify.
+
+### Advanced modifications
+Here are some shortcuts for important variables within the code:
+
+*PlayerSpeed* - the PlayerSpeed can be modified in the catchorwaste/model/playermmodel
+
+*Difficulty levels* - Difficulty levels can be modified by changing the itemsPerSecond within the updateDifficulty() Methode located in the catchorwaste/model/SettingsModel
 
 ## Hardware
 
