@@ -5,7 +5,7 @@ import catchorwaste.view.TimerView;
 import javafx.animation.AnimationTimer;
 
 import static catchorwaste.model.TimerModel.setTotalSeconds;
-import static catchorwaste.model.constants.Constants.TOTAL_TIME_LIMIT_SECONDS;
+import static catchorwaste.model.variables.Constants.TOTAL_TIME_LIMIT_SECONDS;
 import static catchorwaste.view.TimerView.initTimerView;
 
 public class TimerController {
@@ -60,7 +60,7 @@ public class TimerController {
         }
     }
 
-    public static void stopTimer() {
+    private static void stopTimer() {
         // Stoppe den AnimationTimer
         animationTimer.stop();
     }

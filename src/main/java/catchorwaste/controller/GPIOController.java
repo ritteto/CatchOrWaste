@@ -1,6 +1,7 @@
 package catchorwaste.controller;
 
-import catchorwaste.model.enums.GameState;
+import catchorwaste.controller.screens.NewPlayerController;
+import catchorwaste.controller.screens.StartScreenController;
 import com.pi4j.Pi4J;
 import com.pi4j.context.Context;
 import com.pi4j.io.gpio.digital.DigitalInput;
@@ -10,20 +11,8 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static catchorwaste.CatchOrWasteApp.gameState;
-import static catchorwaste.controller.SettingsController.changeSelectedColumn;
-import static catchorwaste.controller.SettingsController.changeSelectedLine;
-import static catchorwaste.controller.StartScreenController.changeSelectedOption;
-import static catchorwaste.model.CartModel.setGate;
-import static catchorwaste.model.NameGeneratorModel.setActiveLane;
-import static catchorwaste.model.NameGeneratorModel.getActiveLane;
-import static catchorwaste.model.NameGeneratorModel.getLetter;
-import static catchorwaste.model.NameGeneratorModel.changeLetter;
-import static catchorwaste.model.SettingsModel.getSelectedColumn;
-import static catchorwaste.model.SettingsModel.getSelectedLine;
-import static catchorwaste.model.StartScreenModel.getOption;
 import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
-import static catchorwaste.controller.PlayerController.movePlayer;
+import static catchorwaste.controller.entities.PlayerController.movePlayer;
 
 public class GPIOController {
 
@@ -43,81 +32,98 @@ public class GPIOController {
     private final AtomicBoolean movingDown = new AtomicBoolean(false);
     private AnimationTimer movementTimer;
 
+    private NewPlayerController newPlayerController;
+    private StartScreenController startScreenController;
 
-    public void init(){
+    private Runnable actionAccept;
+    private Runnable actionRight;
+    private Runnable actionLeft;
+    private Runnable actionUp;
+    private Runnable actionDown;
+    private Runnable actionBtnLeft;
+    private Runnable actionBtnRight;
+
+    public void initControllers(StartScreenController startScreenController, NewPlayerController newPlayerController){
+        this.newPlayerController = newPlayerController;
+        this.startScreenController = startScreenController;
+    }
+
+    public void initActions(Runnable left, Runnable right, Runnable up, Runnable down,
+                            Runnable accept, Runnable btnLeft, Runnable btnRight){
+        this.actionLeft = left;
+        this.actionRight = right;
+        this.actionUp = up;
+        this.actionDown = down;
+        this.actionAccept = accept;
+        this.actionBtnLeft = btnLeft;
+        this.actionBtnRight = btnRight;
+    }
+    public void setup(){
         pi4j = Pi4J.newAutoContext();
         setupGPIO();
         setupMovementTimer();
+
     }
 
    private void setupGPIO() {
 
         buttonLeft = pi4j.create(DigitalInput.newConfigBuilder(pi4j)
                 .id("BUTTON_Left")
-                .address(5)  // GPIO 5 for the left button
+                .address(25)  // GPIO 5 for the left button
                 .pull(PullResistance.PULL_UP)
                 .provider("pigpio-digital-input"));
 
         buttonRight = pi4j.create(DigitalInput.newConfigBuilder(pi4j)
                 .id("BUTTON_Right")
-                .address(6)  // GPIO 6 for the right button
+                .address(24)  // GPIO 6 for the right button
                 .pull(PullResistance.PULL_UP)
                 .provider("pigpio-digital-input"));
 
        buttonAccept = pi4j.create(DigitalInput.newConfigBuilder(pi4j)
                .id("BUTTON_Accept")
-               .address(22)  // GPIO 22 for the accept button
+               .address(23)  // GPIO 22 for the accept button
                .pull(PullResistance.PULL_UP)
                .provider("pigpio-digital-input"));
 
         buttonLeft.addListener(e -> {
-            if(gameState.equals(GameState.GAME)){
-                if (e.state() == DigitalState.LOW) {
-                    Platform.runLater(() -> setGate(true));
-                }
-            } else if (gameState.equals(GameState.SETTINGS) && getSelectedLine()<4) {
-                if (e.state() == DigitalState.LOW) {
-                    Platform.runLater(() ->  changeSelectedColumn(getSelectedColumn()-1));
-                }
+            if (e.state() == DigitalState.LOW) {
+                Platform.runLater(actionBtnLeft);
             }
         });
 
         buttonRight.addListener(e -> {
-
-            if(gameState.equals(GameState.GAME)){
-                if (e.state() == DigitalState.LOW) {
-                    Platform.runLater(() -> setGate(false));
-                }
-            } else if (gameState.equals(GameState.SETTINGS) && getSelectedLine()<4) {
-                if (e.state() == DigitalState.LOW) {
-                    Platform.runLater(() -> changeSelectedColumn(getSelectedColumn()+1));
-                }
+            if (e.state() == DigitalState.LOW) {
+                Platform.runLater(actionBtnRight);
             }
-
-
         });
+
+       buttonAccept.addListener(e -> {
+           if (e.state() == DigitalState.LOW) {
+               Platform.runLater(actionAccept);
+           }
+       });
 
         joystickRight = pi4j.create(DigitalInput.newConfigBuilder(pi4j)
                 .id("JOYSTICK_Right")
-                .address(19)
+                .address(4)
                 .pull(PullResistance.PULL_UP)
                 .provider("pigpio-digital-input"));
 
         joystickLeft = pi4j.create(DigitalInput.newConfigBuilder(pi4j)
                 .id("JOYSTICK_Left")
-                .address(13)
+                .address(17)
                 .pull(PullResistance.PULL_UP)
                 .provider("pigpio-digital-input"));
 
        joystickDown = pi4j.create(DigitalInput.newConfigBuilder(pi4j)
-               .id("JOYSTICK_Right")
-               .address(19)
+               .id("JOYSTICK_Down")
+               .address(6)
                .pull(PullResistance.PULL_UP)
                .provider("pigpio-digital-input"));
 
        joystickUp = pi4j.create(DigitalInput.newConfigBuilder(pi4j)
-               .id("JOYSTICK_Left")
-               .address(13)
+               .id("JOYSTICK_Up")
+               .address(5)
                .pull(PullResistance.PULL_UP)
                .provider("pigpio-digital-input"));
 
@@ -128,13 +134,6 @@ public class GPIOController {
        handleMovement(joystickDown, movingDown, this::onJoystickDown);
     }
 
-    public void onAcceptButton(Runnable r) {
-        buttonAccept.addListener(e -> {
-            if (e.state() == DigitalState.LOW) {
-                Platform.runLater(() -> r.run());
-            }
-        });
-    }
 
     private void handleMovement(DigitalInput joystick, AtomicBoolean moving, Runnable action) {
         joystick.addListener(e -> {
@@ -161,34 +160,19 @@ public class GPIOController {
     }
 
     private void onJoystickRight() {
-        if (gameState.equals(GameState.SETTINGS)) {
-            changeSelectedLine(getSelectedLine() + 1);
-        } else if (gameState.equals(GameState.STARTSCREEN)) {
-            changeSelectedOption(getOption() + 1);
-        } else if (gameState.equals(GameState.NAMEGENERATOR)) {
-            setActiveLane(getActiveLane() + 1);
-        }
+        actionRight.run();
     }
 
     private void onJoystickLeft() {
-        if (gameState.equals(GameState.SETTINGS)) {
-            changeSelectedLine(getSelectedLine() - 1);
-        } else if (gameState.equals(GameState.STARTSCREEN)) {
-            changeSelectedOption(getOption() - 1);
-        } else if (gameState.equals(GameState.NAMEGENERATOR)) {
-            setActiveLane(getActiveLane() - 1);
-        }
+        actionLeft.run();
     }
 
     private void onJoystickUp() {
-        if (gameState.equals(GameState.NAMEGENERATOR)) {
-            changeLetter(getLetter() - 1);
-        }
+        actionUp.run();
     }
 
     private void onJoystickDown() {
-        if (gameState.equals(GameState.NAMEGENERATOR)) {
-            changeLetter(getLetter() + 1);
-        }
+        actionDown.run();
     }
+
 }
