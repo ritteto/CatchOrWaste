@@ -1,8 +1,10 @@
 {
-"StartScreen":"Click to start",
+"StartScreen":"Hello",
+"NewPlayer":["New Player?","Yes", "No"],
+"NameGenerator":"Submit",
 "Settings":["Settings", "Language", "Difficulty", "Tutorial", "Submit", "Yes", "No"],
- "Game":"Points",
-"EndScreen":"Your points: ",
+"Game":"Points",
+"EndScreen":["Your points: ","Time is up!", "Continue"],
  "LearningMessageTitle": [
   "Recycle me",
   "Buy second-hand!!!"

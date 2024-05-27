@@ -9,7 +9,8 @@ import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import static catchorwaste.CatchOrWasteApp.languageMap;
-import static catchorwaste.model.constants.Constants.FONT_SIZE;
+import static catchorwaste.model.variables.Constants.FONT_SIZE;
+import static catchorwaste.model.variables.globalVariables.score;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
 import static javafx.scene.text.FontWeight.BOLD;
 
@@ -19,7 +20,7 @@ public class PunktesystemView extends StackPane {
     private static StackPane stackPane;
     private static Label scoreLabel;
 
-    public static void initPunktesystemView() {
+    public void initPunktesystemView() {
         stackPane = new StackPane();
         scoreLabel = new Label();
         scoreLabel.setStyle(FONT_SIZE);
@@ -29,11 +30,11 @@ public class PunktesystemView extends StackPane {
         getGameScene().addUINode(stackPane);
     }
 
-    public static void updateScore(double score) {
-        scoreLabel.setText((int) score +" "+ languageMap.get("Game").get(0));
+    public void updateScore() {
+        scoreLabel.setText(score +" "+ languageMap.get("Game").get(0));
     }
 
-    public static void displayUpdate(int change, double x, double y) {
+    public void displayUpdate(int change, double x, double y) {
         Label label = new Label();
         label.setFont(Font.font("Comic Sans", BOLD, 30));
 
