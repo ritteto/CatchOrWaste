@@ -5,36 +5,33 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static catchorwaste.model.constants.Constants.IPHONE_SCORE;
-import static catchorwaste.model.constants.Constants.DRESS_SCORE;
-import static catchorwaste.model.constants.Constants.LAMP_SCORE;
-import static catchorwaste.view.PunktesystemView.updateScore;
+import static catchorwaste.model.variables.Constants.IPHONE_SCORE;
+import static catchorwaste.model.variables.Constants.DRESS_SCORE;
+import static catchorwaste.model.variables.Constants.LAMP_SCORE;
+import static catchorwaste.model.variables.globalVariables.score;
 
 public class PunktesystemModel {
 
-    private static int score = 0;
-    public static Map<String, Map<String, Map<String, Integer>>> pointsMap;
-
-    public static void initPunktesystemModel(){
+    public PunktesystemModel(){
         score = 0;
     }
 
-    public static void addPoints(int points) {
+    public Map<String, Map<String, Map<String, Integer>>> pointsMap;
+
+    public void addPoints(int points) {
         score += points;
-        updateScore(score);
     }
 
 
-    public static void subtractPoints(int points) {
+    public void subtractPoints(int points) {
         score -= points;
-        updateScore(score);
     }
 
-    public static int getPoints() {
+    public int getPoints() {
         return score;
     }
 
-    public static void initPointsMap() {
+    public void initPointsMap() {
         var initPointsMap = new HashMap<String, Map<String, Map<String, Integer>>>();
         var workstations = new String[] {"recycle", "markt", "reparieren", "default"};
         var objects = new String[] {"iphone", "kleid", "lampe"};
@@ -81,5 +78,9 @@ public class PunktesystemModel {
         }
 
         pointsMap = initPointsMap;
+    }
+
+    public Map<String, Map<String, Map<String, Integer>>>  getPointsMap(){
+        return this.pointsMap;
     }
 }

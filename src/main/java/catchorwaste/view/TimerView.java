@@ -3,7 +3,7 @@ package catchorwaste.view;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.geometry.Insets;
-import static catchorwaste.model.constants.Constants.FONT_SIZE;
+import static catchorwaste.model.variables.Constants.FONT_SIZE;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
 
 public class TimerView extends StackPane {

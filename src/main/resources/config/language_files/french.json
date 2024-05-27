@@ -1,9 +1,11 @@
 {
-"StartScreen":"Cliquer pour commencer",
+"StartScreen":"Salut",
+"NewPlayer":["Nouveau joueur?","Oui", "Non"],
+"NameGenerator":"Avancer",
 "Settings":["Parametres", "Langue", "Difficulte", "Didacticiel", "Avancer", "Oui", "Non"],
 "Game":"Points",
-"EndScreen":"Vos points: ",
- "LearningMessageTitle": [
+"EndScreen":["Vos points: ","Le temps est terminé!", "Avancer"],
+"LearningMessageTitle": [
   "Recyclez-moi",
   "Acheter second hand!!!"
  ],
