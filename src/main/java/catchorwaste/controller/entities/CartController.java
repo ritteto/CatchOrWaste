@@ -4,6 +4,7 @@ import catchorwaste.controller.PunktesystemController;
 import catchorwaste.model.components.CartDirectionComponent;
 import catchorwaste.model.components.ImageNameComponent;
 import catchorwaste.model.enums.EntityType;
+import catchorwaste.view.entities.CartView;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 
@@ -29,9 +30,11 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 public class CartController {
 
     private PunktesystemController punktesystemController;
+    private CartView cartView;
 
     public CartController(PunktesystemController punktesystemController){
         this.punktesystemController = punktesystemController;
+        this.cartView = new CartView();
     }
 
     public void cartMovement(GameWorld gameWorld){
@@ -195,5 +198,8 @@ public class CartController {
         return return_bol;
     }
 
+    public void spawnCart(double x, double y, Entity cargo){
+        cartView.spawnCart(x,y,cargo);
+    }
 
 }

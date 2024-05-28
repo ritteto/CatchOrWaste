@@ -42,4 +42,8 @@ public class PunktesystemController {
         return punktesystemModel.getPointsMap();
     }
 
+    public void resetModel(){
+        this.punktesystemModel = new PunktesystemModel();
+    }
+
 }

@@ -1,5 +1,7 @@
 package catchorwaste.controller;
 
+import catchorwaste.controller.entities.CartController;
+import catchorwaste.controller.entities.PlayerController;
 import catchorwaste.controller.screens.NewPlayerController;
 import catchorwaste.controller.screens.StartScreenController;
 import com.pi4j.Pi4J;
@@ -12,7 +14,6 @@ import javafx.application.Platform;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
-import static catchorwaste.controller.entities.PlayerController.movePlayer;
 
 public class GPIOController {
 
@@ -32,8 +33,7 @@ public class GPIOController {
     private final AtomicBoolean movingDown = new AtomicBoolean(false);
     private AnimationTimer movementTimer;
 
-    private NewPlayerController newPlayerController;
-    private StartScreenController startScreenController;
+    private  CartController cartController;
 
     private Runnable actionAccept;
     private Runnable actionRight;
@@ -43,9 +43,8 @@ public class GPIOController {
     private Runnable actionBtnLeft;
     private Runnable actionBtnRight;
 
-    public void initControllers(StartScreenController startScreenController, NewPlayerController newPlayerController){
-        this.newPlayerController = newPlayerController;
-        this.startScreenController = startScreenController;
+    public void initControllers(CartController cartController){
+        this.cartController = cartController;
     }
 
     public void initActions(Runnable left, Runnable right, Runnable up, Runnable down,
@@ -145,14 +144,15 @@ public class GPIOController {
     }
 
     private void setupMovementTimer() {
+        PlayerController playerController = new PlayerController(cartController);
         movementTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 if (movingRight.get()) {
-                    movePlayer(true, getGameWorld());
+                    playerController.movePlayer(true, getGameWorld());
                 }
                 if (movingLeft.get()) {
-                    movePlayer(false, getGameWorld());
+                    playerController.movePlayer(false, getGameWorld());
                 }
             }
         };

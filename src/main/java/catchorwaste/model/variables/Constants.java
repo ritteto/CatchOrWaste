@@ -7,7 +7,6 @@ import static com.almasb.fxgl.dsl.FXGL.getAppHeight;
 import static com.almasb.fxgl.dsl.FXGL.getAppWidth;
 
 public final class Constants {
-    public static final int TOTAL_TIME_LIMIT_SECONDS = 25;
     public static final double STREET_RIGHT_END = getAppWidth() * 0.76;
     public static final double STREET_LEFT_END = getAppWidth() * 0.10;
     public static final double STREET_HEIGHT = getAppHeight() * 0.775;
@@ -35,9 +34,6 @@ public final class Constants {
 
     public static final double WORKSTATION_RIGHT_Y = getAppHeight()*0.4;
 
-    public static final int IPHONE_SCORE = 50;
-    public static final int LAMP_SCORE = 20;
-    public static final int DRESS_SCORE = 10;
     public static final String FONT_SIZE = "-fx-font-size: 30px;";
     public static final String FONT = "/fonts/ArcadeFont.ttf";
 

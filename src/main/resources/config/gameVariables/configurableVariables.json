@@ -1,0 +1,13 @@
+{
+  "difficulty1" : 0.4,
+  "difficulty2" : 0.6,
+  "difficulty3" : 0.8,
+
+  "iphoneScore" : 50,
+  "dressScore" : 20,
+  "lampScore" : 10,
+
+  "totalTimeSec" : 35,
+
+  "playerSpeed" : 10
+}

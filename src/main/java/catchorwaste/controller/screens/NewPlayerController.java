@@ -26,6 +26,4 @@ public class NewPlayerController {
         return newPlayerModel.getChosenLabel();
     }
 
-
-
 }

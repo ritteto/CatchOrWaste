@@ -30,4 +30,5 @@ public class StartScreenController {
     public int getOption(){
         return this.startScreenModel.getOption();
     }
+
 }

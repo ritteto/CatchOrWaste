@@ -176,6 +176,10 @@
                                 <copy todir="${project.build.directory}/distribution" overwrite="true" flatten="true">
                                     <fileset dir="src/main/resources/scripts" includes="**/*.sh, **/*.service"/>
                                     <fileset dir="src/main/resources/sounds"/>
+                                    <fileset dir="src/main/resources/config/language_files"/>
+                                    <fileset dir="src/main/resources/config/gameVariables"/>
+                                    <fileset dir="src/main/resources/fonts"/>
+                                    <fileset dir="src/main/resources/files/highscore"/>
                                 </copy>
                                 <chmod dir="${project.build.directory}/distribution" perm="ugo+rx"
                                        includes="**/*.sh, **/*.service"/>
