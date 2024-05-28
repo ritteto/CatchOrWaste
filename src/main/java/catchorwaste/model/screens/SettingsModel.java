@@ -2,9 +2,12 @@ package catchorwaste.model.screens;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.DoubleNode;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -18,6 +21,7 @@ public class SettingsModel {
     private int selectedDiff = 1;
     private int selectedTutorial = 1;
     private double itemsPerSecond = 0;
+    private double[] speedRange = {0.0,0.0};
 
     private String selectedLanguage = "german";
 
@@ -107,17 +111,23 @@ public class SettingsModel {
         this.itemsPerSecond = rate;
     }
 
+    public double[] getSpeedRange(){
+        return this.speedRange;
+    }
 
     public void updateDifficulty(){
         switch (this.selectedDiff){
             case 1:
                 this.itemsPerSecond = readDifficulty(1);
+                this.speedRange = readSpeedRange(1);
                 break;
             case 2:
                 this.itemsPerSecond = readDifficulty(2);
+                this.speedRange = readSpeedRange(2);
                 break;
             case 3:
                 this.itemsPerSecond = readDifficulty(3);
+                this.speedRange = readSpeedRange(3);
                 break;
         }
     }
@@ -140,6 +150,33 @@ public class SettingsModel {
                 Map.Entry<String, JsonNode> field = iterator.next();
                 if(field.getKey().equals("difficulty"+level)){
                     rate = Double.parseDouble(String.valueOf(field.getValue()));
+                }
+            }
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        return rate;
+    }
+
+    public double[] readSpeedRange(int level){
+        double[] rate={0.0,0.0};
+        File file;
+        if(System.getProperty("os.name").contains("Windows")){
+            file = new File("src/main/resources/config/gameVariables/configurableVariables.json");
+        }else{
+            file = new File("/home/pi4j/deploy/configurableVariables.json");
+        }
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            JsonNode jsonNode = objectMapper.readTree(file);
+
+            Iterator<Map.Entry<String, JsonNode>> iterator = jsonNode.fields();
+            while (iterator.hasNext()){
+                Map.Entry<String, JsonNode> field = iterator.next();
+                if(field.getKey().equals("speedRange"+level)){
+                    rate[0] = field.getValue().get(0).asDouble();
+                    rate[1] = field.getValue().get(1).asDouble();
                 }
             }
 

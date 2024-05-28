@@ -1,25 +1,25 @@
 {
 "StartScreen":"Salut",
 "NewPlayer":["Nouveau joueur?","Oui", "Non"],
-"NameGenerator":"Avancer",
+"NameGenerator":["Choisir un nom","Avancer"],
 "Settings":["Parametres", "Langue", "Difficulte", "Didacticiel", "Avancer", "Oui", "Non"],
 "Game":"Points",
-"EndScreen":["Vos points: ","Le temps est terminé!", "Avancer"],
+"EndScreen":["Vos points: ","Le temps est termine!", "Avancer"],
 "LearningMessageTitle": [
   "Recyclez-moi",
   "Acheter second hand!!!"
  ],
  "LearningMessages": [
-  "Le recyclage réduit la nécessité d'extraire de nouvelles matières premières et préserve ainsi les ressources naturelles telles que les forêts, les minéraux et l'eau",
-  "Le recyclage permet de produire moins de déchets et de réduire la charge des décharges, ce qui contribue à la prévention de la pollution",
-  "La fabrication de produits à partir de matériaux recyclés nécessite souvent moins d'énergie que la fabrication à partir de matières premières neuves, ce qui contribue à réduire les émissions de gaz à effet de serre",
-  "Le recyclage contribue à la réduction des émissions de gaz à effet de serre en brûlant ou en mettant en décharge la quantité de déchets qui, autrement, entraînerait la libération de méthane",
-  "Le recyclage favorise une économie durable en réintroduisant des matériaux dans le cycle de production et en réduisant la consommation de nouvelles ressources",
-  "L'achat d'articles d'occasion permet d'éviter que des objets ne finissent dans des décharges, ce qui contribue à la réduction des déchets et prolonge la durée de vie des produits",
-  "Les produits de seconde main sont souvent moins chers que les articles neufs, ce qui permet aux consommateurs d'économiser de l'argent sans renoncer à la qualité",
-  "Les achats de seconde main offrent souvent des objets uniques et rares qui ne sont plus fabriqués, ce qui permet un style et une expression individuels",
-  "L'achat d'articles d'occasion permet de réduire la production de produits neufs, ce qui contribue à préserver les ressources naturelles et à réduire l'empreinte écologique",
-  "L'achat dans les magasins d'occasion ou les marchés aux puces soutient souvent les commerces locaux et les organisations à but non lucratif, ce qui contribue à renforcer la communauté"
+  "Le recyclage reduit la necessite d'extraire de nouvelles matieres premieres et preserve ainsi les ressources naturelles telles que les forets, les mineraux et l'eau",
+  "Le recyclage permet de produire moins de dechets et de réduire la charge des decharges, ce qui contribue a la prevention de la pollution",
+  "La fabrication de produits a partir de materiaux recycles necessite souvent moins d'energie que la fabrication a partir de matieres premieres neuves, ce qui contribue a reduire les emissions de gaz a effet de serre",
+  "Le recyclage contribue a la reduction des emissions de gaz a effet de serre en brulant ou en mettant en decharge la quantite de dechets qui, autrement, entrainerait la liberation de methane",
+  "Le recyclage favorise une economie durable en reintroduisant des materiaux dans le cycle de production et en reduisant la consommation de nouvelles ressources",
+  "L'achat d'articles d'occasion permet d'eviter que des objets ne finissent dans des decharges, ce qui contribue a la réduction des dechets et prolonge la duree de vie des produits",
+  "Les produits de seconde main sont souvent moins chers que les articles neufs, ce qui permet aux consommateurs d'economiser de l'argent sans renoncer a la qualite",
+  "Les achats de seconde main offrent souvent des objets uniques et rares qui ne sont plus fabriques, ce qui permet un style et une expression individuels",
+  "L'achat d'articles d'occasion permet de reduire la production de produits neufs, ce qui contribue a preserver les ressources naturelles et a reduire l'empreinte ecologique",
+  "L'achat dans les magasins d'occasion ou les marchés aux puces soutient souvent les commerces locaux et les organisations a but non lucratif, ce qui contribue a renforcer la communaute"
  ]
 
 }

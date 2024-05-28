@@ -2,6 +2,7 @@ package catchorwaste.view.entities;
 
 import catchorwaste.controller.screens.SettingsController;
 import catchorwaste.model.entities.FallingObjectModel;
+import com.almasb.fxgl.entity.SpawnData;
 
 
 import java.util.Random;
@@ -37,7 +38,9 @@ public class FallingObjectView {
 
         if (secondsSinceLastSpawn >= 1.0 / settingsController.getItemsPerSecond()) {
             Random random = new Random();
-            getGameWorld().spawn("OBJECT",HOUSES[random.nextInt(HOUSES.length)]-32+50,HOUSE_Y + 70);
+            getGameWorld().spawn("OBJECT",
+                    new SpawnData(HOUSES[random.nextInt(HOUSES.length)]-32+50,HOUSE_Y + 70)
+                            .put("fallingSpeedRange", settingsController.getFallingSpeedRange()));
             lastSpawnTime = currentTime; // Aktualisiere die letzte Erzeugungszeit
         }
     }

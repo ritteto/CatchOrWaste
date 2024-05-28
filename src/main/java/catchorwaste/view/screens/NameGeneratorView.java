@@ -35,12 +35,24 @@ public class NameGeneratorView {
         backgroundImageView.setFitWidth(getAppWidth());
         backgroundImageView.setFitHeight(getAppHeight());
 
-        pane.getChildren().addAll(backgroundImageView, initBoxes(), initSubmit());
+        pane.getChildren().addAll(backgroundImageView, initBoxes(), initSubmit(), initTitleLabel());
         pane.setId("NameGenerator");
         getGameScene().addUINode(pane);
 
         modifyLane();
 
+    }
+
+    private Node initTitleLabel(){
+
+        Label label= new Label(languageMap.get("NameGenerator").get(0));
+        var fontsize = 33;
+        label.setFont(Font.loadFont(EndScreenView.class.getResourceAsStream(FONT), fontsize));
+        label.setTranslateX(getAppWidth()*0.5-label.getText().length()/2.0*fontsize);
+        label.setTranslateY(getAppHeight()*0.15-fontsize);
+        label.setId("QuestionLabel");
+
+        return label;
     }
 
     private Pane initSubmit(){
@@ -56,7 +68,7 @@ public class NameGeneratorView {
 
         pane.getChildren().add(submitBtn);
 
-        var label = new Label(languageMap.get("NameGenerator").get(0));
+        var label = new Label(languageMap.get("NameGenerator").get(1));
         var fontsize = 30;
         label.setFont(Font.loadFont(EndScreenView.class.getResourceAsStream(FONT), fontsize));
         label.setTextFill(Color.rgb(126,56,28));

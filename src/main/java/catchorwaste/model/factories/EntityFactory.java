@@ -24,8 +24,7 @@ import javafx.scene.image.ImageView;
 import java.util.Random;
 
 import static catchorwaste.CatchOrWasteApp.imageMap;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppHeight;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppWidth;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 
 
 public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
@@ -56,13 +55,19 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
                 .viewWithBBox(new ImageView(imageMap.get(names[zufallszahl])))
                 .type(EntityType.OBJECT)
                 .scale(1, 1)
-                .with(new ProjectileComponent(new Point2D(0, 1), 100))
+                .with(new ProjectileComponent(new Point2D(0, 1),100))
                 .with(new ImageNameComponent(name))
                 .with(new IsCatchedComponent(false))
                 .with(new CollidableComponent(true))
                 .build();
 
-
+        double[] range = null;
+        if(data.get("fallingSpeedRange") instanceof double[]){
+            range = data.get("fallingSpeedRange");
+        }
+        assert range != null;
+        var speed = random.nextDouble(range[0], range[1]);
+        entity.getComponent(ProjectileComponent.class).setSpeed(speed);
         entity.getComponent(TransformComponent.class).rotateBy(270);
 
         return entity;

@@ -3,6 +3,8 @@ package catchorwaste.controller.screens;
 import catchorwaste.model.screens.SettingsModel;
 import catchorwaste.view.screens.SettingsView;
 
+import java.util.Arrays;
+
 
 public class SettingsController {
     SettingsModel settingsModel;
@@ -54,4 +56,7 @@ public class SettingsController {
         settingsModel.updateDifficulty();
     }
 
+    public double[] getFallingSpeedRange(){
+        return settingsModel.getSpeedRange();
+    }
 }
