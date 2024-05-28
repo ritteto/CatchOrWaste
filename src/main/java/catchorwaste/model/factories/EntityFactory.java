@@ -24,7 +24,8 @@ import javafx.scene.image.ImageView;
 import java.util.Random;
 
 import static catchorwaste.CatchOrWasteApp.imageMap;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppWidth;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppHeight;
 
 
 public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {

@@ -4,12 +4,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
@@ -24,7 +22,7 @@ import static catchorwaste.model.variables.globalVariables.score;
 
 public class HighScoreController {
 
-    private HighScoreView highScoreView;
+    private final HighScoreView highScoreView;
     private HighScoreModel highScoreModel;
 
     public HighScoreController(HighScoreModel highScoreModel){

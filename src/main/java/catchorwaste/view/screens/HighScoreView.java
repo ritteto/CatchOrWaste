@@ -17,11 +17,13 @@ import java.util.stream.Collectors;
 import static catchorwaste.CatchOrWasteApp.imageMap;
 import static catchorwaste.CatchOrWasteApp.languageMap;
 import static catchorwaste.model.variables.Constants.FONT;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppWidth;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppHeight;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
 
 public class HighScoreView {
 
-    private HighScoreModel highScoreModel;
+    private final HighScoreModel highScoreModel;
     public HighScoreView(HighScoreModel highScoreModel){
         this.highScoreModel = highScoreModel;
     }

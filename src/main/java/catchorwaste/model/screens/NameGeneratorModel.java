@@ -1,7 +1,5 @@
 package catchorwaste.model.screens;
 
-
-import catchorwaste.model.variables.Constants;
 import catchorwaste.model.variables.globalVariables;
 
 public class NameGeneratorModel {

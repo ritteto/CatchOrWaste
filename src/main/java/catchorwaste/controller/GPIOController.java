@@ -2,8 +2,6 @@ package catchorwaste.controller;
 
 import catchorwaste.controller.entities.CartController;
 import catchorwaste.controller.entities.PlayerController;
-import catchorwaste.controller.screens.NewPlayerController;
-import catchorwaste.controller.screens.StartScreenController;
 import com.pi4j.Pi4J;
 import com.pi4j.context.Context;
 import com.pi4j.io.gpio.digital.DigitalInput;

@@ -15,7 +15,11 @@ import catchorwaste.controller.screens.StartScreenController;
 
 import catchorwaste.model.PunktesystemModel;
 import catchorwaste.model.entities.FallingObjectModel;
-import catchorwaste.model.screens.*;
+import catchorwaste.model.screens.HighScoreModel;
+import catchorwaste.model.screens.NameGeneratorModel;
+import catchorwaste.model.screens.NewPlayerModel;
+import catchorwaste.model.screens.SettingsModel;
+import catchorwaste.model.screens.StartScreenModel;
 import catchorwaste.model.enums.EntityType;
 import catchorwaste.model.enums.GameState;
 import catchorwaste.model.factories.EntityFactory;

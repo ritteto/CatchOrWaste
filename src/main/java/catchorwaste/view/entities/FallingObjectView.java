@@ -15,7 +15,7 @@ public class FallingObjectView {
 
     private long lastSpawnTime = System.currentTimeMillis();
     private final SettingsController settingsController;
-    private FallingObjectModel fallingObjectModel;
+    private final FallingObjectModel fallingObjectModel;
 
     public FallingObjectView(FallingObjectModel fallingObjectModel,SettingsController settingsController){
         this.fallingObjectModel = fallingObjectModel;
