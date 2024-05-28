@@ -64,7 +64,7 @@ public class HighScoreView {
         var lastEntry = highScoreModel.getLastEntry();
         var lastNumber = 10;
 
-        if(!list.contains(highScoreModel.getLastEntry())){
+        if(lastEntry != null && !list.contains(lastEntry)){
             fullList.sort(Comparator.comparingInt((String[] a) -> Integer.parseInt(a[1])).reversed());
             lastNumber = fullList.indexOf(lastEntry);
             list = list.stream().limit(9).collect(Collectors.toCollection(ArrayList::new));
@@ -81,10 +81,10 @@ public class HighScoreView {
             String name;
             String score;
 
-            if(list.get(i) != null){
+            if(i < list.size() && list.get(i) != null){
                 score = list.get(i)[1];
                 name = list.get(i)[2];
-            }else{
+            } else{
                 name = "-";
                 score = "-";
             }

@@ -4,10 +4,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
@@ -43,6 +45,7 @@ public class HighScoreController {
                 .atZone(ZoneId.systemDefault())
                 .toLocalDateTime();
 
+        var seconds = checkIfLowerTen(dateTime.getSecond());
         var minutes = checkIfLowerTen(dateTime.getMinute());
         var hours = checkIfLowerTen(dateTime.getHour());
         var days = checkIfLowerTen(dateTime.getDayOfMonth());
@@ -50,20 +53,34 @@ public class HighScoreController {
         var years = dateTime.getYear();
 
 
-        var date = hours+":"+minutes+"/"+days+"-"+month+"-"+years;
+        var date = hours+":"+minutes+":"+seconds+"/"+days+"-"+month+"-"+years;
         var entry = new String[]{date, String.valueOf(score), playername};
 
-        File file = null;
+        File file;
         if(System.getProperty("os.name").contains("Windows")){
             file = new File("src/main/resources/files/highscore/highscores.csv");
         }else{
             file = new File("/home/pi4j/deploy/highscores.csv");
         }
 
-        try(CSVWriter csvWriter = new CSVWriter(new FileWriter(file,true))){
-            csvWriter.writeNext(entry);
-        } catch (IOException e) {
-            System.out.println(e);;
+        var list = readHighScore();
+        if(list.size()>=999){
+            list.remove(0);
+            list.add(entry);
+
+            try(CSVWriter csvWriter = new CSVWriter(new FileWriter(file,false))){
+                for(int i=0; i<list.size(); i++){
+                    csvWriter.writeNext(list.get(i));
+                }
+            } catch (IOException e) {
+                System.out.println(e);
+            }
+        }else{
+            try(CSVWriter csvWriter = new CSVWriter(new FileWriter(file,true))){
+                csvWriter.writeNext(entry);
+            } catch (IOException e) {
+                System.out.println(e);
+            }
         }
 
     }
@@ -78,8 +95,12 @@ public class HighScoreController {
 
     public ArrayList<String[]> readHighScore(){
         var list = new ArrayList<String[]>();
-        //var file = new File("/home/pi4j/deploy/highscores.csv");
-        var file = new File("src/main/resources/files/highscore/highscores.csv");
+        File file;
+        if(System.getProperty("os.name").contains("Windows")){
+            file = new File("src/main/resources/files/highscore/highscores.csv");
+        }else{
+            file = new File("/home/pi4j/deploy/highscores.csv");
+        }
 
         try(CSVReader csvReader = new CSVReader(new FileReader(file))){
             String[] nextLine;
@@ -94,13 +115,16 @@ public class HighScoreController {
             throw new RuntimeException(e);
         }
 
-        highScoreModel.setLastEntry(list.get(list.size()-1));
+        if(!list.isEmpty()){
+            highScoreModel.setLastEntry(list.get(list.size()-1));
+        }
         highScoreModel.setFullList(list);
 
-        list.sort(Comparator.comparingInt((String[] a) -> Integer.parseInt(a[1])).reversed());
-        list = list.stream().limit(10).collect(Collectors.toCollection(ArrayList::new));
+        var topTen = new ArrayList<>(list);
+        topTen.sort(Comparator.comparingInt((String[] a) -> Integer.parseInt(a[1])).reversed());
+        topTen = topTen.stream().limit(10).collect(Collectors.toCollection(ArrayList::new));
 
-        highScoreModel.setTopTen(list);
+        highScoreModel.setTopTen(topTen);
         return list;
     }
 

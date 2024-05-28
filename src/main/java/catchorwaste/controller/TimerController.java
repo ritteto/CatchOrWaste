@@ -12,7 +12,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 import static catchorwaste.model.TimerModel.setTotalSeconds;
-import static catchorwaste.model.variables.Constants.TOTAL_TIME_LIMIT_SECONDS;
 import static catchorwaste.view.TimerView.initTimerView;
 
 public class TimerController {
