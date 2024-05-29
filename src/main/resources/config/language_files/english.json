@@ -1,7 +1,7 @@
 {
 "StartScreen":"Hello",
 "NewPlayer":["New Player?","Yes", "No"],
-"NameGenerator":["Choose a name","Submit"],
+"NameGenerator":["Name?","Submit"],
 "Settings":["Settings", "Language", "Difficulty", "Tutorial", "Submit", "Yes", "No"],
 "Game":"Points",
 "EndScreen":["Your points: ","Time is up!", "Continue"],

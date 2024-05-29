@@ -18,7 +18,7 @@ public class SettingsModel {
     private int selectedDiff = 1;
     private int selectedTutorial = 1;
     private double itemsPerSecond = 0;
-    private double[] speedRange = {0.0,0.0};
+    private double[] speedRange = {80.0,120.0};
 
     private String selectedLanguage = "german";
 

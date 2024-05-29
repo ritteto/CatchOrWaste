@@ -102,7 +102,7 @@ public class NameGeneratorView {
             label.setTranslateY(rectangle.getY()+rectangle.getHeight()/2-fontsize/1.7);
             label.setId("boxLabel"+(i+1));
 
-            //pane.getChildren().addAll(drawUpArrow(rectangle), drawDownArrow(rectangle));
+            pane.getChildren().addAll(drawUpArrow(rectangle), drawDownArrow(rectangle));
             pane.getChildren().add(drawLine(rectangle, fontsize));
             pane.setId("boxPane");
 
@@ -205,10 +205,23 @@ public class NameGeneratorView {
         }
     }
 
-    public void highlightArrow(){
+    public void highlightArrowUp(){
         Label arrow = null;
         for (Node node : getGameScene().getUINodes()){
-            arrow = (Label) node.lookup("#NameGenerator").lookup("#boxPane").lookup("#arrowUp");
+            arrow = (Label) node.lookup("#NameGenerator").lookup("#boxPane")
+                    .lookup("#arrowUp");
+        }
+        assert arrow != null;
+        arrow.setTextFill(Color.BLACK);
+        Label finalArrow = arrow;
+        FXGL.getGameTimer().runOnceAfter(() -> finalArrow.setTextFill(Color.rgb(126,56,28)), Duration.millis(150));
+    }
+
+    public void highlightArrowDown(){
+        Label arrow = null;
+        for (Node node : getGameScene().getUINodes()){
+            arrow = (Label) node.lookup("#NameGenerator").lookup("#boxPane")
+                    .lookup("#arrowDown");
         }
         assert arrow != null;
         arrow.setTextFill(Color.BLACK);

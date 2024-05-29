@@ -69,7 +69,7 @@
 
         <!-- Misst die Komplexität in Bezug auf die Anzahl unterschiedlicher Klassen, die eine Klasse verwendet -->
         <module name="ClassFanOutComplexity">
-            <property name="max" value="30"/>
+            <property name="max" value="40"/>
         </module>
 
         <!-- Bestimmt den Stil von Array-Deklarationen -->

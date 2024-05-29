@@ -20,7 +20,7 @@
 
 
         <pi.hostname>pi4j</pi.hostname>
-        <pi.ipnumber>10.175.18.128
+        <pi.ipnumber>10.175.12.16
         </pi.ipnumber>  <!-- change to concrete ip-number if hostname is not unique in wlan -->
         <pi.port>22</pi.port>
         <pi.username>pi4j</pi.username>
@@ -180,6 +180,7 @@
                                     <fileset dir="src/main/resources/config/gameVariables"/>
                                     <fileset dir="src/main/resources/fonts"/>
                                     <fileset dir="src/main/resources/files/highscore"/>
+                                    <fileset dir="src/main/resources"/>
                                 </copy>
                                 <chmod dir="${project.build.directory}/distribution" perm="ugo+rx"
                                        includes="**/*.sh, **/*.service"/>

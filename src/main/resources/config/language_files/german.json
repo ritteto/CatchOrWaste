@@ -1,7 +1,7 @@
 {
 "StartScreen":"Hallo",
 "NewPlayer":["Neuer Spieler?","Ja", "Nein"],
-"NameGenerator":["Waehle einen Namen","Weiter"],
+"NameGenerator":["Namen?","Weiter"],
 "Settings":["Einstellungen", "Sprache", "Schwierigkeit", "Tutorial", "Weiter","Ja", "Nein"],
 "Game":"Punkte",
 "EndScreen":["Deine Punkte: ","Zeit ist vorbei!", "Weiter"],

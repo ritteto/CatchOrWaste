@@ -12,6 +12,8 @@ import catchorwaste.controller.screens.NameGeneratorController;
 import catchorwaste.controller.screens.NewPlayerController;
 import catchorwaste.controller.screens.SettingsController;
 import catchorwaste.controller.screens.StartScreenController;
+import catchorwaste.controller.screens.TutorialController;
+
 
 import catchorwaste.model.PunktesystemModel;
 import catchorwaste.model.entities.FallingObjectModel;
@@ -47,11 +49,16 @@ import kotlin.jvm.functions.Function0;
 import java.io.File;
 import java.io.FileReader;
 
-import java.util.ArrayList;
+
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
+
+
+
+
 import java.util.function.Function;
 
 import static catchorwaste.controller.TimerController.initTimer;
@@ -94,6 +101,7 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
     private NameGeneratorController nameGeneratorController;
     private HighScoreController highScoreController;
     private PunktesystemController punkteSystemController;
+    private TutorialController tutorialController;
     private CartController cartController;
     private PlayerController playerController;
     public static Map<String, Map<String, ArrayList<String>>> textMap;
@@ -106,8 +114,8 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
     //application methods
     @Override
     protected void initSettings(GameSettings settings) {
-        //settings.setFullScreenAllowed(true);
-        //settings.setFullScreenFromStart(true);
+        settings.setFullScreenAllowed(true);
+        settings.setFullScreenFromStart(true);
         settings.setTicksPerSecond(60);
         settings.setTitle("CatchOrWaste");
     }
@@ -120,8 +128,8 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
         if (osArch.contains("arm") || osArch.contains("aarch64")) {
             GPIOController controller = new GPIOController();
             controller.initControllers(cartController);
-            controller.initActions(this::leftControl, this::rightControl,this::acceptControl,
-                    this::upControl, this::downControl, this::btnLeftControl, this::btnRightControl);
+            controller.initActions(this::leftControl, this::rightControl, this::upControl,
+                    this::downControl, this::acceptControl, this::btnLeftControl, this::btnRightControl);
             controller.setup();
         }
 
@@ -163,10 +171,9 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
 
         onKeyDown(KeyCode.DOWN, "down", wrapMethod.apply(this::downControl));
 
-        onKeyDown(KeyCode.DIGIT1, "1", wrapMethod.apply(this::btnRightControl));
+        onKeyDown(KeyCode.DIGIT2, "2", wrapMethod.apply(this::btnRightControl));
 
-        onKeyDown(KeyCode.DIGIT2, "2", wrapMethod.apply(this::btnLeftControl));
-
+        onKeyDown(KeyCode.DIGIT1, "1", wrapMethod.apply(this::btnLeftControl));
 
     }
 
@@ -239,8 +246,8 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
         callScreen(GameState.SETTINGS, ()->settingsController.initSettings());
     }
 
-    private void startTutorial(){
-        //TODO implement Tutorial call here
+    private void callTutorial(){
+        callScreen(GameState.TUTORIAL, () -> tutorialController.initTutorial());
     }
 
     private void callEndscreen(){
@@ -271,33 +278,52 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
 
 
 
-    //assistance methods
+    //assistance methodsx
+
     public Map<String, Image> loadImages() {
 
-        String path;
-
-        if(System.getProperty("os.name").contains("Windows")){
-            path = "src/main/resources/assets/textures";
-        }else{
-            path = "/home/pi4j/deploy/assets/textures";
-        }
-
-
         Map<String, Image> map = new HashMap<>();
-        var directories = new File(path).listFiles();
 
-        assert directories != null;
-        for (File subDir: directories){
-            if(subDir.isDirectory()){
-                var filesInDir = new ArrayList<String>();
-                for (File file: subDir.listFiles()){
-                    filesInDir.add(file.getName().replace(".png",""));
-                }
-                addToMap(subDir.getName(), filesInDir.toArray(String[]::new), map);
-            }
-        }
+        var backroundsImgs = new String[]{"background_bad","background_bad_crop", "streets_left", "streets_right"};
+
+        var cartsImgs = new String[]{
+                "cart_horizontal", "cart_vertical",
+                "iphone_d_cart_vertical", "iphone_f_cart_vertical", "iphone_r_cart_vertical",
+                "iphone_d_cart_horizontal", "iphone_f_cart_horizontal", "iphone_r_cart_horizontal",
+                "kleid_d_cart_vertical", "kleid_f_cart_vertical", "kleid_r_cart_vertical",
+                "kleid_d_cart_horizontal", "kleid_f_cart_horizontal", "kleid_r_cart_horizontal",
+                "lampe_d_cart_vertical", "lampe_f_cart_vertical", "lampe_r_cart_vertical",
+                "lampe_d_cart_horizontal", "lampe_f_cart_horizontal", "lampe_r_cart_horizontal"};
+
+        var fallingObjectsImgs = new String[]{
+                "iphone_d", "iphone_f", "iphone_r",
+                "kleid_d", "kleid_f", "kleid_r",
+                "lampe_d", "lampe_f", "lampe_r"};
+
+        var playerImgs = new String[]{
+                "wegwerfpolizist_d_l_resized", "wegwerfpolizist_d_r_resized",
+                "wegwerfpolizist_l_resized", "wegwerfpolizist_r_resized"};
+
+        var structuresImgs = new String[]{
+                "haus1", "haus2", "markt", "recycle", "reparieren"};
+
+        var endScreensImgs = new String[]{
+                "endscreen","endScreen_1"
+        };
+        var startScreenImgs = new String[]{
+                "gamescreen","settingsscreen", "startscreen", "tutorial-test-1"
+        };
+
+        map = addToMap("backgrounds", backroundsImgs, map);
+        map = addToMap("carts", cartsImgs, map);
+        map = addToMap("fallingObjects", fallingObjectsImgs, map);
+        map = addToMap("player", playerImgs, map);
+        map = addToMap("structures", structuresImgs, map);
+        map = addToMap("endScreens", endScreensImgs, map);
+        map = addToMap("startScreen", startScreenImgs, map);
         return map;
     }
+
 
     public Map<String, Map<String, ArrayList<String>>> loadText(){
 
@@ -450,6 +476,8 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
 
         playerController = new PlayerController(cartController);
 
+        tutorialController = new TutorialController();
+
     }
 
     public void resetControllers(){
@@ -539,25 +567,26 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
         }else if(gameState.equals(GameState.SETTINGS) && settingsController.getSelectedLine() == 4){
             settingsController.updateLanguage();
             if(settingsController.isTutorialSelected()){
-                System.out.println("Tutorial Selected");
-                startGame();
+                callTutorial();
             }else{
                 startGame();
             }
         }else if(gameState.equals(GameState.HIGHSCORE)){
             restartGame();
+        }else if(gameState.equals(GameState.TUTORIAL)){
+            startGame();
         }
     }
 
     private void btnRightControl(){
         if(gameState.equals(GameState.GAME)){
-            setGate(true);
+            setGate(false);
         }
     }
 
     private void btnLeftControl(){
         if(gameState.equals(GameState.GAME)){
-            setGate(false);
+            setGate(true);
         }
     }
 

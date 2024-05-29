@@ -29,9 +29,17 @@ public class NameGeneratorController {
     }
 
     public void changeLetter(int position){
-        nameGeneratorModel.changeLetter(position);
-        nameGeneratorView.highlightArrow();
-        nameGeneratorView.changeLetterView();
+        if(nameGeneratorModel.getActiveLane()<4){
+            if(position>nameGeneratorModel.getLetter()){
+                nameGeneratorModel.changeLetter(position);
+                nameGeneratorView.highlightArrowDown();
+                nameGeneratorView.changeLetterView();
+            }else{
+                nameGeneratorModel.changeLetter(position);
+                nameGeneratorView.highlightArrowUp();
+                nameGeneratorView.changeLetterView();
+            }
+        }
     }
 
     public void setPlayerName(String playerName){

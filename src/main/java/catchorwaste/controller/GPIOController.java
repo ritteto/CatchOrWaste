@@ -114,13 +114,13 @@ public class GPIOController {
 
        joystickDown = pi4j.create(DigitalInput.newConfigBuilder(pi4j)
                .id("JOYSTICK_Down")
-               .address(6)
+               .address(5)
                .pull(PullResistance.PULL_UP)
                .provider("pigpio-digital-input"));
 
        joystickUp = pi4j.create(DigitalInput.newConfigBuilder(pi4j)
                .id("JOYSTICK_Up")
-               .address(5)
+               .address(6)
                .pull(PullResistance.PULL_UP)
                .provider("pigpio-digital-input"));
 
