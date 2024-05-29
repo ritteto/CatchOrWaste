@@ -205,8 +205,7 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
         getGameScene().setCursorInvisible();
 
         //call first Screen
-        //callNameGenerator();
-        callTutorial();
+        callNameGenerator();
     }
 
     @Override
