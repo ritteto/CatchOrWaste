@@ -16,6 +16,7 @@ import catchorwaste.controller.screens.TutorialController;
 
 
 import catchorwaste.model.PunktesystemModel;
+import catchorwaste.model.components.ImageNameComponent;
 import catchorwaste.model.entities.FallingObjectModel;
 import catchorwaste.model.screens.HighScoreModel;
 import catchorwaste.model.screens.NameGeneratorModel;
@@ -77,6 +78,7 @@ import static catchorwaste.model.variables.Constants.WORKSTATION_RIGHT_Y;
 import static catchorwaste.model.variables.Constants.MARKT_X;
 import static catchorwaste.model.variables.Constants.STREET_HEIGHT;
 
+import static catchorwaste.model.variables.globalVariables.score;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppWidth;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppHeight;
@@ -213,6 +215,7 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
     @Override
     protected void onUpdate(double tpf) {
         if (gameState.equals(GameState.GAME)) {
+            updateBackground();
             playerOnUpdate(getGameWorld());
             cartOnUpdate(getGameWorld());
             fallingObjectOnUpdate(getGameWorld());
@@ -286,7 +289,8 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
 
         Map<String, Image> map = new HashMap<>();
 
-        var backroundsImgs = new String[]{"background_bad","background_bad_crop", "streets_left", "streets_right"};
+        var backroundsImgs = new String[]{"background_bad","background_bad_crop", "streets_left", "streets_right",
+                "background_gruen_1", "background_gruen_2"};
 
         var cartsImgs = new String[]{
                 "cart_horizontal", "cart_vertical",
@@ -396,8 +400,10 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
 
     private void spawnEnvironment(){
         //spawn backgrounds
-        spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 1).put("Name", "background_bad"));
-        spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 2).put("Name", "streets"));
+        spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 1).put("Name", "background_bad")
+                .put("ImageName", "background_bad"));
+        spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 2).put("Name", "streets")
+                .put("ImageName", "streets_left"));
 
         // spawn houses
         spawn("HOUSE", new SpawnData(HOUSE1_X, HOUSE_Y).put("Position", 1));
@@ -449,6 +455,30 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
         callEndscreen();
     }
 
+    public void updateBackground(){
+        if(score > 250 && score <500 && !getGameWorld().getEntitiesByType(EntityType.BACKGROUND)
+                .get(0).getComponent(ImageNameComponent.class).getImageName().equals("background_gruen_1")){
+            removeBackgroundEntity();
+            spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 1).put("Name", "background_gruen_1")
+                    .put("ImageName", "background_gruen_1"));
+            spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 2).put("Name", "streets")
+                    .put("ImageName", "streets_left"));
+        } else if (score > 500 && !getGameWorld().getEntitiesByType(EntityType.BACKGROUND)
+                .get(0).getComponent(ImageNameComponent.class).getImageName().equals("background_gruen_2")) {
+            removeBackgroundEntity();
+            spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 1).put("Name", "background_gruen_2")
+                    .put("ImageName", "background_gruen_2"));
+            spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 2).put("Name", "streets")
+                    .put("ImageName", "streets_left"));
+        }
+    }
+
+    public void removeBackgroundEntity(){
+        var removeEntities = new ArrayList<>(getGameWorld().getEntitiesByType(EntityType.BACKGROUND));
+        for (Entity entity : removeEntities) {
+            getGameWorld().removeEntity(entity);
+        }
+    }
 
     public void initControllers(){
         var startScreenModel = new StartScreenModel();

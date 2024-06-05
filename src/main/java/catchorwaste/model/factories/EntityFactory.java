@@ -39,6 +39,7 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
                 .with(new PlayerDirectionComponent(true))
                 .with(new CollidableComponent(true))
                 .scale(2, 2)
+                .zIndex(2)
                 .type(EntityType.PLAYER)
                 .build();
     }
@@ -56,6 +57,7 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
                 .viewWithBBox(new ImageView(imageMap.get(names[zufallszahl])))
                 .type(EntityType.OBJECT)
                 .scale(1, 1)
+                .zIndex(2)
                 .with(new ProjectileComponent(new Point2D(0, 1),100))
                 .with(new ImageNameComponent(name))
                 .with(new IsCatchedComponent(false))
@@ -84,6 +86,7 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
                 .with(new CartDirectionComponent(true))
                 .with(new CollidableComponent(true))
                 .scale(1.7, 1.7)
+                .zIndex(2)
                 .type(EntityType.CART)
                 .build();
     }
@@ -96,6 +99,7 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
                 .viewWithBBox(new ImageView(imageMap.get(houses[(int) data.get("Position") - 1])))
                 .type(EntityType.HOUSE)
                 .scale(1.2, 1.2)
+                .zIndex(2)
                 .build();
 
     }
@@ -104,14 +108,25 @@ public class EntityFactory implements com.almasb.fxgl.entity.EntityFactory {
     @Spawns("BACKGROUND")
     public Entity newBackground(SpawnData data) {
         var backgrounds = new String[]{"background_bad", "streets_left"};
-        var backgroundView = new ImageView(imageMap.get(backgrounds[(int) data.get("Position") - 1]));
+        //var backgroundView = new ImageView(imageMap.get(backgrounds[(int) data.get("Position") - 1]));
+        var backgroundView = new ImageView(imageMap.get(data.get("ImageName")));
         backgroundView.setFitWidth(getAppWidth());
         backgroundView.setFitHeight(getAppHeight());
-        return FXGL.entityBuilder(data)
+        String s = data.get("Name");
+        int zIndex;
+        if(s.contains("streets")){
+            zIndex = 1;
+        }else{
+            zIndex = 0;
+        }
+        Entity entity = FXGL.entityBuilder(data)
                 .view(backgroundView)
                 .with(new ImageNameComponent(data.get("Name")))
                 .type(EntityType.BACKGROUND)
+                .zIndex(zIndex)
                 .build();
+
+        return entity;
     }
 
     @Spawns("WORKSTATION")
