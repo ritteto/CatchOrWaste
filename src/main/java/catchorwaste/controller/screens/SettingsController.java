@@ -54,6 +54,10 @@ public class SettingsController {
         settingsModel.updateDifficulty();
     }
 
+    public int getDifficulty(){
+        return settingsModel.getDifficulty();
+    }
+
     public double[] getFallingSpeedRange(){
         return settingsModel.getSpeedRange();
     }

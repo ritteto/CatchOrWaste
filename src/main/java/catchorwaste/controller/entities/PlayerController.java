@@ -1,5 +1,6 @@
 package catchorwaste.controller.entities;
 
+import catchorwaste.controller.screens.SettingsController;
 import catchorwaste.model.components.CargoComponent;
 import catchorwaste.model.components.IsCatchedComponent;
 import catchorwaste.model.components.PlayerDirectionComponent;
@@ -30,8 +31,8 @@ public class PlayerController {
     private PlayerView playerView;
     private CartController cartController;
 
-    public PlayerController(CartController cartController){
-        this.playerSpeed = readPlayerSpeed();
+    public PlayerController(CartController cartController, SettingsController settingsController){
+        this.playerSpeed = readPlayerSpeed(settingsController.getDifficulty());
         this.playerView = new PlayerView();
         this.cartController = cartController;
     }
@@ -74,7 +75,7 @@ public class PlayerController {
         }
     }
 
-    private int readPlayerSpeed(){
+    private int readPlayerSpeed(int level){
         var playerSpeed = 0;
 
         File file;
@@ -90,7 +91,7 @@ public class PlayerController {
             Iterator<Map.Entry<String, JsonNode>> iterator = jsonNode.fields();
             while (iterator.hasNext()){
                 Map.Entry<String, JsonNode> field = iterator.next();
-                if(field.getKey().equals("playerSpeed")){
+                if(field.getKey().equals("playerSpeed"+level)){
                     playerSpeed = Integer.parseInt(String.valueOf(field.getValue()));
                 }
             }

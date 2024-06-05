@@ -9,7 +9,9 @@
 
   "totalTimeSec" : 45,
 
-  "playerSpeed" : 10,
+  "playerSpeed1" : 10,
+  "playerSpeed2" : 12,
+  "playerSpeed3" : 14,
 
   "speedRange1" : [80,120],
   "speedRange2" : [100,140],

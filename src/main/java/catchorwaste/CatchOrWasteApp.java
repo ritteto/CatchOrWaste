@@ -127,7 +127,7 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
 
         if (osArch.contains("arm") || osArch.contains("aarch64")) {
             GPIOController controller = new GPIOController();
-            controller.initControllers(cartController);
+            controller.initControllers(cartController,settingsController);
             controller.initActions(this::leftControl, this::rightControl, this::upControl,
                     this::downControl, this::acceptControl, this::btnLeftControl, this::btnRightControl);
             controller.setup();
@@ -331,7 +331,7 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
 
         String[] fileNames = {"german", "english", "french"};
         for (int i=0; i<fileNames.length; i++) {
-            File file = null;
+            File file;
             if(System.getProperty("os.name").contains("Windows")){
                 file = new File("src/main/resources/config/language_files/"+fileNames[i]+".json");
             }else{
@@ -474,7 +474,7 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
 
         cartController = new CartController(punkteSystemController);
 
-        playerController = new PlayerController(cartController);
+        playerController = new PlayerController(cartController, settingsController);
 
         tutorialController = new TutorialController();
 
@@ -502,7 +502,7 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
 
         cartController = new CartController(punkteSystemController);
 
-        playerController = new PlayerController(cartController);
+        playerController = new PlayerController(cartController, settingsController);
     }
 
     private void leftControl(){

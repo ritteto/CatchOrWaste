@@ -112,6 +112,10 @@ public class SettingsModel {
         return this.speedRange;
     }
 
+    public int getDifficulty(){
+        return this.selectedDiff;
+    }
+
     public void updateDifficulty(){
         switch (this.selectedDiff){
             case 1:
