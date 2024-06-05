@@ -3,6 +3,7 @@
 "NewPlayer":["New Player?","Yes", "No"],
 "NameGenerator":["Name?","Submit"],
 "Settings":["Settings", "Language", "Difficulty", "Tutorial", "Submit", "Yes", "No"],
+"Tutorial":["As a disposable police officer, you have to sort the falling objects correctly", "Pass on", "Repair", "Recycle"],
 "Game":"Points",
 "EndScreen":["Your points: ","Time is up!", "Continue"],
  "LearningMessageTitle": [

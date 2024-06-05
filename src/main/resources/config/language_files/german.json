@@ -3,6 +3,7 @@
 "NewPlayer":["Neuer Spieler?","Ja", "Nein"],
 "NameGenerator":["Namen?","Weiter"],
 "Settings":["Einstellungen", "Sprache", "Schwierigkeit", "Tutorial", "Weiter","Ja", "Nein"],
+"Tutorial":["Als Wegwerfpolizist musst du die herunterfallenden Gegenstände korrekt sortieren", "Weitergeben", "Reparieren", "Recyclen"],
 "Game":"Punkte",
 "EndScreen":["Deine Punkte: ","Zeit ist vorbei!", "Weiter"],
  "LearningMessageTitle": [

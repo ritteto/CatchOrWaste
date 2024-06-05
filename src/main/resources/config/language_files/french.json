@@ -3,6 +3,7 @@
 "NewPlayer":["Nouveau joueur?","Oui", "Non"],
 "NameGenerator":["Nom2","Avancer"],
 "Settings":["Parametres", "Langue", "Difficulte", "Didacticiel", "Avancer", "Oui", "Non"],
+"Tutorial":["En tant que policier des déchets, tu dois trier correctement les objets qui tombent", "Transmettre", "Réparer", "Recycler"],
 "Game":"Points",
 "EndScreen":["Vos points: ","Le temps est termine!", "Avancer"],
 "LearningMessageTitle": [
