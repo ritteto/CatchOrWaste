@@ -7,7 +7,7 @@
   "dressScore" : 20,
   "lampScore" : 10,
 
-  "totalTimeSec" : 5,
+  "totalTimeSec" : 120,
 
   "playerSpeed1" : 10,
   "playerSpeed2" : 12,

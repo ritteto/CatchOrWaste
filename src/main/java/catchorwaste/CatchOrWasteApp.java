@@ -449,6 +449,7 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
         callEndscreen();
     }
 
+
     public void initControllers(){
         var startScreenModel = new StartScreenModel();
         startScreenController = new StartScreenController(startScreenModel);
