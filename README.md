@@ -84,9 +84,12 @@ Ensure your local machine is connected to the same network as your Raspberry Pi,
 Languages can be configured by the user via the options screen. This changes all text labels within all screens. The new language is applied as soon as the submit button at the end of the settings screen is pressed.
 To change any text messages, edit the language JSON files in `/home/pi4j/deploy`
 
-### Difficulty Levels, Score, and Player Speed
+### Configurable Variables
 
-These variables can be edited in the configurableVariables.json file located in `/home/pi4j/deploy`.
+These can be edited in the configurableVariables.json file located in `/home/pi4j/deploy`.
+- Difficulty level (items per second and drop speed)
+- Points per item for the three different types
+- Total game time
 
 ### General Structure
 
