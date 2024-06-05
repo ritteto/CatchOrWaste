@@ -1,0 +1,26 @@
+{
+"StartScreen":"Hello",
+"NewPlayer":["New Player?","Yes", "No"],
+"NameGenerator":["Name?","Submit"],
+"Settings":["Settings", "Language", "Difficulty", "Tutorial", "Submit", "Yes", "No"],
+"Tutorial":["As a disposable police officer, you have to sort the falling objects correctly", "Pass on", "Repair", "Recycle"],
+"Game":"Points",
+"EndScreen":["Your points: ","Time is up!", "Continue"],
+ "LearningMessageTitle": [
+  "Recycle me",
+  "Buy second-hand!!!"
+ ],
+ "LearningMessages": [
+  "Recycling reduces the need to extract new raw materials, thus conserving natural resources such as forests, minerals and water.",
+  "Recycling produces less waste and reduces the burden on landfill sites, helping to prevent pollution.",
+  "Manufacturing products from recycled materials often requires less energy than manufacturing from virgin raw materials, which leads to a reduction in greenhouse gas emissions",
+  "Recycling helps reduce greenhouse gas emissions by incinerating or landfilling the amount of waste that would otherwise lead to the release of methane.",
+  "Recycling promotes a sustainable economy by putting materials back into the production cycle and reducing the consumption of virgin resources.",
+  "Buying second-hand items prevents items from ending up in landfill, which helps to minimise waste and extends the life of products.",
+  "Second-hand products are often cheaper than new items, allowing consumers to save money without sacrificing quality.",
+  "Second-hand purchases often offer unique and rare items that are no longer manufactured, resulting in individual style and expression.",
+  "By buying second-hand items, fewer new products are produced, which helps to conserve natural resources and reduce the ecological footprint.",
+  "Buying from second-hand shops or flea markets often supports local businesses and charitable organisations, which helps to strengthen the community."
+ ]
+
+}

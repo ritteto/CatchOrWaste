@@ -2,10 +2,16 @@ package catchorwaste.controller;
 
 import catchorwaste.model.TimerModel;
 import catchorwaste.view.TimerView;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.animation.AnimationTimer;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.Map;
+
 import static catchorwaste.model.TimerModel.setTotalSeconds;
-import static catchorwaste.model.constants.Constants.TOTAL_TIME_LIMIT_SECONDS;
 import static catchorwaste.view.TimerView.initTimerView;
 
 public class TimerController {
@@ -43,7 +49,7 @@ public class TimerController {
         int elapsedTimeSeconds = (int) (elapsedTimeNano / 1_000_000_000);
 
         // Begrenze den Timer auf 3 Minuten
-        int remainingTimeSeconds = Math.max(TOTAL_TIME_LIMIT_SECONDS - elapsedTimeSeconds, 0);
+        int remainingTimeSeconds = Math.max(readTotalSeconds() - elapsedTimeSeconds, 0);
 
         // Aktualisiere das Timer-Modell und die Ansicht
         setTotalSeconds(remainingTimeSeconds);
@@ -55,12 +61,37 @@ public class TimerController {
             if (listener != null) {
                 listener.onTimerStopped();
             }
-            //calls method from the main class
-            //((CatchOrWasteApp) FXGL.getApp()).timeIsUp(timerView, punktesystemView);
         }
     }
 
-    public static void stopTimer() {
+    public static int readTotalSeconds(){
+        var seconds = 0;
+        File file;
+        if(System.getProperty("os.name").contains("Windows")){
+            file = new File("src/main/resources/config/gameVariables/configurableVariables.json");
+        }else{
+            file = new File("/home/pi4j/deploy/configurableVariables.json");
+        }
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            JsonNode jsonNode = objectMapper.readTree(file);
+
+            Iterator<Map.Entry<String, JsonNode>> iterator = jsonNode.fields();
+            while (iterator.hasNext()){
+                Map.Entry<String, JsonNode> field = iterator.next();
+                if(field.getKey().equals("totalTimeSec")){
+                    seconds = Integer.parseInt(String.valueOf(field.getValue()));
+                }
+            }
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return seconds;
+    }
+
+    private static void stopTimer() {
         // Stoppe den AnimationTimer
         animationTimer.stop();
     }

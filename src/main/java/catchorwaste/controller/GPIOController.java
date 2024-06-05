@@ -1,5 +1,7 @@
 package catchorwaste.controller;
 
+import catchorwaste.controller.entities.CartController;
+import catchorwaste.controller.entities.PlayerController;
 import com.pi4j.Pi4J;
 import com.pi4j.context.Context;
 import com.pi4j.io.gpio.digital.DigitalInput;
@@ -7,11 +9,10 @@ import com.pi4j.io.gpio.digital.DigitalState;
 import com.pi4j.io.gpio.digital.PullResistance;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static catchorwaste.model.CartModel.setGate;
 import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
-import static catchorwaste.controller.PlayerController.movePlayer;
 
 public class GPIOController {
 
@@ -21,15 +22,45 @@ public class GPIOController {
     private DigitalInput buttonLeft;
     private DigitalInput buttonRight;
     private DigitalInput buttonAccept;
+
+    private DigitalInput joystickDown;
+    private DigitalInput joystickUp;
     private final AtomicBoolean movingLeft = new AtomicBoolean(false);
     private final AtomicBoolean movingRight = new AtomicBoolean(false);
+
+    private final AtomicBoolean movingUp = new AtomicBoolean(false);
+    private final AtomicBoolean movingDown = new AtomicBoolean(false);
     private AnimationTimer movementTimer;
 
+    private  CartController cartController;
 
-    public void init(){
+    private Runnable actionAccept;
+    private Runnable actionRight;
+    private Runnable actionLeft;
+    private Runnable actionUp;
+    private Runnable actionDown;
+    private Runnable actionBtnLeft;
+    private Runnable actionBtnRight;
+
+    public void initControllers(CartController cartController){
+        this.cartController = cartController;
+    }
+
+    public void initActions(Runnable left, Runnable right, Runnable up, Runnable down,
+                            Runnable accept, Runnable btnLeft, Runnable btnRight){
+        this.actionLeft = left;
+        this.actionRight = right;
+        this.actionUp = up;
+        this.actionDown = down;
+        this.actionAccept = accept;
+        this.actionBtnLeft = btnLeft;
+        this.actionBtnRight = btnRight;
+    }
+    public void setup(){
         pi4j = Pi4J.newAutoContext();
         setupGPIO();
         setupMovementTimer();
+
     }
 
    private void setupGPIO() {
@@ -54,15 +85,21 @@ public class GPIOController {
 
         buttonLeft.addListener(e -> {
             if (e.state() == DigitalState.LOW) {
-                Platform.runLater(() -> setGate(true));
+                Platform.runLater(actionBtnLeft);
             }
         });
 
         buttonRight.addListener(e -> {
             if (e.state() == DigitalState.LOW) {
-                Platform.runLater(() -> setGate(false));
+                Platform.runLater(actionBtnRight);
             }
         });
+
+       buttonAccept.addListener(e -> {
+           if (e.state() == DigitalState.LOW) {
+               Platform.runLater(actionAccept);
+           }
+       });
 
         joystickRight = pi4j.create(DigitalInput.newConfigBuilder(pi4j)
                 .id("JOYSTICK_Right")
@@ -76,36 +113,65 @@ public class GPIOController {
                 .pull(PullResistance.PULL_UP)
                 .provider("pigpio-digital-input"));
 
-        handleMovement(joystickRight, movingRight, true);
-        handleMovement(joystickLeft, movingLeft, false);
+       joystickDown = pi4j.create(DigitalInput.newConfigBuilder(pi4j)
+               .id("JOYSTICK_Down")
+               .address(5)
+               .pull(PullResistance.PULL_UP)
+               .provider("pigpio-digital-input"));
+
+       joystickUp = pi4j.create(DigitalInput.newConfigBuilder(pi4j)
+               .id("JOYSTICK_Up")
+               .address(6)
+               .pull(PullResistance.PULL_UP)
+               .provider("pigpio-digital-input"));
+
+
+       handleMovement(joystickRight, movingRight, this::onJoystickRight);
+       handleMovement(joystickLeft, movingLeft, this::onJoystickLeft);
+       handleMovement(joystickUp, movingUp, this::onJoystickUp);
+       handleMovement(joystickDown, movingDown, this::onJoystickDown);
     }
 
-    public void onAcceptButton(Runnable r) {
-        buttonAccept.addListener(e -> {
-            if (e.state() == DigitalState.LOW) {
-                Platform.runLater(() -> r.run());
+
+    private void handleMovement(DigitalInput joystick, AtomicBoolean moving, Runnable action) {
+        joystick.addListener(e -> {
+            moving.set(e.state() == DigitalState.LOW);
+            if (moving.get()) {
+                Platform.runLater(action);
             }
         });
     }
 
-    private void handleMovement(DigitalInput joystick, AtomicBoolean moving, boolean direction) {
-        joystick.addListener(e -> {
-            moving.set(e.state() == DigitalState.LOW);
-        });
-    }
-
     private void setupMovementTimer() {
+        PlayerController playerController = new PlayerController(cartController);
         movementTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 if (movingRight.get()) {
-                    movePlayer(true, getGameWorld());
+                    playerController.movePlayer(true, getGameWorld());
                 }
                 if (movingLeft.get()) {
-                    movePlayer(false, getGameWorld());
+                    playerController.movePlayer(false, getGameWorld());
                 }
             }
         };
         movementTimer.start();
     }
+
+    private void onJoystickRight() {
+        actionRight.run();
+    }
+
+    private void onJoystickLeft() {
+        actionLeft.run();
+    }
+
+    private void onJoystickUp() {
+        actionUp.run();
+    }
+
+    private void onJoystickDown() {
+        actionDown.run();
+    }
+
 }
