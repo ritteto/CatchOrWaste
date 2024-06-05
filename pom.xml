@@ -20,7 +20,7 @@
 
 
         <pi.hostname>pi4j</pi.hostname>
-        <pi.ipnumber>10.175.28.28
+        <pi.ipnumber>10.175.12.16
         </pi.ipnumber>  <!-- change to concrete ip-number if hostname is not unique in wlan -->
         <pi.port>22</pi.port>
         <pi.username>pi4j</pi.username>
@@ -94,6 +94,25 @@
             <artifactId>fxgl</artifactId>
             <version>${fxgl.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.16.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>5.7.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-collections</groupId>
+                    <artifactId>commons-collections</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -157,7 +176,11 @@
                                 <copy todir="${project.build.directory}/distribution" overwrite="true" flatten="true">
                                     <fileset dir="src/main/resources/scripts" includes="**/*.sh, **/*.service"/>
                                     <fileset dir="src/main/resources/sounds"/>
-                                    <fileset dir="src/main/resources/config"/>
+                                    <fileset dir="src/main/resources/config/language_files"/>
+                                    <fileset dir="src/main/resources/config/gameVariables"/>
+                                    <fileset dir="src/main/resources/fonts"/>
+                                    <fileset dir="src/main/resources/files/highscore"/>
+                                    <fileset dir="src/main/resources"/>
                                 </copy>
                                 <chmod dir="${project.build.directory}/distribution" perm="ugo+rx"
                                        includes="**/*.sh, **/*.service"/>
