@@ -26,6 +26,7 @@ import catchorwaste.model.screens.StartScreenModel;
 import catchorwaste.model.enums.EntityType;
 import catchorwaste.model.enums.GameState;
 import catchorwaste.model.factories.EntityFactory;
+import catchorwaste.view.StartScreenView;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
@@ -112,7 +113,7 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
     public static void main(String[] args) {
         launch(args);
     }
-    
+
     //application methods
     @Override
     protected void initSettings(GameSettings settings) {
@@ -319,6 +320,7 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
         var startScreenImgs = new String[]{
                 "gamescreen","settingsscreen", "startscreen", "tutorial-test-1"
         };
+
 
         map = addToMap("backgrounds", backroundsImgs, map);
         map = addToMap("carts", cartsImgs, map);

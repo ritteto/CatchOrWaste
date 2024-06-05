@@ -1,4 +1,4 @@
-package catchorwaste.model.variables;
+package catchorwaste.model.constants;
 
 import com.almasb.fxgl.dsl.FXGL;
 
