@@ -123,6 +123,8 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
     @Override
     protected void initInput() {
 
+        initControllers();
+
         String osArch = System.getProperty("os.arch").toLowerCase();
 
         if (osArch.contains("arm") || osArch.contains("aarch64")) {
@@ -184,7 +186,7 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
         textMap = loadText();
         languageMap = textMap.get("german");
 
-        initControllers();
+        //initControllers();
 
         //register eventHandlers such as collison handlers
         FXGL.onCollision(EntityType.CART, EntityType.WORKSTATION,
@@ -448,9 +450,6 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
     }
 
     public void initControllers(){
-        var newPlayerModel = new NewPlayerModel();
-        newPlayerController = new NewPlayerController(newPlayerModel);
-
         var startScreenModel = new StartScreenModel();
         startScreenController = new StartScreenController(startScreenModel);
 
@@ -458,6 +457,9 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
 
         var settingsModel = new SettingsModel();
         settingsController = new SettingsController(settingsModel);
+
+        var newPlayerModel = new NewPlayerModel();
+        newPlayerController = new NewPlayerController(newPlayerModel);
 
         var punkteSystemModel = new PunktesystemModel();
         punkteSystemController = new PunktesystemController(punkteSystemModel);
