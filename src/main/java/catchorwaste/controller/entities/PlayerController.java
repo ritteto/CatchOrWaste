@@ -1,6 +1,5 @@
 package catchorwaste.controller.entities;
 
-import catchorwaste.controller.screens.SettingsController;
 import catchorwaste.model.components.CargoComponent;
 import catchorwaste.model.components.IsCatchedComponent;
 import catchorwaste.model.components.PlayerDirectionComponent;
@@ -10,29 +9,21 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.Map;
 
 import static catchorwaste.controller.entities.CartController.cartDistance;
-import static catchorwaste.model.variables.Constants.STREET_RIGHT_END;
-import static catchorwaste.model.variables.Constants.STREET_LEFT_END;
-
 import static catchorwaste.model.variables.Constants.CART_HEIGHT_AT_STREET;
+import static catchorwaste.model.variables.Constants.STREET_LEFT_END;
+import static catchorwaste.model.variables.Constants.STREET_RIGHT_END;
+
+import static catchorwaste.model.variables.globalVariables.playerSpeed;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 
 public class PlayerController {
 
-    private int playerSpeed;
     private PlayerView playerView;
     private CartController cartController;
 
-    public PlayerController(CartController cartController, SettingsController settingsController){
-        this.playerSpeed = readPlayerSpeed(settingsController.getDifficulty());
+    public PlayerController(CartController cartController){
         this.playerView = new PlayerView();
         this.cartController = cartController;
     }
@@ -73,34 +64,6 @@ public class PlayerController {
                 player.translateX(-playerSpeed);
             }
         }
-    }
-
-    private int readPlayerSpeed(int level){
-        var playerSpeed = 0;
-
-        File file;
-        if(System.getProperty("os.name").contains("Windows")){
-            file = new File("src/main/resources/config/gameVariables/configurableVariables.json");
-        }else{
-            file = new File("/home/pi4j/deploy/configurableVariables.json");
-        }
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            JsonNode jsonNode = objectMapper.readTree(file);
-
-            Iterator<Map.Entry<String, JsonNode>> iterator = jsonNode.fields();
-            while (iterator.hasNext()){
-                Map.Entry<String, JsonNode> field = iterator.next();
-                if(field.getKey().equals("playerSpeed"+level)){
-                    playerSpeed = Integer.parseInt(String.valueOf(field.getValue()));
-                }
-            }
-
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-
-        return playerSpeed;
     }
 
     public void isAtStreetEnd(){

@@ -15,8 +15,8 @@ import javafx.scene.text.Font;
 import static catchorwaste.CatchOrWasteApp.imageMap;
 
 import static catchorwaste.CatchOrWasteApp.languageMap;
-import static catchorwaste.model.variables.Constants.FONT;
 
+import static catchorwaste.model.variables.Constants.FONT;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppWidth;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppHeight;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;

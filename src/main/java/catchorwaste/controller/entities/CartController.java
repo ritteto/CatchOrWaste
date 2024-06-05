@@ -8,16 +8,16 @@ import catchorwaste.view.entities.CartView;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 
+import static catchorwaste.model.variables.Constants.CART_HEIGHT_AT_STREET;
 import static catchorwaste.model.variables.Constants.CURVE_BL;
 import static catchorwaste.model.variables.Constants.CURVE_BR;
 import static catchorwaste.model.variables.Constants.CURVE_TR;
-import static catchorwaste.model.variables.Constants.STREET_LEFT_END;
-import static catchorwaste.model.variables.Constants.STREET_RIGHT_END;
-import static catchorwaste.model.variables.Constants.CART_HEIGHT_AT_STREET;
-import static catchorwaste.model.variables.Constants.RECYCLE_HEIGHT;
 import static catchorwaste.model.variables.Constants.GATE_HEIGHT;
 import static catchorwaste.model.variables.Constants.GATE_LEFT_END;
 import static catchorwaste.model.variables.Constants.GATE_RIGHT_END;
+import static catchorwaste.model.variables.Constants.RECYCLE_HEIGHT;
+import static catchorwaste.model.variables.Constants.STREET_LEFT_END;
+import static catchorwaste.model.variables.Constants.STREET_RIGHT_END;
 
 
 import static catchorwaste.model.entities.CartModel.getCartSpeed;

@@ -11,6 +11,7 @@ import java.util.Map;
 import static catchorwaste.CatchOrWasteApp.languages;
 import static catchorwaste.CatchOrWasteApp.languageMap;
 import static catchorwaste.CatchOrWasteApp.textMap;
+import static catchorwaste.model.variables.globalVariables.playerSpeed;
 
 public class SettingsModel {
     private int selectedLine = 1;
@@ -121,14 +122,17 @@ public class SettingsModel {
             case 1:
                 this.itemsPerSecond = readDifficulty(1);
                 this.speedRange = readSpeedRange(1);
+                playerSpeed = readPlayerSpeed(1);
                 break;
             case 2:
                 this.itemsPerSecond = readDifficulty(2);
                 this.speedRange = readSpeedRange(2);
+                playerSpeed = readPlayerSpeed(2);
                 break;
             case 3:
                 this.itemsPerSecond = readDifficulty(3);
                 this.speedRange = readSpeedRange(3);
+                playerSpeed = readPlayerSpeed(3);
                 break;
         }
     }
@@ -158,6 +162,32 @@ public class SettingsModel {
             System.out.println(e.getMessage());
         }
         return rate;
+    }
+
+    public int readPlayerSpeed(int level){
+        int speed= 10;
+        File file;
+        if(System.getProperty("os.name").contains("Windows")){
+            file = new File("src/main/resources/config/gameVariables/configurableVariables.json");
+        }else{
+            file = new File("/home/pi4j/deploy/configurableVariables.json");
+        }
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            JsonNode jsonNode = objectMapper.readTree(file);
+
+            Iterator<Map.Entry<String, JsonNode>> iterator = jsonNode.fields();
+            while (iterator.hasNext()){
+                Map.Entry<String, JsonNode> field = iterator.next();
+                if(field.getKey().equals("playerSpeed"+level)){
+                    speed = Integer.parseInt(String.valueOf(field.getValue()));
+                }
+            }
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        return speed;
     }
 
     public double[] readSpeedRange(int level){

@@ -11,7 +11,7 @@
 
   "playerSpeed1" : 10,
   "playerSpeed2" : 12,
-  "playerSpeed3" : 14,
+  "playerSpeed3" : 15,
 
   "speedRange1" : [80,120],
   "speedRange2" : [100,140],

@@ -26,7 +26,6 @@ import catchorwaste.model.screens.StartScreenModel;
 import catchorwaste.model.enums.EntityType;
 import catchorwaste.model.enums.GameState;
 import catchorwaste.model.factories.EntityFactory;
-import catchorwaste.view.StartScreenView;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
@@ -66,19 +65,17 @@ import java.util.function.Function;
 import static catchorwaste.controller.TimerController.initTimer;
 import static catchorwaste.controller.TimerController.startTimer;
 
-import static catchorwaste.model.entities.CartModel.setGate;
-
 import static catchorwaste.model.variables.Constants.HOUSE1_X;
 import static catchorwaste.model.variables.Constants.HOUSE2_X;
 import static catchorwaste.model.variables.Constants.HOUSE3_X;
 import static catchorwaste.model.variables.Constants.HOUSE4_X;
 import static catchorwaste.model.variables.Constants.HOUSE_Y;
 import static catchorwaste.model.variables.Constants.REPARIEREN_X;
-import static catchorwaste.model.variables.Constants.RECYCLE_X;
 import static catchorwaste.model.variables.Constants.WORKSTATION_RIGHT_Y;
 import static catchorwaste.model.variables.Constants.MARKT_X;
+import static catchorwaste.model.variables.Constants.RECYCLE_X;
 import static catchorwaste.model.variables.Constants.STREET_HEIGHT;
-
+import static catchorwaste.model.entities.CartModel.setGate;
 import static catchorwaste.model.variables.globalVariables.score;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppWidth;
@@ -132,7 +129,7 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
 
         if (osArch.contains("arm") || osArch.contains("aarch64")) {
             GPIOController controller = new GPIOController();
-            controller.initControllers(cartController,settingsController);
+            controller.initControllers(cartController);
             controller.initActions(this::leftControl, this::rightControl, this::upControl,
                     this::downControl, this::acceptControl, this::btnLeftControl, this::btnRightControl);
             controller.setup();
@@ -509,7 +506,7 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
 
         cartController = new CartController(punkteSystemController);
 
-        playerController = new PlayerController(cartController, settingsController);
+        playerController = new PlayerController(cartController);
 
         tutorialController = new TutorialController();
 
@@ -537,7 +534,7 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
 
         cartController = new CartController(punkteSystemController);
 
-        playerController = new PlayerController(cartController, settingsController);
+        playerController = new PlayerController(cartController);
     }
 
     private void leftControl(){

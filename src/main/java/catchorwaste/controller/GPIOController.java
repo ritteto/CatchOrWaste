@@ -2,7 +2,6 @@ package catchorwaste.controller;
 
 import catchorwaste.controller.entities.CartController;
 import catchorwaste.controller.entities.PlayerController;
-import catchorwaste.controller.screens.SettingsController;
 import com.pi4j.Pi4J;
 import com.pi4j.context.Context;
 import com.pi4j.io.gpio.digital.DigitalInput;
@@ -34,7 +33,6 @@ public class GPIOController {
     private AnimationTimer movementTimer;
 
     private  CartController cartController;
-    private SettingsController settingsController;
 
     private Runnable actionAccept;
     private Runnable actionRight;
@@ -44,9 +42,8 @@ public class GPIOController {
     private Runnable actionBtnLeft;
     private Runnable actionBtnRight;
 
-    public void initControllers(CartController cartController, SettingsController settingsController){
+    public void initControllers(CartController cartController){
         this.cartController = cartController;
-        this.settingsController = settingsController;
     }
 
     public void initActions(Runnable left, Runnable right, Runnable up, Runnable down,
@@ -146,7 +143,7 @@ public class GPIOController {
     }
 
     private void setupMovementTimer() {
-        PlayerController playerController = new PlayerController(cartController, settingsController);
+        PlayerController playerController = new PlayerController(cartController);
         movementTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {

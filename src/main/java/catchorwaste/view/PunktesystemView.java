@@ -11,7 +11,7 @@ import javafx.util.Duration;
 import static catchorwaste.CatchOrWasteApp.languageMap;
 import static catchorwaste.model.variables.Constants.FONT_SIZE;
 import static catchorwaste.model.variables.globalVariables.score;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppWidth;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppHeight;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
 import static javafx.scene.text.FontWeight.BOLD;
 
@@ -25,7 +25,7 @@ public class PunktesystemView extends StackPane {
         stackPane = new StackPane();
         scoreLabel = new Label();
         scoreLabel.setStyle(FONT_SIZE);
-        StackPane.setMargin(scoreLabel, new Insets(20, 0, 0, getAppWidth()*0.75));
+        StackPane.setMargin(scoreLabel, new Insets(getAppHeight()*0.3, 0, 0, 20));
 
         stackPane.getChildren().add(scoreLabel);
         getGameScene().addUINode(stackPane);

@@ -3,7 +3,9 @@ package catchorwaste.view;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.geometry.Insets;
+
 import static catchorwaste.model.variables.Constants.FONT_SIZE;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAppHeight;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
 
 public class TimerView extends StackPane {
@@ -15,7 +17,7 @@ public class TimerView extends StackPane {
         stackPane = new StackPane();
         timerLabel = new Label();
         timerLabel.setStyle(FONT_SIZE);
-        StackPane.setMargin(timerLabel, new Insets(20, 0, 0, 20));
+        StackPane.setMargin(timerLabel, new Insets(getAppHeight()*0.3-50, 0, 0, 20));
 
         stackPane.getChildren().add(timerLabel);
         getGameScene().addUINode(stackPane);
