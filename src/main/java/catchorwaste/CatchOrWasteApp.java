@@ -76,7 +76,6 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
         launch(args);
     }
 
-
     //application methods
     @Override
     protected void initSettings(GameSettings settings) {
@@ -376,7 +375,6 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
             getGameScene().removeUINode(node);
         }
     }
-
     @Override
     public void onTimerStopped() {
         callEndscreen();

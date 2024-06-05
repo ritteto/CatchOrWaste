@@ -44,8 +44,11 @@ public class PunktesystemView extends StackPane {
         } else if (change < 0) {
             label.setTextFill(Color.RED);
             label.setText(String.valueOf(change));
-        }
+        } else {
+            label.setTextFill(Color.YELLOW);
+            label.setText("+" + 0);
 
+        }
         label.setLayoutX(x);
         label.setLayoutY(y);
 
