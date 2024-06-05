@@ -38,6 +38,7 @@ import com.almasb.fxgl.input.UserAction;
 import javafx.scene.Node;
 
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -288,7 +289,7 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
         Map<String, Image> map = new HashMap<>();
 
         var backroundsImgs = new String[]{"background_bad","background_bad_crop", "streets_left", "streets_right",
-                "background_gruen_1", "background_gruen_2"};
+                "background_black","background_brown","background_yellow","background_green_1", "background_green_2"};
 
         var cartsImgs = new String[]{
                 "cart_horizontal", "cart_vertical",
@@ -455,28 +456,35 @@ public class CatchOrWasteApp extends GameApplication implements TimerController.
     }
 
     public void updateBackground(){
-        if(score > 250 && score <500 && !getGameWorld().getEntitiesByType(EntityType.BACKGROUND)
-                .get(0).getComponent(ImageNameComponent.class).getImageName().equals("background_gruen_1")){
-            removeBackgroundEntity();
-            spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 1).put("Name", "background_gruen_1")
-                    .put("ImageName", "background_gruen_1"));
-            spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 2).put("Name", "streets")
-                    .put("ImageName", "streets_left"));
-        } else if (score > 500 && !getGameWorld().getEntitiesByType(EntityType.BACKGROUND)
-                .get(0).getComponent(ImageNameComponent.class).getImageName().equals("background_gruen_2")) {
-            removeBackgroundEntity();
-            spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 1).put("Name", "background_gruen_2")
-                    .put("ImageName", "background_gruen_2"));
-            spawn("BACKGROUND", new SpawnData(0, 0).put("Position", 2).put("Name", "streets")
-                    .put("ImageName", "streets_left"));
+        System.out.println(getGameWorld().getEntitiesByType(EntityType.BACKGROUND)
+                .get(0).getComponent(ImageNameComponent.class).getImageName());
+        if (score < -200 && !getGameWorld().getEntitiesByType(EntityType.BACKGROUND)
+                .get(0).getComponent(ImageNameComponent.class).getImageName().equals("background_black")) {
+            setBackground("background_black");
+        }else if (score > -200  && score < -100 && !getGameWorld().getEntitiesByType(EntityType.BACKGROUND)
+                .get(0).getComponent(ImageNameComponent.class).getImageName().equals("background_brown")) {
+            setBackground("background_brown");
+        } else if (score > -100 && score < 250 && !getGameWorld().getEntitiesByType(EntityType.BACKGROUND)
+                .get(0).getComponent(ImageNameComponent.class).getImageName().equals("background_bad")) {
+            setBackground("background_bad");
+        }else if(score > 250 && score < 500 && !getGameWorld().getEntitiesByType(EntityType.BACKGROUND)
+                .get(0).getComponent(ImageNameComponent.class).getImageName().equals("background_yellow")){
+            setBackground("background_yellow");
+        } else if (score > 500 && score <750 && !getGameWorld().getEntitiesByType(EntityType.BACKGROUND)
+                .get(0).getComponent(ImageNameComponent.class).getImageName().equals("background_green_1")) {
+            setBackground("background_green_1");
+        }else if (score > 750 && !getGameWorld().getEntitiesByType(EntityType.BACKGROUND)
+                .get(0).getComponent(ImageNameComponent.class).getImageName().equals("background_green_2")) {
+            setBackground("background_green_2");
         }
     }
 
-    public void removeBackgroundEntity(){
-        var removeEntities = new ArrayList<>(getGameWorld().getEntitiesByType(EntityType.BACKGROUND));
-        for (Entity entity : removeEntities) {
-            getGameWorld().removeEntity(entity);
-        }
+    public void setBackground(String name){
+        getGameWorld().getEntitiesByType(EntityType.BACKGROUND).get(0).getViewComponent().clearChildren();
+        getGameWorld().getEntitiesByType(EntityType.BACKGROUND).get(0).getViewComponent()
+                .addChild(new ImageView(imageMap.get(name)));
+        getGameWorld().getEntitiesByType(EntityType.BACKGROUND).get(0)
+                .getComponent(ImageNameComponent.class).setImageName(name);
     }
 
     public void initControllers(){
